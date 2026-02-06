@@ -1,13 +1,44 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>LesquelPortfolio</title>
+  <title>Lesquel — Desarrollador Full Stack</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Portafolio profesional de Lesquel — Desarrollador Full Stack especializado en Angular, TypeScript y arquitecturas modernas.">
+  <meta name="theme-color" content="#6366f1">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Lesquel — Desarrollador Full Stack">
+  <meta property="og:description" content="Portafolio profesional de Lesquel — Desarrollador Full Stack.">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:locale:alternate" content="en_US">
+
+  <!-- Fonts: Inter + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Anti-FOUC: Apply theme before Angular hydrates to prevent flash -->
+  <script>
+    (function() {
+      try {
+        var theme = localStorage.getItem('portfolio-theme');
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+        var lang = localStorage.getItem('portfolio-lang');
+        if (lang) {
+          document.documentElement.setAttribute('lang', lang);
+        }
+      } catch(e) {}
+    })();
+  </script>
 </head>
-<body>
+<body class="min-h-screen overflow-x-hidden">
   <app-root></app-root>
 </body>
 </html>

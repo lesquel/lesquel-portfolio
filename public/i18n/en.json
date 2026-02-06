@@ -1,0 +1,67 @@
+{
+  "NAV": {
+    "HOME": "Home",
+    "PROJECTS": "Projects",
+    "STACK": "Technologies",
+    "CONTACT": "Contact"
+  },
+  "HERO": {
+    "GREETING": "Hi, I'm",
+    "NAME": "Lesquel",
+    "ROLE": "Full Stack Developer",
+    "SUBTITLE": "I craft digital experiences with clean code and modern architectures.",
+    "CTA_PROJECTS": "View Projects",
+    "CTA_CONTACT": "Contact Me"
+  },
+  "STACK": {
+    "TITLE": "My Tech Stack",
+    "SUBTITLE": "The tools I use to build solutions"
+  },
+  "PROJECTS": {
+    "TITLE": "Projects",
+    "SUBTITLE": "A selection of my recent work",
+    "VIEW_PROJECT": "View Project",
+    "VIEW_CODE": "View Code",
+    "LIVE_DEMO": "Live Demo",
+    "CLOSE": "Close",
+    "TECHNOLOGIES": "Technologies",
+    "NO_PROJECTS": "Projects coming soon."
+  },
+  "CONTACT": {
+    "TITLE": "Contact",
+    "SUBTITLE": "Have a project in mind? Let's talk.",
+    "NAME_LABEL": "Full Name",
+    "NAME_PLACEHOLDER": "Your name",
+    "EMAIL_LABEL": "Email Address",
+    "EMAIL_PLACEHOLDER": "you@email.com",
+    "MESSAGE_LABEL": "Message",
+    "MESSAGE_PLACEHOLDER": "Tell me about your project...",
+    "SEND": "Send Message",
+    "SENDING": "Sending...",
+    "SUCCESS": "Message sent successfully! I'll get back to you soon.",
+    "ERROR": "There was an error sending the message. Please try again.",
+    "VALIDATION": {
+      "REQUIRED": "This field is required",
+      "EMAIL": "Enter a valid email address",
+      "MIN_LENGTH": "Minimum {{min}} characters"
+    }
+  },
+  "FOOTER": {
+    "RIGHTS": "All rights reserved.",
+    "BUILT_WITH": "Built with"
+  },
+  "THEME": {
+    "LIGHT": "Light",
+    "DARK": "Dark",
+    "SYSTEM": "System"
+  },
+  "LANG": {
+    "ES": "Español",
+    "EN": "English"
+  },
+  "A11Y": {
+    "SKIP_NAV": "Skip to main content",
+    "TOGGLE_MENU": "Toggle menu",
+    "TOGGLE_THEME": "Toggle theme"
+  }
+}

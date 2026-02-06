@@ -1,0 +1,67 @@
+{
+  "NAV": {
+    "HOME": "Inicio",
+    "PROJECTS": "Proyectos",
+    "STACK": "Tecnologías",
+    "CONTACT": "Contacto"
+  },
+  "HERO": {
+    "GREETING": "Hola, soy",
+    "NAME": "Lesquel",
+    "ROLE": "Desarrollador Full Stack",
+    "SUBTITLE": "Creo experiencias digitales con código limpio y arquitecturas modernas.",
+    "CTA_PROJECTS": "Ver Proyectos",
+    "CTA_CONTACT": "Contáctame"
+  },
+  "STACK": {
+    "TITLE": "Mi Stack Tecnológico",
+    "SUBTITLE": "Las herramientas con las que construyo soluciones"
+  },
+  "PROJECTS": {
+    "TITLE": "Proyectos",
+    "SUBTITLE": "Una selección de mi trabajo reciente",
+    "VIEW_PROJECT": "Ver Proyecto",
+    "VIEW_CODE": "Ver Código",
+    "LIVE_DEMO": "Demo en Vivo",
+    "CLOSE": "Cerrar",
+    "TECHNOLOGIES": "Tecnologías",
+    "NO_PROJECTS": "Próximamente se publicarán proyectos."
+  },
+  "CONTACT": {
+    "TITLE": "Contacto",
+    "SUBTITLE": "¿Tienes un proyecto en mente? Hablemos.",
+    "NAME_LABEL": "Nombre completo",
+    "NAME_PLACEHOLDER": "Tu nombre",
+    "EMAIL_LABEL": "Correo electrónico",
+    "EMAIL_PLACEHOLDER": "tu@email.com",
+    "MESSAGE_LABEL": "Mensaje",
+    "MESSAGE_PLACEHOLDER": "Cuéntame sobre tu proyecto...",
+    "SEND": "Enviar Mensaje",
+    "SENDING": "Enviando...",
+    "SUCCESS": "¡Mensaje enviado con éxito! Te responderé pronto.",
+    "ERROR": "Hubo un error al enviar el mensaje. Inténtalo de nuevo.",
+    "VALIDATION": {
+      "REQUIRED": "Este campo es obligatorio",
+      "EMAIL": "Introduce un correo electrónico válido",
+      "MIN_LENGTH": "Mínimo {{min}} caracteres"
+    }
+  },
+  "FOOTER": {
+    "RIGHTS": "Todos los derechos reservados.",
+    "BUILT_WITH": "Construido con"
+  },
+  "THEME": {
+    "LIGHT": "Claro",
+    "DARK": "Oscuro",
+    "SYSTEM": "Sistema"
+  },
+  "LANG": {
+    "ES": "Español",
+    "EN": "English"
+  },
+  "A11Y": {
+    "SKIP_NAV": "Saltar al contenido principal",
+    "TOGGLE_MENU": "Alternar menú",
+    "TOGGLE_THEME": "Cambiar tema"
+  }
+}

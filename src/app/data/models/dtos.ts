@@ -1,0 +1,51 @@
+import { LocalizedString } from '../../domain/models';
+
+/**
+ * Data Transfer Object — exact shape from Supabase `projects` table.
+ */
+export interface ProjectDto {
+  id: string;
+  slug: string;
+  title: LocalizedString;
+  description: LocalizedString;
+  content: LocalizedString | null;
+  image_url: string | null;
+  gallery_urls: string[] | null;
+  demo_url: string | null;
+  repo_url: string | null;
+  is_published: boolean;
+  display_order: number;
+  created_at: string;
+  project_skills?: { skills: SkillDto }[];
+}
+
+/**
+ * DTO for `skills` table.
+ */
+export interface SkillDto {
+  id: string;
+  name: string;
+  icon_url: string | null;
+  type: string;
+  is_featured: boolean;
+  created_at: string;
+}
+
+/**
+ * DTO for `messages` table (insert only).
+ */
+export interface MessageDto {
+  full_name: string;
+  email: string;
+  content: string;
+}
+
+/**
+ * DTO for `categories` table.
+ */
+export interface CategoryDto {
+  id: string;
+  name: LocalizedString;
+  slug: string;
+  created_at: string;
+}
