@@ -2,9 +2,8 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter, withViewTransitions } from '@angular/router';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient } from '@angular/common/http';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { routes } from './app.routes';
 import { ProjectRepository } from './domain/repositories/project.repository';
@@ -14,10 +13,6 @@ import { SupabaseProjectRepository } from './data/repositories/supabase-project.
 import { SupabaseSkillRepository } from './data/repositories/supabase-skill.repository';
 import { SupabaseMessageRepository } from './data/repositories/supabase-message.repository';
 
-function httpTranslateLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, './i18n/', '.json');
-}
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -25,15 +20,9 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideClientHydration(withEventReplay()),
 
-    // i18n — ngx-translate
-    TranslateModule.forRoot({
-      defaultLanguage: 'es',
-      loader: {
-        provide: TranslateLoader,
-        useFactory: httpTranslateLoaderFactory,
-        deps: [HttpClient],
-      },
-    }).providers!,
+    // i18n — ngx-translate v17 provider API
+    provideTranslateService({ defaultLanguage: 'es' }),
+    provideTranslateHttpLoader({ prefix: './i18n/', suffix: '.json' }),
 
     // Clean Architecture: bind abstract repos to Supabase implementations
     { provide: ProjectRepository, useClass: SupabaseProjectRepository },
