@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { LucideAngularModule } from 'lucide-angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { GsapAnimateDirective } from '../../../../shared/directives/gsap-animate.directive';
 import { MessageRepository } from '../../../../../domain/repositories';
@@ -12,7 +13,7 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
 @Component({
   selector: 'app-contact-section',
   standalone: true,
-  imports: [ReactiveFormsModule, TranslateModule, GsapAnimateDirective],
+  imports: [ReactiveFormsModule, TranslateModule, GsapAnimateDirective, LucideAngularModule],
   template: `
     <section id="contact" class="py-24">
       <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
@@ -118,11 +119,10 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
                    disabled:opacity-50"
           >
             @if (state() === 'sending') {
-              <svg class="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-                <path class="opacity-75" fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-              </svg>
+              <lucide-icon
+                name="loader"
+                class="h-4 w-4 animate-spin"
+              ></lucide-icon>
               {{ 'CONTACT.SENDING' | translate }}
             } @else {
               {{ 'CONTACT.SEND' | translate }}
