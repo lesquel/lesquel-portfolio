@@ -78,7 +78,7 @@ import type { ProjectDto, SkillDto } from '../../../../data/models/dtos';
                     <td class="px-5 py-3">
                       <div class="flex items-center gap-3">
                         @if (project.image_url) {
-                          <img [src]="project.image_url" [alt]="project.title?.['es'] || ''"
+                          <img [src]="project.image_url" [alt]="project.title['es'] || ''"
                                class="h-10 w-14 rounded-lg border border-slate-700 object-cover" />
                         } @else {
                           <div class="flex h-10 w-14 items-center justify-center rounded-lg border border-slate-700 bg-slate-800">
@@ -89,8 +89,8 @@ import type { ProjectDto, SkillDto } from '../../../../data/models/dtos';
                           </div>
                         }
                         <div>
-                          <p class="text-sm font-medium text-white">{{ project.title?.['es'] ?? '—' }}</p>
-                          <p class="text-xs text-slate-500">{{ project.title?.['en'] ?? '' }}</p>
+                          <p class="text-sm font-medium text-white">{{ project.title['es'] }}</p>
+                          <p class="text-xs text-slate-500">{{ project.title['en'] }}</p>
                         </div>
                       </div>
                     </td>

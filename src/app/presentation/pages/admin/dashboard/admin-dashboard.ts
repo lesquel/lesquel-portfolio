@@ -110,7 +110,7 @@ import type { ProjectDto } from '../../../../data/models/dtos';
             @for (project of recentProjects(); track project.id) {
               <div class="flex items-center gap-4 px-5 py-3">
                 @if (project.image_url) {
-                  <img [src]="project.image_url" [alt]="project.title?.['es'] ?? ''"
+                  <img [src]="project.image_url" [alt]="project.title['es']"
                        class="h-10 w-10 rounded-lg border border-slate-700 object-cover" />
                 } @else {
                   <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-700 bg-slate-800">
@@ -121,7 +121,7 @@ import type { ProjectDto } from '../../../../data/models/dtos';
                   </div>
                 }
                 <div class="flex-1">
-                  <p class="text-sm font-medium text-white">{{ project.title?.['es'] ?? project.slug }}</p>
+                  <p class="text-sm font-medium text-white">{{ project.title['es'] }}</p>
                   <p class="text-xs text-slate-500">{{ project.slug }}</p>
                 </div>
                 <span [class]="project.is_published
