@@ -29,19 +29,38 @@ export class AuthService {
 
   constructor() {
     afterNextRender(async () => {
-      if (!isPlatformBrowser(this.platformId)) return;
+      if (!isPlatformBrowser(this.platformId)) {
+        this.isLoading.set(false);
+        return;
+      }
 
-      // Get initial session
-      const { data } = await this.supabase.client.auth.getSession();
-      this.session.set(data.session);
-      this.user.set(data.session?.user ?? null);
-      this.isLoading.set(false);
+      try {
+        // Get initial session from localStorage/cookies
+        const { data } = await this.supabase.client.auth.getSession();
+        if (data.session) {
+          this.session.set(data.session);
+          this.user.set(data.session.user);
+        } else {
+          this.session.set(null);
+          this.user.set(null);
+        }
+      } catch (error) {
+        console.error('❌ Error getting initial session:', error);
+        this.session.set(null);
+        this.user.set(null);
+      } finally {
+        this.isLoading.set(false);
+      }
 
-      // Listen for auth state changes
-      this.supabase.client.auth.onAuthStateChange((_event, session) => {
-        this.session.set(session);
-        this.user.set(session?.user ?? null);
-      });
+      // Listen for auth state changes (login/logout/token refresh)
+      try {
+        this.supabase.client.auth.onAuthStateChange((_event, session) => {
+          this.session.set(session);
+          this.user.set(session?.user ?? null);
+        });
+      } catch (error) {
+        console.error('❌ Error setting up auth state listener:', error);
+      }
     });
   }
 

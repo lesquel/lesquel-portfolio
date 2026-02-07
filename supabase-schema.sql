@@ -7,19 +7,7 @@
 create extension if not exists "uuid-ossp";
 
 -- ============================================================
--- Helper function: checks if current user is authenticated
--- Uses (select ...) wrapper to avoid per-row re-evaluation
--- ============================================================
-create or replace function public.is_admin()
-returns boolean
-language sql
-stable
-as $$
-  select (select auth.uid()) is not null
-$$;
-
--- ============================================================
--- TABLES & MIGRATIONS
+-- TABLES & MIGRATIONS (FIRST: Create/update tables)
 -- ============================================================
 
 -- Add missing columns to existing skills table (migration for recent updates)
@@ -32,10 +20,12 @@ alter table if exists public.skills
 alter table if exists public.projects
   add column if not exists display_order int default 0;
 
--- Add missing columns to existing profile table (CV fields)
+-- Add missing columns to existing profile table FIRST (before is_admin function)
 alter table if exists public.profile
   add column if not exists cv_url text,
-  add column if not exists cv_url_en text;
+  add column if not exists cv_url_en text,
+  add column if not exists user_id uuid,
+  add column if not exists created_at timestamptz default now();
 
 -- Create hobbies table if it doesn't exist (new entity)
 create table if not exists public.hobbies (
@@ -116,6 +106,7 @@ create table if not exists public.messages (
 -- 7. Profile table (single row — your personal info)
 create table if not exists public.profile (
   id uuid default uuid_generate_v4() primary key,
+  user_id uuid,  -- Link to auth.users for RLS security
   full_name text not null default '',
   headline jsonb default '{"es": "", "en": ""}',
   bio jsonb default '{"es": "", "en": ""}',
@@ -126,8 +117,25 @@ create table if not exists public.profile (
   social_linkedin text,
   social_twitter text,
   social_website text,
-  updated_at timestamptz default now() not null
+  updated_at timestamptz default now() not null,
+  created_at timestamptz default now() not null
 );
+
+-- ============================================================
+-- Helper function: checks if current user is the admin
+-- NOW: Table structure exists with user_id column
+-- Verifies that a profile row exists for the authenticated user
+-- This ensures only the single admin (created by setup-admin.ts) can do CRUD
+-- ============================================================
+create or replace function public.is_admin()
+returns boolean
+language sql
+stable
+as $$
+  select exists (
+    select 1 from public.profile where user_id = (select auth.uid())
+  )
+$$;
 
 -- ============================================================
 -- Indexes for performance
