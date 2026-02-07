@@ -33,3 +33,5 @@ import { ThemeService, ThemeMode } from '../../../../core/theme/theme.service';
 export class ThemeToggle {
   protected readonly theme = inject(ThemeService);
 }
+
+
