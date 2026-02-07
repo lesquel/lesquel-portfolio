@@ -3,6 +3,8 @@
     "HOME": "Inicio",
     "PROJECTS": "Proyectos",
     "STACK": "Tecnologías",
+    "HOBBIES": "Hobbies",
+    "COURSES": "Cursos",
     "CONTACT": "Contacto"
   },
   "HERO": {
@@ -26,6 +28,25 @@
     "CLOSE": "Cerrar",
     "TECHNOLOGIES": "Tecnologías",
     "NO_PROJECTS": "Próximamente se publicarán proyectos."
+  },
+  "HOBBIES": {
+    "TITLE": "Hobbies & Pasiones",
+    "SUBTITLE": "Lo que me apasiona más allá del código"
+  },
+  "COURSES": {
+    "TITLE": "Cursos & Certificaciones",
+    "SUBTITLE": "Formación continua y aprendizaje",
+    "VIEW_CERTIFICATE": "Ver Certificado"
+  },
+  "SKILL_DETAIL": {
+    "BACK": "Volver a Tecnologías",
+    "ABOUT": "Acerca de",
+    "RELATED_PROJECTS": "Proyectos con esta tecnología",
+    "LIVE_DEMO": "Demo en Vivo",
+    "SOURCE_CODE": "Código Fuente",
+    "NOT_FOUND": "Tecnología no encontrada",
+    "NOT_FOUND_MESSAGE": "La tecnología que buscas no existe o ha sido eliminada.",
+    "GO_HOME": "Ir al Inicio"
   },
   "CONTACT": {
     "TITLE": "Contacto",

@@ -3,17 +3,19 @@ import { isPlatformBrowser } from '@angular/common';
 import { HeroSection } from './sections/hero/hero';
 import { StackSection } from './sections/stack/stack';
 import { ProjectsSection } from './sections/projects/projects';
+import { HobbiesSection } from './sections/hobbies/hobbies';
+import { CoursesSection } from './sections/courses/courses';
 import { ContactSection } from './sections/contact/contact';
 import { SeoService } from '../../../core/seo/seo.service';
 
 /**
  * Home page — orchestrates all sections with @defer for below-the-fold optimization.
- * Hero loads immediately; Stack, Projects, Contact load on viewport entry.
+ * Hero loads immediately; remaining sections load on viewport entry.
  */
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [HeroSection, StackSection, ProjectsSection, ContactSection],
+  imports: [HeroSection, StackSection, ProjectsSection, HobbiesSection, CoursesSection, ContactSection],
   template: `
     <!-- Hero — above the fold, loads immediately -->
     <app-hero-section />
@@ -28,6 +30,20 @@ import { SeoService } from '../../../core/seo/seo.service';
     <!-- Projects Grid — lazy loads when entering viewport -->
     @defer (on viewport) {
       <app-projects-section />
+    } @placeholder {
+      <div class="py-24"></div>
+    }
+
+    <!-- Hobbies — lazy loads when entering viewport -->
+    @defer (on viewport) {
+      <app-hobbies-section />
+    } @placeholder {
+      <div class="py-24"></div>
+    }
+
+    <!-- Courses & Certifications — lazy loads when entering viewport -->
+    @defer (on viewport) {
+      <app-courses-section />
     } @placeholder {
       <div class="py-24"></div>
     }

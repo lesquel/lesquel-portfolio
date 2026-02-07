@@ -133,6 +133,59 @@ import { AdminService, type ProfileData } from '../../../../core/admin/admin.ser
 
           <!-- Social Links -->
           <div class="rounded-xl border border-slate-800 bg-slate-900 p-6">
+            <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">CV / Currículum</h2>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label class="mb-1.5 block text-xs font-medium text-slate-400">CV (Español) - PDF</label>
+                <div class="flex gap-3">
+                  <input
+                    type="text"
+                    [(ngModel)]="form.cv_url"
+                    name="cv_url"
+                    placeholder="URL del CV en español"
+                    class="flex-1 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
+                           placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
+                  />
+                  <label class="cursor-pointer rounded-lg border border-dashed border-slate-600 px-3 py-2.5 text-sm
+                                text-slate-400 transition-colors hover:border-indigo-500 hover:text-indigo-400">
+                    <input type="file" accept=".pdf" class="hidden" (change)="onCvUpload($event, 'es')" />
+                    📁 Subir
+                  </label>
+                </div>
+                @if (form.cv_url) {
+                  <a [href]="form.cv_url" target="_blank" class="mt-1 inline-block text-xs text-indigo-400 hover:text-indigo-300">
+                    Ver CV actual →
+                  </a>
+                }
+              </div>
+              <div>
+                <label class="mb-1.5 block text-xs font-medium text-slate-400">CV (English) - PDF</label>
+                <div class="flex gap-3">
+                  <input
+                    type="text"
+                    [(ngModel)]="form.cv_url_en"
+                    name="cv_url_en"
+                    placeholder="URL del CV en inglés"
+                    class="flex-1 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
+                           placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
+                  />
+                  <label class="cursor-pointer rounded-lg border border-dashed border-slate-600 px-3 py-2.5 text-sm
+                                text-slate-400 transition-colors hover:border-indigo-500 hover:text-indigo-400">
+                    <input type="file" accept=".pdf" class="hidden" (change)="onCvUpload($event, 'en')" />
+                    📁 Subir
+                  </label>
+                </div>
+                @if (form.cv_url_en) {
+                  <a [href]="form.cv_url_en" target="_blank" class="mt-1 inline-block text-xs text-indigo-400 hover:text-indigo-300">
+                    Ver CV actual →
+                  </a>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Social Links -->
+          <div class="rounded-xl border border-slate-800 bg-slate-900 p-6">
             <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Redes Sociales</h2>
             <div class="grid gap-4 sm:grid-cols-2">
               <div>
@@ -255,6 +308,8 @@ export class AdminProfile implements OnInit {
           bio_es: profile.bio?.['es'] ?? '',
           bio_en: profile.bio?.['en'] ?? '',
           avatar_url: profile.avatar_url ?? '',
+          cv_url: profile.cv_url ?? '',
+          cv_url_en: profile.cv_url_en ?? '',
           social_github: profile.social_github ?? '',
           social_linkedin: profile.social_linkedin ?? '',
           social_twitter: profile.social_twitter ?? '',
@@ -289,6 +344,8 @@ export class AdminProfile implements OnInit {
       headline: { es: this.form.headline_es, en: this.form.headline_en },
       bio: { es: this.form.bio_es, en: this.form.bio_en },
       avatar_url: this.form.avatar_url || null,
+      cv_url: this.form.cv_url || null,
+      cv_url_en: this.form.cv_url_en || null,
       social_github: this.form.social_github || null,
       social_linkedin: this.form.social_linkedin || null,
       social_twitter: this.form.social_twitter || null,
@@ -314,10 +371,27 @@ export class AdminProfile implements OnInit {
       bio_es: '',
       bio_en: '',
       avatar_url: '',
+      cv_url: '',
+      cv_url_en: '',
       social_github: '',
       social_linkedin: '',
       social_twitter: '',
       social_website: '',
     };
+  }
+
+  async onCvUpload(event: Event, lang: 'es' | 'en'): Promise<void> {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    try {
+      const url = await this.admin.uploadFile(file, 'cvs');
+      if (lang === 'es') {
+        this.form.cv_url = url;
+      } else {
+        this.form.cv_url_en = url;
+      }
+    } catch (err) {
+      this.error.set('Error al subir CV');
+    }
   }
 }

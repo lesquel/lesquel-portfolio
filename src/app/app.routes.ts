@@ -15,6 +15,13 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./presentation/pages/home/home').then((m) => m.HomePage),
       },
+      {
+        path: 'skill/:slug',
+        loadComponent: () =>
+          import('./presentation/pages/skill-detail/skill-detail').then(
+            (m) => m.SkillDetailPage,
+          ),
+      },
     ],
   },
 
@@ -55,6 +62,20 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./presentation/pages/admin/skills/admin-skills').then(
             (m) => m.AdminSkills,
+          ),
+      },
+      {
+        path: 'hobbies',
+        loadComponent: () =>
+          import('./presentation/pages/admin/hobbies/admin-hobbies').then(
+            (m) => m.AdminHobbies,
+          ),
+      },
+      {
+        path: 'courses',
+        loadComponent: () =>
+          import('./presentation/pages/admin/courses/admin-courses').then(
+            (m) => m.AdminCourses,
           ),
       },
       {

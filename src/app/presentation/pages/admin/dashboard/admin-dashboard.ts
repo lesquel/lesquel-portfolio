@@ -1,6 +1,6 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LucideAngularModule, FolderOpen, BarChart3, Mail, CheckCircle2, ImageOff, Plus } from 'lucide-angular';
+import { LucideAngularModule, FolderOpen, BarChart3, Mail, CheckCircle2, ImageOff, Plus, Heart, GraduationCap } from 'lucide-angular';
 import { AdminService, type DashboardStats, type MessageRow } from '../../../../core/admin/admin.service';
 import type { ProjectDto } from '../../../../data/models/dtos';
 
@@ -85,6 +85,40 @@ import type { ProjectDto } from '../../../../data/models/dtos';
                       group-hover:scale-125"></div>
           <div class="relative">
             <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-600/20 text-violet-400">
+              <lucide-icon
+                [img]="heartIcon"
+                class="h-5 w-5"
+              ></lucide-icon>
+            </div>
+            <p class="mt-3 text-2xl font-bold text-white">{{ stats()?.totalHobbies ?? '—' }}</p>
+            <p class="text-xs text-slate-400">Hobbies</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Second row of stats -->
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="group relative overflow-hidden rounded-xl border border-slate-800 bg-slate-900 p-5
+                    transition-colors hover:border-rose-500/50">
+          <div class="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-rose-600/10 transition-transform
+                      group-hover:scale-125"></div>
+          <div class="relative">
+            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-rose-600/20 text-rose-400">
+              <lucide-icon
+                [img]="graduationCapIcon"
+                class="h-5 w-5"
+              ></lucide-icon>
+            </div>
+            <p class="mt-3 text-2xl font-bold text-white">{{ stats()?.totalCourses ?? '—' }}</p>
+            <p class="text-xs text-slate-400">Cursos</p>
+          </div>
+        </div>
+        <div class="group relative overflow-hidden rounded-xl border border-slate-800 bg-slate-900 p-5
+                    transition-colors hover:border-emerald-500/50">
+          <div class="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-emerald-600/10 transition-transform
+                      group-hover:scale-125"></div>
+          <div class="relative">
+            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-600/20 text-emerald-400">
               <lucide-icon
                 [img]="checkCircleIcon"
                 class="h-5 w-5"
@@ -202,6 +236,24 @@ import type { ProjectDto } from '../../../../data/models/dtos';
             ></lucide-icon>
             Ver Mensajes
           </a>
+          <a routerLink="/admin/hobbies"
+             class="inline-flex items-center gap-2 rounded-lg border border-slate-700 px-4 py-2 text-sm
+                    font-medium text-slate-300 transition-colors hover:border-slate-600 hover:text-white">
+            <lucide-icon
+              [img]="heartIcon"
+              class="h-4 w-4"
+            ></lucide-icon>
+            Hobbies
+          </a>
+          <a routerLink="/admin/courses"
+             class="inline-flex items-center gap-2 rounded-lg border border-slate-700 px-4 py-2 text-sm
+                    font-medium text-slate-300 transition-colors hover:border-slate-600 hover:text-white">
+            <lucide-icon
+              [img]="graduationCapIcon"
+              class="h-4 w-4"
+            ></lucide-icon>
+            Cursos
+          </a>
         </div>
       </div>
     </div>
@@ -217,6 +269,8 @@ export class AdminDashboard implements OnInit {
   protected readonly checkCircleIcon = CheckCircle2;
   protected readonly imageOffIcon = ImageOff;
   protected readonly plusIcon = Plus;
+  protected readonly heartIcon = Heart;
+  protected readonly graduationCapIcon = GraduationCap;
 
   readonly stats = signal<DashboardStats | null>(null);
   readonly recentProjects = signal<(ProjectDto & { is_published: boolean })[]>([]);

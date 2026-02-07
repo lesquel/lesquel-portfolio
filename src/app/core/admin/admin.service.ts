@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { SupabaseService } from '../supabase/supabase.service';
-import type { ProjectDto, SkillDto, CategoryDto } from '../../data/models/dtos';
+import type { ProjectDto, SkillDto, CategoryDto, HobbyDto, CourseDto } from '../../data/models/dtos';
 import type { LocalizedString } from '../../domain/models/localized-string.model';
 
 /* ──────────────────────────────────────────────
@@ -23,9 +23,28 @@ export interface ProjectFormData {
 
 export interface SkillFormData {
   name: string;
+  slug: string | null;
   icon_url: string | null;
+  description: LocalizedString | null;
   type: string;
   is_featured: boolean;
+  display_order: number;
+}
+
+export interface HobbyFormData {
+  name: LocalizedString;
+  description: LocalizedString | null;
+  icon_url: string | null;
+  display_order: number;
+}
+
+export interface CourseFormData {
+  name: LocalizedString;
+  institution: LocalizedString | null;
+  description: LocalizedString | null;
+  certificate_url: string | null;
+  completion_date: string | null;
+  display_order: number;
 }
 
 export interface ProfileData {
@@ -33,6 +52,8 @@ export interface ProfileData {
   headline: LocalizedString;
   bio: LocalizedString;
   avatar_url: string | null;
+  cv_url: string | null;
+  cv_url_en: string | null;
   social_github: string | null;
   social_linkedin: string | null;
   social_twitter: string | null;
@@ -54,6 +75,8 @@ export interface DashboardStats {
   totalSkills: number;
   totalMessages: number;
   unreadMessages: number;
+  totalHobbies: number;
+  totalCourses: number;
 }
 
 /**
@@ -67,10 +90,12 @@ export class AdminService {
   /* ───── Dashboard Stats ───── */
 
   async getDashboardStats(): Promise<DashboardStats> {
-    const [projects, skills, messages] = await Promise.all([
+    const [projects, skills, messages, hobbies, courses] = await Promise.all([
       this.supabase.client.from('projects').select('id, is_published'),
       this.supabase.client.from('skills').select('id', { count: 'exact', head: true }),
       this.supabase.client.from('messages').select('id, is_read'),
+      this.supabase.client.from('hobbies').select('id', { count: 'exact', head: true }),
+      this.supabase.client.from('courses').select('id', { count: 'exact', head: true }),
     ]);
 
     const projectList = (projects.data ?? []) as { id: string; is_published: boolean }[];
@@ -82,6 +107,8 @@ export class AdminService {
       totalSkills: skills.count ?? 0,
       totalMessages: messageList.length,
       unreadMessages: messageList.filter((m) => !m.is_read).length,
+      totalHobbies: hobbies.count ?? 0,
+      totalCourses: courses.count ?? 0,
     };
   }
 
@@ -161,7 +188,6 @@ export class AdminService {
   }
 
   async deleteProject(id: string): Promise<void> {
-    // Delete skill links first
     await this.supabase.client.from('project_skills').delete().eq('project_id', id);
     const { error } = await this.supabase.client.from('projects').delete().eq('id', id);
     if (error) throw error;
@@ -194,6 +220,20 @@ export class AdminService {
     return data as SkillDto[];
   }
 
+  async getSkillBySlug(slug: string): Promise<SkillDto | null> {
+    const { data, error } = await this.supabase.client
+      .from('skills')
+      .select('*')
+      .eq('slug', slug)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') return null;
+      throw error;
+    }
+    return data as SkillDto;
+  }
+
   async createSkill(form: SkillFormData): Promise<string> {
     const { data, error } = await this.supabase.client
       .from('skills')
@@ -214,7 +254,6 @@ export class AdminService {
   }
 
   async deleteSkill(id: string): Promise<void> {
-    // Remove from project_skills first
     await this.supabase.client.from('project_skills').delete().eq('skill_id', id);
     const { error } = await this.supabase.client.from('skills').delete().eq('id', id);
     if (error) throw error;
@@ -225,6 +264,78 @@ export class AdminService {
       .from('skills')
       .update({ is_featured: featured })
       .eq('id', id);
+    if (error) throw error;
+  }
+
+  /* ───── Hobbies CRUD ───── */
+
+  async getAllHobbies(): Promise<HobbyDto[]> {
+    const { data, error } = await this.supabase.client
+      .from('hobbies')
+      .select('*')
+      .order('display_order');
+
+    if (error) throw error;
+    return data as HobbyDto[];
+  }
+
+  async createHobby(form: HobbyFormData): Promise<string> {
+    const { data, error } = await this.supabase.client
+      .from('hobbies')
+      .insert(form)
+      .select('id')
+      .single();
+
+    if (error) throw error;
+    return data.id;
+  }
+
+  async updateHobby(id: string, form: HobbyFormData): Promise<void> {
+    const { error } = await this.supabase.client
+      .from('hobbies')
+      .update(form)
+      .eq('id', id);
+    if (error) throw error;
+  }
+
+  async deleteHobby(id: string): Promise<void> {
+    const { error } = await this.supabase.client.from('hobbies').delete().eq('id', id);
+    if (error) throw error;
+  }
+
+  /* ───── Courses CRUD ───── */
+
+  async getAllCourses(): Promise<CourseDto[]> {
+    const { data, error } = await this.supabase.client
+      .from('courses')
+      .select('*')
+      .order('display_order');
+
+    if (error) throw error;
+    return data as CourseDto[];
+  }
+
+  async createCourse(form: CourseFormData): Promise<string> {
+    const { data, error } = await this.supabase.client
+      .from('courses')
+      .insert(form)
+      .select('id')
+      .single();
+
+    if (error) throw error;
+    return data.id;
+  }
+
+  async updateCourse(id: string, form: CourseFormData): Promise<void> {
+    const { error } = await this.supabase.client
+      .from('courses')
+      .update(form)
+      .eq('id', id);
+    if (error) throw error;
+  }
+
+  async deleteCourse(id: string): Promise<void> {
+    const { error } = await this.supabase.client.from('courses').delete().eq('id', id);
     if (error) throw error;
   }
 
@@ -275,7 +386,7 @@ export class AdminService {
     if (error) throw error;
   }
 
-  /* ───── Storage (Image Upload) ───── */
+  /* ───── Storage (Image / File Upload) ───── */
 
   async uploadImage(file: File, bucket: string = 'portfolio'): Promise<string> {
     const ext = file.name.split('.').pop() ?? 'jpg';
@@ -292,8 +403,22 @@ export class AdminService {
     return data.publicUrl;
   }
 
+  async uploadFile(file: File, folder: string = 'files', bucket: string = 'portfolio'): Promise<string> {
+    const ext = file.name.split('.').pop() ?? 'pdf';
+    const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${ext}`;
+    const filePath = `${folder}/${fileName}`;
+
+    const { error } = await this.supabase.client.storage
+      .from(bucket)
+      .upload(filePath, file, { cacheControl: '3600', upsert: false });
+
+    if (error) throw error;
+
+    const { data } = this.supabase.client.storage.from(bucket).getPublicUrl(filePath);
+    return data.publicUrl;
+  }
+
   async deleteImage(url: string, bucket: string = 'portfolio'): Promise<void> {
-    // Extract path from the full URL
     const parts = url.split(`/storage/v1/object/public/${bucket}/`);
     if (parts.length < 2) return;
     const path = parts[1];

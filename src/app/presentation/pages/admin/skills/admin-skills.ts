@@ -156,21 +156,66 @@ import type { SkillDto } from '../../../../data/models/dtos';
               </div>
 
               <div>
-                <label class="mb-1.5 block text-xs font-medium text-slate-400">Icon URL</label>
+                <label class="mb-1.5 block text-xs font-medium text-slate-400">Slug (URL)</label>
                 <input
                   type="text"
-                  [(ngModel)]="form.icon_url"
-                  name="icon_url"
-                  placeholder="https://cdn.simpleicons.org/angular"
+                  [(ngModel)]="form.slug"
+                  name="slug"
+                  placeholder="angular, react, nodejs..."
                   class="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
                          placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
                 />
+              </div>
+
+              <div>
+                <label class="mb-1.5 block text-xs font-medium text-slate-400">Icono (URL o subir archivo)</label>
+                <div class="flex gap-3">
+                  <input
+                    type="text"
+                    [(ngModel)]="form.icon_url"
+                    name="icon_url"
+                    placeholder="https://cdn.simpleicons.org/angular"
+                    class="flex-1 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
+                           placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
+                  />
+                  <label class="cursor-pointer rounded-lg border border-dashed border-slate-600 px-3 py-2.5 text-sm
+                                text-slate-400 transition-colors hover:border-indigo-500 hover:text-indigo-400">
+                    <input type="file" accept="image/*" class="hidden" (change)="onIconUpload($event)" />
+                    📁 Subir
+                  </label>
+                </div>
                 @if (form.icon_url) {
                   <div class="mt-2 flex items-center gap-2">
                     <img [src]="form.icon_url" alt="Preview" class="h-8 w-8 object-contain" />
                     <span class="text-xs text-slate-500">Preview</span>
                   </div>
                 }
+              </div>
+
+              <!-- Description ES/EN -->
+              <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label class="mb-1.5 block text-xs font-medium text-slate-400">Descripción (ES) - detalle</label>
+                  <textarea
+                    [(ngModel)]="form.desc_es"
+                    name="desc_es"
+                    rows="3"
+                    placeholder="Descripción para la página de detalle..."
+                    class="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
+                           placeholder-slate-500 focus:border-indigo-500 focus:outline-none resize-none"
+                  ></textarea>
+                </div>
+                <div>
+                  <label class="mb-1.5 block text-xs font-medium text-slate-400">Description (EN) - detail</label>
+                  <textarea
+                    [(ngModel)]="form.desc_en"
+                    name="desc_en"
+                    rows="3"
+                    placeholder="Description for the detail page..."
+                    class="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
+                           placeholder-slate-500 focus:border-indigo-500 focus:outline-none resize-none"
+                  ></textarea>
+                </div>
               </div>
 
               <div>
@@ -188,15 +233,28 @@ import type { SkillDto } from '../../../../data/models/dtos';
                 </select>
               </div>
 
-              <label class="flex items-center gap-2 text-sm text-slate-300">
-                <input
-                  type="checkbox"
-                  [(ngModel)]="form.is_featured"
-                  name="is_featured"
-                  class="h-4 w-4 rounded border-slate-600 bg-slate-800 text-indigo-600"
-                />
-                Destacado en el portafolio
-              </label>
+              <div class="flex items-center gap-6">
+                <label class="flex items-center gap-2 text-sm text-slate-300">
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="form.is_featured"
+                    name="is_featured"
+                    class="h-4 w-4 rounded border-slate-600 bg-slate-800 text-indigo-600"
+                  />
+                  Destacado en el portafolio
+                </label>
+                <div class="flex items-center gap-2">
+                  <label class="text-sm text-slate-400">Orden:</label>
+                  <input
+                    type="number"
+                    [(ngModel)]="form.display_order"
+                    name="display_order"
+                    min="0"
+                    class="w-20 rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-sm text-white
+                           focus:border-indigo-500 focus:outline-none"
+                  />
+                </div>
+              </div>
 
               @if (formError()) {
                 <div class="rounded-lg border border-red-800 bg-red-900/30 p-3 text-sm text-red-400">
@@ -321,9 +379,13 @@ export class AdminSkills implements OnInit {
     this.formError.set(null);
     this.form = {
       name: skill.name,
+      slug: skill.slug ?? '',
       icon_url: skill.icon_url ?? '',
+      desc_es: skill.description?.['es'] ?? '',
+      desc_en: skill.description?.['en'] ?? '',
       type: skill.type,
       is_featured: skill.is_featured,
+      display_order: skill.display_order ?? 0,
     };
     this.showForm.set(true);
   }
@@ -339,9 +401,14 @@ export class AdminSkills implements OnInit {
 
     const data: SkillFormData = {
       name: this.form.name.trim(),
+      slug: this.form.slug?.trim() || null,
       icon_url: this.form.icon_url || null,
+      description: this.form.desc_es || this.form.desc_en
+        ? { es: this.form.desc_es, en: this.form.desc_en }
+        : null,
       type: this.form.type,
       is_featured: this.form.is_featured,
+      display_order: this.form.display_order ?? 0,
     };
 
     try {
@@ -391,9 +458,24 @@ export class AdminSkills implements OnInit {
   private emptyForm() {
     return {
       name: '',
+      slug: '',
       icon_url: '',
+      desc_es: '',
+      desc_en: '',
       type: 'frontend' as string,
       is_featured: false,
+      display_order: 0,
     };
+  }
+
+  async onIconUpload(event: Event): Promise<void> {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    try {
+      const url = await this.admin.uploadImage(file);
+      this.form.icon_url = url;
+    } catch (err) {
+      this.formError.set('Error al subir imagen');
+    }
   }
 }

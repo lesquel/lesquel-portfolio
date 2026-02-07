@@ -1,5 +1,6 @@
 import { Component, inject, signal, afterNextRender, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { GsapAnimateDirective } from '../../../../shared/directives/gsap-animate.directive';
 import { SkillRepository } from '../../../../../domain/repositories';
@@ -12,7 +13,7 @@ import { Skill } from '../../../../../domain/models';
 @Component({
   selector: 'app-stack-section',
   standalone: true,
-  imports: [TranslateModule, GsapAnimateDirective],
+  imports: [RouterLink, TranslateModule, GsapAnimateDirective],
   template: `
     <section id="stack" class="overflow-hidden py-24">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -42,9 +43,11 @@ import { Skill } from '../../../../../domain/models';
           <div class="flex animate-marquee gap-12 py-4">
             <!-- Original Set -->
             @for (skill of featuredSkills(); track skill.id) {
-              <div
+              <a
+                [routerLink]="skill.slug ? ['/skill', skill.slug] : null"
                 class="flex flex-shrink-0 flex-col items-center gap-3 px-4
                        transition-all duration-300 hover:scale-110"
+                [class.cursor-pointer]="skill.slug"
               >
                 @if (skill.iconUrl) {
                   <img
@@ -67,13 +70,15 @@ import { Skill } from '../../../../../domain/models';
                 <span class="text-xs font-medium text-slate-500 dark:text-slate-400">
                   {{ skill.name }}
                 </span>
-              </div>
+              </a>
             }
             <!-- Duplicate Set (for seamless loop) -->
             @for (skill of featuredSkills(); track skill.id + '-dup') {
-              <div
+              <a
+                [routerLink]="skill.slug ? ['/skill', skill.slug] : null"
                 class="flex flex-shrink-0 flex-col items-center gap-3 px-4
                        transition-all duration-300 hover:scale-110"
+                [class.cursor-pointer]="skill.slug"
               >
                 @if (skill.iconUrl) {
                   <img
@@ -96,7 +101,7 @@ import { Skill } from '../../../../../domain/models';
                 <span class="text-xs font-medium text-slate-500 dark:text-slate-400">
                   {{ skill.name }}
                 </span>
-              </div>
+              </a>
             }
           </div>
         </div>
@@ -138,9 +143,12 @@ export class StackSection {
     return names.map((name, i) => ({
       id: `placeholder-${i}`,
       name,
+      slug: null,
       iconUrl: null,
+      description: null,
       type: 'frontend' as const,
       isFeatured: true,
+      displayOrder: i,
     }));
   }
 }

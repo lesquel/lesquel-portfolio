@@ -1,6 +1,6 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { LucideAngularModule, Home, FolderOpen, BarChart3, Mail, User, LogOut, Menu, ExternalLink } from 'lucide-angular';
+import { LucideAngularModule, Home, FolderOpen, BarChart3, Mail, User, LogOut, Menu, ExternalLink, Heart, GraduationCap } from 'lucide-angular';
 import { AuthService } from '../../../core/auth/auth.service';
 
 
@@ -85,6 +85,34 @@ import { AuthService } from '../../../core/auth/auth.service';
                 class="h-5 w-5"
               ></lucide-icon>
               Tecnologías
+            </a>
+
+            <a
+              routerLink="/admin/hobbies"
+              routerLinkActive="bg-indigo-600/20 text-indigo-400"
+              class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400
+                     transition-colors hover:bg-slate-800 hover:text-white"
+              (click)="closeMobileSidebar()"
+            >
+              <lucide-icon
+                [img]="heartIcon"
+                class="h-5 w-5"
+              ></lucide-icon>
+              Hobbies
+            </a>
+
+            <a
+              routerLink="/admin/courses"
+              routerLinkActive="bg-indigo-600/20 text-indigo-400"
+              class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400
+                     transition-colors hover:bg-slate-800 hover:text-white"
+              (click)="closeMobileSidebar()"
+            >
+              <lucide-icon
+                [img]="graduationCapIcon"
+                class="h-5 w-5"
+              ></lucide-icon>
+              Cursos
             </a>
 
             <a
@@ -210,6 +238,8 @@ export class AdminLayout {
   protected readonly logOutIcon = LogOut;
   protected readonly menuIcon = Menu;
   protected readonly externalLinkIcon = ExternalLink;
+  protected readonly heartIcon = Heart;
+  protected readonly graduationCapIcon = GraduationCap;
 
   protected readonly initials = computed(() => {
     const name = this.auth.getDisplayName();

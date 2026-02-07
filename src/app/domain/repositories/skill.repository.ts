@@ -6,4 +6,5 @@ import { Skill } from '../models';
 export abstract class SkillRepository {
   abstract getAllSkills(): Promise<Skill[]>;
   abstract getFeaturedSkills(): Promise<Skill[]>;
+  abstract getSkillBySlug(slug: string): Promise<Skill | null>;
 }

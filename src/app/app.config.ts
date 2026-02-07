@@ -9,9 +9,13 @@ import { routes } from './app.routes';
 import { ProjectRepository } from './domain/repositories/project.repository';
 import { SkillRepository } from './domain/repositories/skill.repository';
 import { MessageRepository } from './domain/repositories/message.repository';
+import { HobbyRepository } from './domain/repositories/hobby.repository';
+import { CourseRepository } from './domain/repositories/course.repository';
 import { SupabaseProjectRepository } from './data/repositories/supabase-project.repository';
 import { SupabaseSkillRepository } from './data/repositories/supabase-skill.repository';
 import { SupabaseMessageRepository } from './data/repositories/supabase-message.repository';
+import { SupabaseHobbyRepository } from './data/repositories/supabase-hobby.repository';
+import { SupabaseCourseRepository } from './data/repositories/supabase-course.repository';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,5 +32,7 @@ export const appConfig: ApplicationConfig = {
     { provide: ProjectRepository, useClass: SupabaseProjectRepository },
     { provide: SkillRepository, useClass: SupabaseSkillRepository },
     { provide: MessageRepository, useClass: SupabaseMessageRepository },
+    { provide: HobbyRepository, useClass: SupabaseHobbyRepository },
+    { provide: CourseRepository, useClass: SupabaseCourseRepository },
   ],
 };

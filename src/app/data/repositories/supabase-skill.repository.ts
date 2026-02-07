@@ -29,4 +29,18 @@ export class SupabaseSkillRepository extends SkillRepository {
     if (error) throw error;
     return (data as SkillDto[]).map(SkillMapper.toDomain);
   }
+
+  override async getSkillBySlug(slug: string): Promise<Skill | null> {
+    const { data, error } = await this.supabase.client
+      .from('skills')
+      .select('*')
+      .eq('slug', slug)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') return null;
+      throw error;
+    }
+    return SkillMapper.toDomain(data as SkillDto);
+  }
 }

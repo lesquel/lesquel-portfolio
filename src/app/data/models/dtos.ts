@@ -25,9 +25,12 @@ export interface ProjectDto {
 export interface SkillDto {
   id: string;
   name: string;
+  slug: string | null;
   icon_url: string | null;
+  description: LocalizedString | null;
   type: string;
   is_featured: boolean;
+  display_order: number;
   created_at: string;
 }
 
@@ -47,5 +50,31 @@ export interface CategoryDto {
   id: string;
   name: LocalizedString;
   slug: string;
+  created_at: string;
+}
+
+/**
+ * DTO for `hobbies` table.
+ */
+export interface HobbyDto {
+  id: string;
+  name: LocalizedString;
+  description: LocalizedString | null;
+  icon_url: string | null;
+  display_order: number;
+  created_at: string;
+}
+
+/**
+ * DTO for `courses` table.
+ */
+export interface CourseDto {
+  id: string;
+  name: LocalizedString;
+  institution: LocalizedString | null;
+  description: LocalizedString | null;
+  certificate_url: string | null;
+  completion_date: string | null;
+  display_order: number;
   created_at: string;
 }

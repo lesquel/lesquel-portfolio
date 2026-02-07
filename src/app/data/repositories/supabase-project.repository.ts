@@ -34,4 +34,16 @@ export class SupabaseProjectRepository extends ProjectRepository {
     }
     return ProjectMapper.toDomain(data as ProjectDto);
   }
+
+  override async getProjectsBySkillId(skillId: string): Promise<Project[]> {
+    const { data, error } = await this.supabase.client
+      .from('projects')
+      .select('*, project_skills!inner(skills(*))')
+      .eq('project_skills.skill_id', skillId)
+      .eq('is_published', true)
+      .order('display_order');
+
+    if (error) throw error;
+    return (data as ProjectDto[]).map(ProjectMapper.toDomain);
+  }
 }

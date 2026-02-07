@@ -3,6 +3,8 @@
     "HOME": "Home",
     "PROJECTS": "Projects",
     "STACK": "Technologies",
+    "HOBBIES": "Hobbies",
+    "COURSES": "Courses",
     "CONTACT": "Contact"
   },
   "HERO": {
@@ -26,6 +28,25 @@
     "CLOSE": "Close",
     "TECHNOLOGIES": "Technologies",
     "NO_PROJECTS": "Projects coming soon."
+  },
+  "HOBBIES": {
+    "TITLE": "Hobbies & Passions",
+    "SUBTITLE": "What drives me beyond the code"
+  },
+  "COURSES": {
+    "TITLE": "Courses & Certifications",
+    "SUBTITLE": "Continuous learning and professional growth",
+    "VIEW_CERTIFICATE": "View Certificate"
+  },
+  "SKILL_DETAIL": {
+    "BACK": "Back to Technologies",
+    "ABOUT": "About",
+    "RELATED_PROJECTS": "Projects using this technology",
+    "LIVE_DEMO": "Live Demo",
+    "SOURCE_CODE": "Source Code",
+    "NOT_FOUND": "Technology not found",
+    "NOT_FOUND_MESSAGE": "The technology you're looking for doesn't exist or has been removed.",
+    "GO_HOME": "Go Home"
   },
   "CONTACT": {
     "TITLE": "Contact",

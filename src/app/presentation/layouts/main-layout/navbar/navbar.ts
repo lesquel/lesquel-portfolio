@@ -60,6 +60,24 @@ import { LangSwitcher } from '../../../shared/components/lang-switcher/lang-swit
           </a>
           <a
             routerLink="/"
+            fragment="hobbies"
+            class="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors
+                   hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400
+                   dark:hover:bg-slate-800 dark:hover:text-white"
+          >
+            {{ 'NAV.HOBBIES' | translate }}
+          </a>
+          <a
+            routerLink="/"
+            fragment="courses"
+            class="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors
+                   hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400
+                   dark:hover:bg-slate-800 dark:hover:text-white"
+          >
+            {{ 'NAV.COURSES' | translate }}
+          </a>
+          <a
+            routerLink="/"
             fragment="contact"
             class="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors
                    hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400
@@ -128,6 +146,24 @@ import { LangSwitcher } from '../../../shared/components/lang-switcher/lang-swit
                      hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
             >
               {{ 'NAV.PROJECTS' | translate }}
+            </a>
+            <a
+              (click)="mobileMenuOpen.set(false)"
+              routerLink="/"
+              fragment="hobbies"
+              class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition-colors
+                     hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+            >
+              {{ 'NAV.HOBBIES' | translate }}
+            </a>
+            <a
+              (click)="mobileMenuOpen.set(false)"
+              routerLink="/"
+              fragment="courses"
+              class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition-colors
+                     hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+            >
+              {{ 'NAV.COURSES' | translate }}
             </a>
             <a
               (click)="mobileMenuOpen.set(false)"
