@@ -1,6 +1,6 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { LucideAngularModule } from 'lucide-angular';
+import { LucideAngularModule, Home, FolderOpen, BarChart3, Mail, User, LogOut, Menu, ExternalLink } from 'lucide-angular';
 import { AuthService } from '../../../core/auth/auth.service';
 
 
@@ -49,7 +49,7 @@ import { AuthService } from '../../../core/auth/auth.service';
               (click)="closeMobileSidebar()"
             >
               <lucide-icon
-                name="home"
+                [img]="homeIcon"
                 class="h-5 w-5"
               ></lucide-icon>
               Dashboard
@@ -67,7 +67,7 @@ import { AuthService } from '../../../core/auth/auth.service';
               (click)="closeMobileSidebar()"
             >
               <lucide-icon
-                name="folder-open"
+                [img]="folderOpenIcon"
                 class="h-5 w-5"
               ></lucide-icon>
               Proyectos
@@ -81,7 +81,7 @@ import { AuthService } from '../../../core/auth/auth.service';
               (click)="closeMobileSidebar()"
             >
               <lucide-icon
-                name="bar-chart-3"
+                [img]="barChartIcon"
                 class="h-5 w-5"
               ></lucide-icon>
               Tecnologías
@@ -95,7 +95,7 @@ import { AuthService } from '../../../core/auth/auth.service';
               (click)="closeMobileSidebar()"
             >
               <lucide-icon
-                name="mail"
+                [img]="mailIcon"
                 class="h-5 w-5"
               ></lucide-icon>
               Mensajes
@@ -113,7 +113,7 @@ import { AuthService } from '../../../core/auth/auth.service';
               (click)="closeMobileSidebar()"
             >
               <lucide-icon
-                name="user"
+                [img]="userIcon"
                 class="h-5 w-5"
               ></lucide-icon>
               Perfil
@@ -137,7 +137,7 @@ import { AuthService } from '../../../core/auth/auth.service';
                 title="Cerrar Sesión"
               >
               <lucide-icon
-                name="log-out"
+                [img]="logOutIcon"
                 class="h-4 w-4"
               ></lucide-icon>
               </button>
@@ -165,7 +165,7 @@ import { AuthService } from '../../../core/auth/auth.service';
               (click)="sidebarOpen.set(!sidebarOpen())"
             >
               <lucide-icon
-                name="menu"
+                [img]="menuIcon"
                 class="h-5 w-5"
               ></lucide-icon>
             </button>
@@ -180,7 +180,7 @@ import { AuthService } from '../../../core/auth/auth.service';
                      font-medium text-slate-400 transition-colors hover:border-slate-600 hover:text-white"
             >
               <lucide-icon
-                name="external-link"
+                [img]="externalLinkIcon"
                 class="h-3.5 w-3.5"
               ></lucide-icon>
               Ver Portafolio
@@ -200,6 +200,16 @@ export class AdminLayout {
   protected readonly auth = inject(AuthService);
   protected readonly sidebarOpen = signal(false);
   protected readonly isMobile = signal(false);
+
+  // Lucide Icons
+  protected readonly homeIcon = Home;
+  protected readonly folderOpenIcon = FolderOpen;
+  protected readonly barChartIcon = BarChart3;
+  protected readonly mailIcon = Mail;
+  protected readonly userIcon = User;
+  protected readonly logOutIcon = LogOut;
+  protected readonly menuIcon = Menu;
+  protected readonly externalLinkIcon = ExternalLink;
 
   protected readonly initials = computed(() => {
     const name = this.auth.getDisplayName();

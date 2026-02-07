@@ -1,5 +1,5 @@
 import { Component, inject, signal, OnInit, computed } from '@angular/core';
-import { LucideAngularModule } from 'lucide-angular';
+import { LucideAngularModule, Mail, Trash2, Inbox } from 'lucide-angular';
 import { AdminService, type MessageRow } from '../../../../core/admin/admin.service';
 
 @Component({
@@ -95,7 +95,7 @@ import { AdminService, type MessageRow } from '../../../../core/admin/admin.serv
                          class="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs
                                 font-medium text-white transition-colors hover:bg-indigo-700">
                         <lucide-icon
-                          name="mail"
+                          [img]="mailIcon"
                           class="h-3.5 w-3.5"
                         ></lucide-icon>
                         Responder
@@ -116,12 +116,12 @@ import { AdminService, type MessageRow } from '../../../../core/admin/admin.serv
                   >
                     @if (msg.is_read) {
                       <lucide-icon
-                        name="mail"
+                        [img]="mailIcon"
                         class="h-4 w-4"
                       ></lucide-icon>
                     } @else {
                       <lucide-icon
-                        name="mail"
+                        [img]="mailIcon"
                         class="h-4 w-4"
                       ></lucide-icon>
                     }
@@ -132,7 +132,7 @@ import { AdminService, type MessageRow } from '../../../../core/admin/admin.serv
                     title="Eliminar"
                   >
                     <lucide-icon
-                      name="trash-2"
+                      [img]="trash2Icon"
                       class="h-4 w-4"
                     ></lucide-icon>
                   </button>
@@ -142,7 +142,7 @@ import { AdminService, type MessageRow } from '../../../../core/admin/admin.serv
           } @empty {
             <div class="rounded-xl border border-slate-800 bg-slate-900 py-16 text-center">
               <lucide-icon
-                name="inbox"
+                [img]="inboxIcon"
                 class="mx-auto h-12 w-12 text-slate-700"
               ></lucide-icon>
               <p class="mt-4 text-sm text-slate-500">
@@ -185,6 +185,11 @@ import { AdminService, type MessageRow } from '../../../../core/admin/admin.serv
 })
 export class AdminMessages implements OnInit {
   private readonly admin = inject(AdminService);
+
+  // Lucide Icons
+  protected readonly mailIcon = Mail;
+  protected readonly trash2Icon = Trash2;
+  protected readonly inboxIcon = Inbox;
 
   readonly messages = signal<MessageRow[]>([]);
   readonly loading = signal(true);

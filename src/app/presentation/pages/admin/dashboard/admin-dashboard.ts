@@ -1,6 +1,6 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LucideAngularModule } from 'lucide-angular';
+import { LucideAngularModule, FolderOpen, BarChart3, Mail, CheckCircle2, ImageOff, Plus } from 'lucide-angular';
 import { AdminService, type DashboardStats, type MessageRow } from '../../../../core/admin/admin.service';
 import type { ProjectDto } from '../../../../data/models/dtos';
 
@@ -26,7 +26,7 @@ import type { ProjectDto } from '../../../../data/models/dtos';
           <div class="relative">
             <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600/20 text-indigo-400">
               <lucide-icon
-                name="folder-open"
+                [img]="folderOpenIcon"
                 class="h-5 w-5"
               ></lucide-icon>
             </div>
@@ -45,7 +45,7 @@ import type { ProjectDto } from '../../../../data/models/dtos';
           <div class="relative">
             <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-600/20 text-emerald-400">
               <lucide-icon
-                name="bar-chart-3"
+                [img]="barChartIcon"
                 class="h-5 w-5"
               ></lucide-icon>
             </div>
@@ -62,7 +62,7 @@ import type { ProjectDto } from '../../../../data/models/dtos';
           <div class="relative">
             <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-600/20 text-amber-400">
               <lucide-icon
-                name="mail"
+                [img]="mailIcon"
                 class="h-5 w-5"
               ></lucide-icon>
             </div>
@@ -86,7 +86,7 @@ import type { ProjectDto } from '../../../../data/models/dtos';
           <div class="relative">
             <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-600/20 text-violet-400">
               <lucide-icon
-                name="check-circle-2"
+                [img]="checkCircleIcon"
                 class="h-5 w-5"
               ></lucide-icon>
             </div>
@@ -115,7 +115,7 @@ import type { ProjectDto } from '../../../../data/models/dtos';
                 } @else {
                   <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-700 bg-slate-800">
                     <lucide-icon
-                      name="image-off"
+                      [img]="imageOffIcon"
                       class="h-5 w-5 text-slate-600"
                     ></lucide-icon>
                   </div>
@@ -179,7 +179,7 @@ import type { ProjectDto } from '../../../../data/models/dtos';
              class="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium
                     text-white transition-colors hover:bg-indigo-700">
             <lucide-icon
-              name="plus"
+              [img]="plusIcon"
               class="h-4 w-4"
             ></lucide-icon>
             Nuevo Proyecto
@@ -188,7 +188,7 @@ import type { ProjectDto } from '../../../../data/models/dtos';
              class="inline-flex items-center gap-2 rounded-lg border border-slate-700 px-4 py-2 text-sm
                     font-medium text-slate-300 transition-colors hover:border-slate-600 hover:text-white">
             <lucide-icon
-              name="plus"
+              [img]="plusIcon"
               class="h-4 w-4"
             ></lucide-icon>
             Nueva Tecnología
@@ -197,7 +197,7 @@ import type { ProjectDto } from '../../../../data/models/dtos';
              class="inline-flex items-center gap-2 rounded-lg border border-slate-700 px-4 py-2 text-sm
                     font-medium text-slate-300 transition-colors hover:border-slate-600 hover:text-white">
             <lucide-icon
-              name="mail"
+              [img]="mailIcon"
               class="h-4 w-4"
             ></lucide-icon>
             Ver Mensajes
@@ -209,6 +209,14 @@ import type { ProjectDto } from '../../../../data/models/dtos';
 })
 export class AdminDashboard implements OnInit {
   private readonly admin = inject(AdminService);
+
+  // Lucide Icons
+  protected readonly folderOpenIcon = FolderOpen;
+  protected readonly barChartIcon = BarChart3;
+  protected readonly mailIcon = Mail;
+  protected readonly checkCircleIcon = CheckCircle2;
+  protected readonly imageOffIcon = ImageOff;
+  protected readonly plusIcon = Plus;
 
   readonly stats = signal<DashboardStats | null>(null);
   readonly recentProjects = signal<(ProjectDto & { is_published: boolean })[]>([]);

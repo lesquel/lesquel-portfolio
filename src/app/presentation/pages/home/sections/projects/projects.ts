@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
-import { LucideAngularModule } from 'lucide-angular';
+import { LucideAngularModule, X, ExternalLink, Github } from 'lucide-angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { GsapAnimateDirective } from '../../../../shared/directives/gsap-animate.directive';
 import { TranslateObjPipe } from '../../../../shared/pipes/translate-obj.pipe';
@@ -89,7 +89,7 @@ import { Project, LocalizedString } from '../../../../../domain/models';
             [attr.aria-label]="'Close'"
           >
             <lucide-icon
-              name="x"
+              [img]="xIcon"
               class="h-4 w-4"
             ></lucide-icon>
           </button>
@@ -162,7 +162,7 @@ import { Project, LocalizedString } from '../../../../../domain/models';
               >
                 {{ 'PROJECTS.LIVE_DEMO' | translate }}
                 <lucide-icon
-                  name="external-link"
+                  [img]="externalLinkIcon"
                   class="h-4 w-4"
                 ></lucide-icon>
               </a>
@@ -180,7 +180,7 @@ import { Project, LocalizedString } from '../../../../../domain/models';
               >
                 {{ 'PROJECTS.VIEW_CODE' | translate }}
                 <lucide-icon
-                  name="github"
+                  [img]="githubIcon"
                   class="h-4 w-4"
                 ></lucide-icon>
               </a>
@@ -195,6 +195,11 @@ export class ProjectsSection {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly projectRepo = inject(ProjectRepository);
   private readonly dialog = inject(Dialog);
+
+  // Lucide Icons
+  protected readonly xIcon = X;
+  protected readonly externalLinkIcon = ExternalLink;
+  protected readonly githubIcon = Github;
 
   private readonly projectModal = viewChild<TemplateRef<unknown>>('projectModal');
 

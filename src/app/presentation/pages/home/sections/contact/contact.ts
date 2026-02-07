@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { LucideAngularModule } from 'lucide-angular';
+import { LucideAngularModule, Loader } from 'lucide-angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { GsapAnimateDirective } from '../../../../shared/directives/gsap-animate.directive';
 import { MessageRepository } from '../../../../../domain/repositories';
@@ -120,7 +120,7 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
           >
             @if (state() === 'sending') {
               <lucide-icon
-                name="loader"
+                [img]="loaderIcon"
                 class="h-4 w-4 animate-spin"
               ></lucide-icon>
               {{ 'CONTACT.SENDING' | translate }}
@@ -148,6 +148,9 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
 export class ContactSection {
   private readonly fb = inject(FormBuilder);
   private readonly messageRepo = inject(MessageRepository);
+
+  // Lucide Icons
+  protected readonly loaderIcon = Loader;
 
   protected readonly state = signal<FormState>('idle');
 

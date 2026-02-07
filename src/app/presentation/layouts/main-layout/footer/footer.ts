@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LucideAngularModule } from 'lucide-angular';
+import { LucideAngularModule, Github, Linkedin, Mail } from 'lucide-angular';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -32,7 +32,7 @@ import { TranslateModule } from '@ngx-translate/core';
                      dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
             >
               <lucide-icon
-                name="github"
+                [img]="githubIcon"
                 class="h-5 w-5"
               ></lucide-icon>
             </a>
@@ -46,7 +46,7 @@ import { TranslateModule } from '@ngx-translate/core';
                      dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
             >
               <lucide-icon
-                name="linkedin"
+                [img]="linkedinIcon"
                 class="h-5 w-5"
               ></lucide-icon>
             </a>
@@ -58,7 +58,7 @@ import { TranslateModule } from '@ngx-translate/core';
                      dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
             >
               <lucide-icon
-                name="mail"
+                [img]="mailIcon"
                 class="h-5 w-5"
               ></lucide-icon>
             </a>
@@ -79,5 +79,8 @@ import { TranslateModule } from '@ngx-translate/core';
   `,
 })
 export class Footer {
+  protected readonly githubIcon = Github;
+  protected readonly linkedinIcon = Linkedin;
+  protected readonly mailIcon = Mail;
   protected readonly currentYear = new Date().getFullYear();
 }
