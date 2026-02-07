@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { LucideAngularModule, Loader } from 'lucide-angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { GsapAnimateDirective } from '../../../../shared/directives/gsap-animate.directive';
@@ -13,7 +14,7 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
 @Component({
   selector: 'app-contact-section',
   standalone: true,
-  imports: [ReactiveFormsModule, TranslateModule, GsapAnimateDirective, LucideAngularModule],
+  imports: [ReactiveFormsModule, RouterLink, TranslateModule, GsapAnimateDirective, LucideAngularModule],
   template: `
     <section id="contact" class="py-24">
       <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
@@ -25,6 +26,11 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
           <p class="text-lg text-slate-500 dark:text-slate-400">
             {{ 'CONTACT.SUBTITLE' | translate }}
           </p>
+          <a routerLink="/contact"
+             class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-violet-600
+                    transition-colors hover:text-violet-700 dark:text-violet-400 dark:hover:text-violet-300">
+            {{ 'CONTACT.VIEW_MORE' | translate }} →
+          </a>
         </div>
 
         <!-- Form -->

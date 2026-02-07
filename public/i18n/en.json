@@ -17,7 +17,8 @@
   },
   "STACK": {
     "TITLE": "My Tech Stack",
-    "SUBTITLE": "The tools I use to build solutions"
+    "SUBTITLE": "The tools I use to build solutions",
+    "VIEW_ALL": "View all technologies"
   },
   "PROJECTS": {
     "TITLE": "Projects",
@@ -27,16 +28,50 @@
     "LIVE_DEMO": "Live Demo",
     "CLOSE": "Close",
     "TECHNOLOGIES": "Technologies",
-    "NO_PROJECTS": "Projects coming soon."
+    "NO_PROJECTS": "Projects coming soon.",
+    "VIEW_ALL": "View all projects"
+  },
+  "PROJECTS_PAGE": {
+    "TITLE": "All My Projects",
+    "SUBTITLE": "Explore all the projects I've worked on",
+    "BACK": "Back to Home",
+    "EMPTY": "Projects coming soon.",
+    "VIEW_DETAIL": "View detail"
   },
   "HOBBIES": {
     "TITLE": "Hobbies & Passions",
-    "SUBTITLE": "What drives me beyond the code"
+    "SUBTITLE": "What drives me beyond the code",
+    "VIEW_ALL": "View all hobbies"
   },
   "COURSES": {
     "TITLE": "Courses & Certifications",
     "SUBTITLE": "Continuous learning and professional growth",
-    "VIEW_CERTIFICATE": "View Certificate"
+    "VIEW_CERTIFICATE": "View Certificate",
+    "VIEW_ALL": "View all courses"
+  },
+  "TECHNOLOGIES": {
+    "TITLE": "Technologies",
+    "SUBTITLE": "All the tools and technologies I master, organized by category",
+    "BACK": "Back to Home",
+    "FRONTEND": "Frontend",
+    "BACKEND": "Backend",
+    "TOOLS": "Tools",
+    "OTHER": "Other",
+    "VIEW_DETAIL": "View detail",
+    "EMPTY": "No technologies yet."
+  },
+  "HOBBIES_PAGE": {
+    "TITLE": "Hobbies & Passions",
+    "SUBTITLE": "Beyond code, these are the activities that inspire and drive me every day",
+    "BACK": "Back to Home",
+    "EMPTY": "Hobbies coming soon."
+  },
+  "COURSES_PAGE": {
+    "TITLE": "Courses & Certifications",
+    "SUBTITLE": "My continuous learning journey and professional development",
+    "BACK": "Back to Home",
+    "VIEW_CERTIFICATE": "View Certificate",
+    "EMPTY": "Courses coming soon."
   },
   "SKILL_DETAIL": {
     "BACK": "Back to Technologies",
@@ -61,11 +96,20 @@
     "SENDING": "Sending...",
     "SUCCESS": "Message sent successfully! I'll get back to you soon.",
     "ERROR": "There was an error sending the message. Please try again.",
+    "SENT": "Sent!",
+    "VIEW_MORE": "View full form",
     "VALIDATION": {
       "REQUIRED": "This field is required",
       "EMAIL": "Enter a valid email address",
       "MIN_LENGTH": "Minimum {{min}} characters"
     }
+  },
+  "CONTACT_PAGE": {
+    "TITLE": "Contact",
+    "SUBTITLE": "Have a project in mind? I'm ready to collaborate on new ideas.",
+    "BACK": "Back to Home",
+    "DIRECT": "Direct Contact",
+    "SOCIALS": "Follow me"
   },
   "FOOTER": {
     "RIGHTS": "All rights reserved.",

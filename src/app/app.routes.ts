@@ -16,10 +16,52 @@ export const routes: Routes = [
           import('./presentation/pages/home/home').then((m) => m.HomePage),
       },
       {
+        path: 'technologies',
+        loadComponent: () =>
+          import('./presentation/pages/technologies/technologies').then(
+            (m) => m.TechnologiesPage,
+          ),
+      },
+      {
         path: 'skill/:slug',
         loadComponent: () =>
           import('./presentation/pages/skill-detail/skill-detail').then(
             (m) => m.SkillDetailPage,
+          ),
+      },
+      {
+        path: 'hobbies',
+        loadComponent: () =>
+          import('./presentation/pages/hobbies-page/hobbies-page').then(
+            (m) => m.HobbiesPage,
+          ),
+      },
+      {
+        path: 'courses',
+        loadComponent: () =>
+          import('./presentation/pages/courses-page/courses-page').then(
+            (m) => m.CoursesPage,
+          ),
+      },
+      {
+        path: 'projects',
+        loadComponent: () =>
+          import('./presentation/pages/projects-page/projects-page').then(
+            (m) => m.ProjectsPage,
+          ),
+      },
+      {
+        path: 'project/:slug',
+        loadComponent: () =>
+          import('./presentation/pages/skill-detail/skill-detail').then(
+            (m) => m.SkillDetailPage,
+          ),
+      },
+      {
+        path: 'contact',
+        loadComponent: () =>
+          import('./presentation/pages/contact-page/contact-page').then(
+            (m) => m.ContactPage,
           ),
       },
     ],

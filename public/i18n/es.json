@@ -17,7 +17,8 @@
   },
   "STACK": {
     "TITLE": "Mi Stack Tecnológico",
-    "SUBTITLE": "Las herramientas con las que construyo soluciones"
+    "SUBTITLE": "Las herramientas con las que construyo soluciones",
+    "VIEW_ALL": "Ver todas las tecnologías"
   },
   "PROJECTS": {
     "TITLE": "Proyectos",
@@ -27,16 +28,50 @@
     "LIVE_DEMO": "Demo en Vivo",
     "CLOSE": "Cerrar",
     "TECHNOLOGIES": "Tecnologías",
-    "NO_PROJECTS": "Próximamente se publicarán proyectos."
+    "NO_PROJECTS": "Próximamente se publicarán proyectos.",
+    "VIEW_ALL": "Ver todos los proyectos"
+  },
+  "PROJECTS_PAGE": {
+    "TITLE": "Todos mis Proyectos",
+    "SUBTITLE": "Explora todos los proyectos en los que he trabajado",
+    "BACK": "Volver al Inicio",
+    "EMPTY": "Próximamente se publicarán proyectos.",
+    "VIEW_DETAIL": "Ver detalle"
   },
   "HOBBIES": {
     "TITLE": "Hobbies & Pasiones",
-    "SUBTITLE": "Lo que me apasiona más allá del código"
+    "SUBTITLE": "Lo que me apasiona más allá del código",
+    "VIEW_ALL": "Ver todos los hobbies"
   },
   "COURSES": {
     "TITLE": "Cursos & Certificaciones",
     "SUBTITLE": "Formación continua y aprendizaje",
-    "VIEW_CERTIFICATE": "Ver Certificado"
+    "VIEW_CERTIFICATE": "Ver Certificado",
+    "VIEW_ALL": "Ver todos los cursos"
+  },
+  "TECHNOLOGIES": {
+    "TITLE": "Tecnologías",
+    "SUBTITLE": "Todas las herramientas y tecnologías que domino, organizadas por categoría",
+    "BACK": "Volver al Inicio",
+    "FRONTEND": "Frontend",
+    "BACKEND": "Backend",
+    "TOOLS": "Herramientas",
+    "OTHER": "Otros",
+    "VIEW_DETAIL": "Ver detalle",
+    "EMPTY": "No hay tecnologías aún."
+  },
+  "HOBBIES_PAGE": {
+    "TITLE": "Hobbies & Pasiones",
+    "SUBTITLE": "Más allá del código, estas son las actividades que me apasionan y me inspiran cada día",
+    "BACK": "Volver al Inicio",
+    "EMPTY": "Próximamente se añadirán hobbies."
+  },
+  "COURSES_PAGE": {
+    "TITLE": "Cursos & Certificaciones",
+    "SUBTITLE": "Mi camino de aprendizaje continuo y desarrollo profesional",
+    "BACK": "Volver al Inicio",
+    "VIEW_CERTIFICATE": "Ver Certificado",
+    "EMPTY": "Próximamente se añadirán cursos."
   },
   "SKILL_DETAIL": {
     "BACK": "Volver a Tecnologías",
@@ -61,11 +96,20 @@
     "SENDING": "Enviando...",
     "SUCCESS": "¡Mensaje enviado con éxito! Te responderé pronto.",
     "ERROR": "Hubo un error al enviar el mensaje. Inténtalo de nuevo.",
+    "SENT": "¡Enviado!",
+    "VIEW_MORE": "Ver formulario completo",
     "VALIDATION": {
       "REQUIRED": "Este campo es obligatorio",
       "EMAIL": "Introduce un correo electrónico válido",
       "MIN_LENGTH": "Mínimo {{min}} caracteres"
     }
+  },
+  "CONTACT_PAGE": {
+    "TITLE": "Contacto",
+    "SUBTITLE": "¿Tienes un proyecto en mente? Estoy listo para colaborar en nuevas ideas.",
+    "BACK": "Volver al Inicio",
+    "DIRECT": "Contacto Directo",
+    "SOCIALS": "Sígueme"
   },
   "FOOTER": {
     "RIGHTS": "Todos los derechos reservados.",

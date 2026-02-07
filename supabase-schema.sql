@@ -19,8 +19,45 @@ as $$
 $$;
 
 -- ============================================================
--- TABLES
+-- TABLES & MIGRATIONS
 -- ============================================================
+
+-- Add missing columns to existing skills table (migration for recent updates)
+alter table if exists public.skills
+  add column if not exists slug text unique,
+  add column if not exists description jsonb,
+  add column if not exists display_order int default 0;
+
+-- Add missing columns to existing projects table
+alter table if exists public.projects
+  add column if not exists display_order int default 0;
+
+-- Add missing columns to existing profile table (CV fields)
+alter table if exists public.profile
+  add column if not exists cv_url text,
+  add column if not exists cv_url_en text;
+
+-- Create hobbies table if it doesn't exist (new entity)
+create table if not exists public.hobbies (
+  id uuid default uuid_generate_v4() primary key,
+  name jsonb not null,
+  description jsonb,
+  icon_url text,
+  display_order int default 0,
+  created_at timestamptz default now() not null
+);
+
+-- Create courses table if it doesn't exist (new entity)
+create table if not exists public.courses (
+  id uuid default uuid_generate_v4() primary key,
+  name jsonb not null,
+  institution jsonb,
+  description jsonb,
+  certificate_url text,
+  completion_date date,
+  display_order int default 0,
+  created_at timestamptz default now() not null
+);
 
 -- 2. Categories table
 create table if not exists public.categories (
@@ -90,28 +127,6 @@ create table if not exists public.profile (
   social_twitter text,
   social_website text,
   updated_at timestamptz default now() not null
-);
-
--- 8. Hobbies table
-create table if not exists public.hobbies (
-  id uuid default uuid_generate_v4() primary key,
-  name jsonb not null,          -- {"es": "Fotografía", "en": "Photography"}
-  description jsonb,            -- {"es": "...", "en": "..."}
-  icon_url text,
-  display_order int default 0,
-  created_at timestamptz default now() not null
-);
-
--- 9. Courses / Certifications table
-create table if not exists public.courses (
-  id uuid default uuid_generate_v4() primary key,
-  name jsonb not null,          -- {"es": "Angular Avanzado", "en": "Advanced Angular"}
-  institution jsonb,            -- {"es": "Udemy", "en": "Udemy"}
-  description jsonb,            -- {"es": "...", "en": "..."}
-  certificate_url text,
-  completion_date date,
-  display_order int default 0,
-  created_at timestamptz default now() not null
 );
 
 -- ============================================================

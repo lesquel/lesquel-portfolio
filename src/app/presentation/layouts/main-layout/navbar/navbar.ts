@@ -41,8 +41,7 @@ import { LangSwitcher } from '../../../shared/components/lang-switcher/lang-swit
             {{ 'NAV.HOME' | translate }}
           </a>
           <a
-            routerLink="/"
-            fragment="stack"
+            routerLink="/technologies"
             class="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors
                    hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400
                    dark:hover:bg-slate-800 dark:hover:text-white"
@@ -50,8 +49,7 @@ import { LangSwitcher } from '../../../shared/components/lang-switcher/lang-swit
             {{ 'NAV.STACK' | translate }}
           </a>
           <a
-            routerLink="/"
-            fragment="projects"
+            routerLink="/projects"
             class="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors
                    hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400
                    dark:hover:bg-slate-800 dark:hover:text-white"
@@ -59,8 +57,7 @@ import { LangSwitcher } from '../../../shared/components/lang-switcher/lang-swit
             {{ 'NAV.PROJECTS' | translate }}
           </a>
           <a
-            routerLink="/"
-            fragment="hobbies"
+            routerLink="/hobbies"
             class="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors
                    hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400
                    dark:hover:bg-slate-800 dark:hover:text-white"
@@ -68,8 +65,7 @@ import { LangSwitcher } from '../../../shared/components/lang-switcher/lang-swit
             {{ 'NAV.HOBBIES' | translate }}
           </a>
           <a
-            routerLink="/"
-            fragment="courses"
+            routerLink="/courses"
             class="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors
                    hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400
                    dark:hover:bg-slate-800 dark:hover:text-white"
@@ -77,8 +73,7 @@ import { LangSwitcher } from '../../../shared/components/lang-switcher/lang-swit
             {{ 'NAV.COURSES' | translate }}
           </a>
           <a
-            routerLink="/"
-            fragment="contact"
+            routerLink="/contact"
             class="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors
                    hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400
                    dark:hover:bg-slate-800 dark:hover:text-white"
@@ -131,8 +126,7 @@ import { LangSwitcher } from '../../../shared/components/lang-switcher/lang-swit
             </a>
             <a
               (click)="mobileMenuOpen.set(false)"
-              routerLink="/"
-              fragment="stack"
+              routerLink="/technologies"
               class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition-colors
                      hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
             >
@@ -140,8 +134,7 @@ import { LangSwitcher } from '../../../shared/components/lang-switcher/lang-swit
             </a>
             <a
               (click)="mobileMenuOpen.set(false)"
-              routerLink="/"
-              fragment="projects"
+              routerLink="/projects"
               class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition-colors
                      hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
             >
@@ -149,8 +142,7 @@ import { LangSwitcher } from '../../../shared/components/lang-switcher/lang-swit
             </a>
             <a
               (click)="mobileMenuOpen.set(false)"
-              routerLink="/"
-              fragment="hobbies"
+              routerLink="/hobbies"
               class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition-colors
                      hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
             >
@@ -158,8 +150,7 @@ import { LangSwitcher } from '../../../shared/components/lang-switcher/lang-swit
             </a>
             <a
               (click)="mobileMenuOpen.set(false)"
-              routerLink="/"
-              fragment="courses"
+              routerLink="/courses"
               class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition-colors
                      hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
             >
@@ -167,8 +158,7 @@ import { LangSwitcher } from '../../../shared/components/lang-switcher/lang-swit
             </a>
             <a
               (click)="mobileMenuOpen.set(false)"
-              routerLink="/"
-              fragment="contact"
+              routerLink="/contact"
               class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition-colors
                      hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
             >

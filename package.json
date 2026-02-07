@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "setup-admin": "bun run scripts/setup-admin.ts",
     "serve:ssr:lesquel-portfolio": "node dist/lesquel-portfolio/server/server.mjs"
   },
   "prettier": {

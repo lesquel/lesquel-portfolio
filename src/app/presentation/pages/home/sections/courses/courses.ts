@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { GsapAnimateDirective } from '../../../../shared/directives/gsap-animate.directive';
 import { TranslateObjPipe } from '../../../../shared/pipes/translate-obj.pipe';
@@ -9,7 +10,7 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-courses-section',
   standalone: true,
-  imports: [TranslateModule, GsapAnimateDirective, TranslateObjPipe, DatePipe],
+  imports: [RouterLink, TranslateModule, GsapAnimateDirective, TranslateObjPipe, DatePipe],
   template: `
     <section id="courses" class="py-24">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -21,6 +22,11 @@ import { DatePipe } from '@angular/common';
           <p class="text-lg text-slate-500 dark:text-slate-400">
             {{ 'COURSES.SUBTITLE' | translate }}
           </p>
+          <a routerLink="/courses"
+             class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-violet-600
+                    transition-colors hover:text-violet-700 dark:text-violet-400 dark:hover:text-violet-300">
+            {{ 'COURSES.VIEW_ALL' | translate }} →
+          </a>
         </div>
 
         <!-- Courses List -->

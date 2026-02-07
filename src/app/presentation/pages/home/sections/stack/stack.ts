@@ -25,6 +25,11 @@ import { Skill } from '../../../../../domain/models';
           <p class="text-lg text-slate-500 dark:text-slate-400">
             {{ 'STACK.SUBTITLE' | translate }}
           </p>
+          <a routerLink="/technologies"
+             class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-violet-600
+                    transition-colors hover:text-violet-700 dark:text-violet-400 dark:hover:text-violet-300">
+            {{ 'STACK.VIEW_ALL' | translate }} →
+          </a>
         </div>
 
         <!-- Marquee -->

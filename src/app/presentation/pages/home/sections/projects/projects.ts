@@ -8,6 +8,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { LucideAngularModule, X, ExternalLink, Github } from 'lucide-angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -25,6 +26,7 @@ import { Project, LocalizedString } from '../../../../../domain/models';
   selector: 'app-projects-section',
   standalone: true,
   imports: [
+    RouterLink,
     TranslateModule,
     TranslateObjPipe,
     GsapAnimateDirective,
@@ -44,6 +46,11 @@ import { Project, LocalizedString } from '../../../../../domain/models';
           <p class="text-lg text-slate-500 dark:text-slate-400">
             {{ 'PROJECTS.SUBTITLE' | translate }}
           </p>
+          <a routerLink="/projects"
+             class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-violet-600
+                    transition-colors hover:text-violet-700 dark:text-violet-400 dark:hover:text-violet-300">
+            {{ 'PROJECTS.VIEW_ALL' | translate }} →
+          </a>
         </div>
 
         <!-- Bento Grid -->
