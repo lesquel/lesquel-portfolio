@@ -141,13 +141,16 @@ export class ParallaxBackground implements OnDestroy {
     const isDark = this.theme.effectiveTheme() === 'dark';
 
     // Create SVG floating elements
+    // NOTE: styles set inline because Angular view encapsulation won't apply
+    // component-scoped CSS to dynamically created DOM elements.
     PARALLAX_ELEMENTS.forEach((data) => {
       const el = document.createElement('div');
-      el.className = 'parallax-el';
       el.setAttribute('aria-hidden', 'true');
       el.innerHTML = data.svg;
 
       const colors = COLOR_MAP[data.colorClass] ?? COLOR_MAP['primary'];
+      el.style.position = 'absolute';
+      el.style.willChange = 'transform';
       el.style.color = isDark ? colors.dark : colors.light;
       el.style.width = `${data.size}px`;
       el.style.height = `${data.size}px`;
@@ -232,23 +235,16 @@ export class ParallaxBackground implements OnDestroy {
           );
         });
 
-        // Mouse parallax — elements shift based on cursor
+        // Mouse parallax — use CSS translate (separate from GSAP transform) to avoid conflicts
         const updateMouse = () => {
           const mx = this.mouse.mouseX();
           const my = this.mouse.mouseY();
           this.elements.forEach(({ el, data }) => {
             const factor = data.depth * 20;
-            gsap.to(el, {
-              x: `+=${mx * factor}`,
-              y: `+=${my * factor}`,
-              duration: 1.5,
-              ease: 'power2.out',
-              overwrite: 'auto',
-            });
+            el.style.translate = `${mx * factor}px ${my * factor}px`;
           });
         };
 
-        // Throttled mouse update
         gsap.ticker.add(updateMouse);
 
         return () => {
