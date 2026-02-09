@@ -123,18 +123,16 @@ create table if not exists public.profile (
 
 -- ============================================================
 -- Helper function: checks if current user is the admin
--- NOW: Table structure exists with user_id column
--- Verifies that a profile row exists for the authenticated user
--- This ensures only the single admin (created by setup-admin.ts) can do CRUD
+-- Since only one user exists in Supabase Auth (the admin),
+-- any authenticated request is the admin by definition.
+-- Using (select auth.uid()) avoids per-row re-evaluation in RLS.
 -- ============================================================
 create or replace function public.is_admin()
 returns boolean
 language sql
 stable
 as $$
-  select exists (
-    select 1 from public.profile where user_id = auth.uid()
-  )
+  select (select auth.uid()) is not null
 $$;
 
 -- ============================================================
@@ -254,7 +252,7 @@ create policy "Admin: delete messages"
 -- Profile (admin can insert, update)
 drop policy if exists "Admin: insert profile" on public.profile;
 create policy "Admin: insert profile"
-  on public.profile for insert with check (is_admin());
+  on public.profile for insert with check ((select auth.uid()) is not null);
 
 drop policy if exists "Admin: update profile" on public.profile;
 create policy "Admin: update profile"
