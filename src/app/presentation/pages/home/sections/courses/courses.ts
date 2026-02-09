@@ -30,6 +30,23 @@ import { DatePipe } from '@angular/common';
         </div>
 
         <!-- Courses List -->
+        @if (loading()) {
+          <div class="mx-auto max-w-4xl space-y-6">
+            @for (i of [1,2,3]; track i) {
+              <div class="glass-card rounded-2xl p-6">
+                <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div class="flex-1 space-y-3">
+                    <div class="skeleton h-5 w-48"></div>
+                    <div class="skeleton h-4 w-32"></div>
+                    <div class="skeleton h-3 w-full"></div>
+                    <div class="skeleton h-3 w-3/4"></div>
+                  </div>
+                  <div class="skeleton h-7 w-24 rounded-full"></div>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
         <div appStaggerReveal animationType="fade-left" class="mx-auto max-w-4xl space-y-6">
           @for (course of courses(); track course.id) {
             <div
@@ -75,6 +92,7 @@ import { DatePipe } from '@angular/common';
             </div>
           }
         </div>
+        }
       </div>
     </section>
   `,
@@ -82,6 +100,7 @@ import { DatePipe } from '@angular/common';
 export class CoursesSection {
   private readonly courseRepo = inject(CourseRepository);
   protected readonly courses = signal<Course[]>([]);
+  protected readonly loading = signal(true);
 
   constructor() {
     this.loadCourses();
@@ -92,6 +111,8 @@ export class CoursesSection {
       this.courses.set(await this.courseRepo.getAllCourses());
     } catch {
       this.courses.set([]);
+    } finally {
+      this.loading.set(false);
     }
   }
 }

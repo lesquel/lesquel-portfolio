@@ -36,8 +36,28 @@ import { LucideAngularModule, ArrowLeft, ExternalLink, GraduationCap } from 'luc
         </div>
 
         @if (loading()) {
-          <div class="flex items-center justify-center py-32">
-            <div class="h-8 w-8 animate-spin rounded-full border-2 border-violet-600 border-t-transparent"></div>
+          <!-- Skeleton timeline -->
+          <div class="relative">
+            <div class="absolute left-8 top-0 hidden h-full w-px bg-slate-200 dark:bg-slate-700 sm:block"></div>
+            <div class="space-y-8">
+              @for (i of [1,2,3,4]; track i) {
+                <div class="relative sm:pl-20">
+                  <div class="absolute left-6 top-8 hidden h-5 w-5 items-center justify-center sm:flex">
+                    <div class="skeleton h-3 w-3 rounded-full"></div>
+                  </div>
+                  <div class="glass-card rounded-2xl p-6 sm:p-8">
+                    <div class="skeleton mb-3 h-6 w-28 rounded-full"></div>
+                    <div class="skeleton mb-2 h-6 w-56"></div>
+                    <div class="skeleton mb-4 h-4 w-36"></div>
+                    <div class="space-y-2">
+                      <div class="skeleton h-3 w-full"></div>
+                      <div class="skeleton h-3 w-4/5"></div>
+                    </div>
+                    <div class="skeleton mt-5 h-9 w-40 rounded-full"></div>
+                  </div>
+                </div>
+              }
+            </div>
           </div>
         } @else if (courses().length > 0) {
           <!-- Timeline -->

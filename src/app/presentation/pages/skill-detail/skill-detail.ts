@@ -26,8 +26,38 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
         </a>
 
         @if (loading()) {
-          <div class="flex items-center justify-center py-32">
-            <div class="h-8 w-8 animate-spin rounded-full border-2 border-violet-600 border-t-transparent"></div>
+          <!-- Skeleton -->
+          <div class="mb-12 flex items-center gap-6">
+            <div class="skeleton h-20 w-20 rounded-2xl"></div>
+            <div class="space-y-3">
+              <div class="skeleton h-8 w-48"></div>
+              <div class="skeleton h-6 w-20 rounded-full"></div>
+            </div>
+          </div>
+          <div class="mb-16 space-y-3">
+            <div class="skeleton h-6 w-32"></div>
+            <div class="skeleton h-4 w-full"></div>
+            <div class="skeleton h-4 w-full"></div>
+            <div class="skeleton h-4 w-3/4"></div>
+          </div>
+          <div class="space-y-4">
+            <div class="skeleton h-6 w-44"></div>
+            <div class="grid gap-6 sm:grid-cols-2">
+              @for (i of [1,2]; track i) {
+                <div class="glass-card overflow-hidden rounded-2xl">
+                  <div class="skeleton aspect-video w-full !rounded-none"></div>
+                  <div class="space-y-3 p-5">
+                    <div class="skeleton h-5 w-3/4"></div>
+                    <div class="skeleton h-4 w-full"></div>
+                    <div class="skeleton h-4 w-2/3"></div>
+                    <div class="flex gap-2">
+                      <div class="skeleton h-5 w-14 rounded-full"></div>
+                      <div class="skeleton h-5 w-16 rounded-full"></div>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
           </div>
         } @else if (skill()) {
           <!-- Hero -->

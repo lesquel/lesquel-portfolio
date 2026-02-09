@@ -39,8 +39,38 @@ interface ProfileData {
         </a>
 
         @if (loading()) {
-          <div class="flex items-center justify-center py-20">
-            <div class="h-8 w-8 animate-spin rounded-full border-2 border-violet-500 border-t-transparent"></div>
+          <!-- Skeleton -->
+          <div class="space-y-8">
+            <div class="glass-hero rounded-3xl p-8 sm:p-12">
+              <div class="flex flex-col items-center gap-8 sm:flex-row sm:items-start">
+                <div class="skeleton h-32 w-32 flex-shrink-0 rounded-3xl sm:h-40 sm:w-40"></div>
+                <div class="flex-1 space-y-4 text-center sm:text-left">
+                  <div class="skeleton mx-auto h-10 w-64 sm:mx-0"></div>
+                  <div class="skeleton mx-auto h-6 w-48 sm:mx-0"></div>
+                  <div class="flex justify-center gap-3 sm:justify-start">
+                    @for (i of [1,2,3,4]; track i) {
+                      <div class="skeleton h-10 w-10 rounded-xl"></div>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="glass-card rounded-2xl p-8">
+              <div class="skeleton mb-4 h-4 w-24"></div>
+              <div class="space-y-3">
+                <div class="skeleton h-4 w-full"></div>
+                <div class="skeleton h-4 w-full"></div>
+                <div class="skeleton h-4 w-3/4"></div>
+                <div class="skeleton h-4 w-5/6"></div>
+              </div>
+            </div>
+            <div class="glass-card rounded-2xl p-8">
+              <div class="skeleton mb-6 h-4 w-32"></div>
+              <div class="flex gap-4">
+                <div class="skeleton h-12 w-40 rounded-xl"></div>
+                <div class="skeleton h-12 w-40 rounded-xl"></div>
+              </div>
+            </div>
           </div>
         } @else if (profile(); as p) {
           <div appStaggerReveal class="space-y-8">

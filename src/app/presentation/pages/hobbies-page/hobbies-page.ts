@@ -36,8 +36,21 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
         </div>
 
         @if (loading()) {
-          <div class="flex items-center justify-center py-32">
-            <div class="h-8 w-8 animate-spin rounded-full border-2 border-violet-600 border-t-transparent"></div>
+          <!-- Skeleton -->
+          <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            @for (i of [1,2,3,4,5,6]; track i) {
+              <div class="glass-card overflow-hidden rounded-3xl p-8">
+                <div class="mb-6">
+                  <div class="skeleton h-16 w-16 rounded-2xl"></div>
+                </div>
+                <div class="skeleton mb-3 h-6 w-40"></div>
+                <div class="space-y-2">
+                  <div class="skeleton h-3 w-full"></div>
+                  <div class="skeleton h-3 w-4/5"></div>
+                  <div class="skeleton h-3 w-3/5"></div>
+                </div>
+              </div>
+            }
           </div>
         } @else if (hobbies().length > 0) {
           <div appStaggerReveal staggerFrom="edges" class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">

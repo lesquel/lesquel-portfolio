@@ -56,7 +56,25 @@ import { Project, LocalizedString } from '../../../../../domain/models';
         </div>
 
         <!-- Bento Grid -->
-        @if (projects().length > 0) {
+        @if (loading()) {
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            @for (i of [1,2,3]; track i) {
+              <div class="glass-card overflow-hidden rounded-2xl" [class.sm:col-span-2]="i === 1" [class.lg:col-span-2]="i === 1">
+                <div class="skeleton h-48 w-full !rounded-none"></div>
+                <div class="space-y-3 p-6">
+                  <div class="skeleton h-5 w-3/4"></div>
+                  <div class="skeleton h-4 w-full"></div>
+                  <div class="skeleton h-4 w-2/3"></div>
+                  <div class="flex gap-2">
+                    <div class="skeleton h-6 w-16 rounded-full"></div>
+                    <div class="skeleton h-6 w-20 rounded-full"></div>
+                    <div class="skeleton h-6 w-14 rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        } @else if (projects().length > 0) {
           <div appStaggerReveal staggerFrom="center" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @for (project of projects(); track project.id; let i = $index) {
               <div
@@ -213,6 +231,7 @@ export class ProjectsSection {
 
   protected readonly projects = signal<Project[]>([]);
   protected readonly selectedProject = signal<Project | null>(null);
+  protected readonly loading = signal(true);
 
   private dialogRef: any;
 
@@ -225,8 +244,9 @@ export class ProjectsSection {
       const projects = await this.projectRepo.getPublishedProjects();
       this.projects.set(projects);
     } catch {
-      // Supabase not configured yet — show empty state
       this.projects.set([]);
+    } finally {
+      this.loading.set(false);
     }
   }
 

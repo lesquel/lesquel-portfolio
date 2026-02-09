@@ -30,6 +30,22 @@ import { Hobby } from '../../../../../domain/models';
         </div>
 
         <!-- Hobbies Grid -->
+        @if (loading()) {
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            @for (i of [1,2,3]; track i) {
+              <div class="glass-card rounded-2xl p-6">
+                <div class="flex items-center gap-4">
+                  <div class="skeleton h-12 w-12 rounded-xl"></div>
+                  <div class="skeleton h-5 w-32"></div>
+                </div>
+                <div class="mt-4 space-y-2">
+                  <div class="skeleton h-3 w-full"></div>
+                  <div class="skeleton h-3 w-4/5"></div>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
         <div appStaggerReveal staggerFrom="edges" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           @for (hobby of hobbies(); track hobby.id) {
             <div
@@ -58,6 +74,7 @@ import { Hobby } from '../../../../../domain/models';
             </div>
           }
         </div>
+        }
       </div>
     </section>
   `,
@@ -65,6 +82,7 @@ import { Hobby } from '../../../../../domain/models';
 export class HobbiesSection {
   private readonly hobbyRepo = inject(HobbyRepository);
   protected readonly hobbies = signal<Hobby[]>([]);
+  protected readonly loading = signal(true);
 
   constructor() {
     this.loadHobbies();
@@ -75,6 +93,8 @@ export class HobbiesSection {
       this.hobbies.set(await this.hobbyRepo.getAllHobbies());
     } catch {
       this.hobbies.set([]);
+    } finally {
+      this.loading.set(false);
     }
   }
 }

@@ -36,8 +36,27 @@ import { LucideAngularModule, ArrowLeft, ExternalLink } from 'lucide-angular';
         </div>
 
         @if (loading()) {
-          <div class="flex items-center justify-center py-32">
-            <div class="h-8 w-8 animate-spin rounded-full border-2 border-violet-600 border-t-transparent"></div>
+          <!-- Skeleton -->
+          <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            @for (i of [1,2,3,4,5,6]; track i) {
+              <div class="glass-card overflow-hidden rounded-2xl">
+                <div class="skeleton h-48 w-full !rounded-none"></div>
+                <div class="space-y-3 p-6">
+                  <div class="skeleton h-6 w-3/4"></div>
+                  <div class="skeleton h-4 w-full"></div>
+                  <div class="skeleton h-4 w-2/3"></div>
+                  <div class="flex gap-2 pt-1">
+                    <div class="skeleton h-6 w-16 rounded-full"></div>
+                    <div class="skeleton h-6 w-20 rounded-full"></div>
+                    <div class="skeleton h-6 w-14 rounded-full"></div>
+                  </div>
+                  <div class="flex gap-2 pt-2">
+                    <div class="skeleton h-10 flex-1 rounded-lg"></div>
+                    <div class="skeleton h-10 w-12 rounded-lg"></div>
+                  </div>
+                </div>
+              </div>
+            }
           </div>
         } @else if (projects().length > 0) {
           <div appStaggerReveal class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">

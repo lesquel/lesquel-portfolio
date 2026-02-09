@@ -44,9 +44,20 @@ import { Skill } from '../../../../../domain/models';
                    bg-gradient-to-l from-white/90 dark:from-slate-950/90"
           ></div>
 
-          <!-- Marquee Track (GSAP-driven) -->
-          <div #marqueeTrack class="flex gap-10 py-4 will-change-transform">
-            @for (skill of doubledSkills(); track $index) {
+          @if (loading()) {
+            <!-- Skeleton marquee -->
+            <div class="flex gap-10 py-4">
+              @for (i of [1,2,3,4,5,6,7,8]; track i) {
+                <div class="flex flex-shrink-0 flex-col items-center gap-3 rounded-2xl px-5 py-4">
+                  <div class="skeleton h-14 w-14 rounded-xl"></div>
+                  <div class="skeleton h-3 w-16"></div>
+                </div>
+              }
+            </div>
+          } @else {
+            <!-- Marquee Track (GSAP-driven) -->
+            <div #marqueeTrack class="flex gap-10 py-4 will-change-transform">
+              @for (skill of doubledSkills(); track $index) {
               <a
                 [routerLink]="skill.slug ? ['/skill', skill.slug] : null"
                 class="glass-subtle flex flex-shrink-0 flex-col items-center gap-3 rounded-2xl
@@ -75,7 +86,8 @@ import { Skill } from '../../../../../domain/models';
                 </span>
               </a>
             }
-          </div>
+            </div>
+          }
         </div>
       </div>
     </section>
@@ -90,6 +102,7 @@ export class StackSection implements OnDestroy {
 
   protected readonly featuredSkills = signal<Skill[]>([]);
   protected readonly doubledSkills = signal<Skill[]>([]);
+  protected readonly loading = signal(true);
 
   private gsapCtx: any;
 
@@ -104,11 +117,13 @@ export class StackSection implements OnDestroy {
       this.featuredSkills.set(data);
       // Triple for seamless loop
       this.doubledSkills.set([...data, ...data, ...data]);
+      this.loading.set(false);
       this.initMarquee();
     } catch {
       const data = this.getPlaceholderSkills();
       this.featuredSkills.set(data);
       this.doubledSkills.set([...data, ...data, ...data]);
+      this.loading.set(false);
       this.initMarquee();
     }
   }

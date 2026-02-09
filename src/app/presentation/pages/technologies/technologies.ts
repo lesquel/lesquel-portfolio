@@ -34,9 +34,27 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
         </div>
 
         @if (loading()) {
-          <div class="flex items-center justify-center py-32">
-            <div class="h-8 w-8 animate-spin rounded-full border-2 border-violet-600 border-t-transparent"></div>
-          </div>
+          <!-- Skeleton -->
+          @for (section of [1,2]; track section) {
+            <div class="mb-16">
+              <div class="mb-6 flex items-center gap-3">
+                <div class="skeleton h-8 w-8 rounded-lg"></div>
+                <div class="skeleton h-6 w-32"></div>
+                <div class="skeleton h-5 w-8 rounded-full"></div>
+              </div>
+              <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                @for (i of [1,2,3,4]; track i) {
+                  <div class="glass-card flex items-center gap-4 rounded-2xl p-4">
+                    <div class="skeleton h-10 w-10 rounded-lg"></div>
+                    <div class="flex-1 space-y-2">
+                      <div class="skeleton h-4 w-24"></div>
+                      <div class="skeleton h-3 w-16"></div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
         } @else {
           <!-- Frontend -->
           @if (frontendSkills().length > 0) {
