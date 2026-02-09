@@ -133,7 +133,7 @@ language sql
 stable
 as $$
   select exists (
-    select 1 from public.profile where user_id = (select auth.uid())
+    select 1 from public.profile where user_id = auth.uid()
   )
 $$;
 
