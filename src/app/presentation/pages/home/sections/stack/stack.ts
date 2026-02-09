@@ -1,4 +1,4 @@
-import { Component, inject, signal, afterNextRender, PLATFORM_ID, ElementRef, viewChild, OnDestroy } from '@angular/core';
+import { Component, inject, signal, afterNextRender, PLATFORM_ID, ElementRef, viewChild, OnDestroy, Injector } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -84,6 +84,7 @@ import { Skill } from '../../../../../domain/models';
 export class StackSection implements OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly skillRepo = inject(SkillRepository);
+  private readonly injector = inject(Injector);
 
   private readonly marqueeTrack = viewChild<ElementRef>('marqueeTrack');
 
@@ -159,7 +160,7 @@ export class StackSection implements OnDestroy {
           },
         });
       });
-    });
+    }, { injector: this.injector });
   }
 
   ngOnDestroy(): void {
