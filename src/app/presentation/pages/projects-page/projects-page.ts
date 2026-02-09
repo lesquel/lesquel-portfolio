@@ -1,7 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { GsapAnimateDirective } from '../../shared/directives/gsap-animate.directive';
+import { StaggerRevealDirective } from '../../shared/directives/stagger-reveal.directive';
+import { TiltDirective } from '../../shared/directives/tilt.directive';
 import { TranslateObjPipe } from '../../shared/pipes/translate-obj.pipe';
 import { ProjectRepository } from '../../../domain/repositories';
 import { Project } from '../../../domain/models';
@@ -10,7 +11,7 @@ import { LucideAngularModule, ArrowLeft, ExternalLink } from 'lucide-angular';
 @Component({
   selector: 'app-projects-page',
   standalone: true,
-  imports: [RouterLink, TranslateModule, GsapAnimateDirective, TranslateObjPipe, LucideAngularModule],
+  imports: [RouterLink, TranslateModule, StaggerRevealDirective, TiltDirective, TranslateObjPipe, LucideAngularModule],
   template: `
     <div class="min-h-screen pt-24 pb-16">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -25,7 +26,7 @@ import { LucideAngularModule, ArrowLeft, ExternalLink } from 'lucide-angular';
         </a>
 
         <!-- Header -->
-        <div appGsapAnimate class="mb-16 text-center">
+        <div appStaggerReveal class="mb-16 text-center">
           <h1 class="mb-4 text-4xl font-bold text-slate-900 dark:text-white sm:text-5xl">
             {{ 'PROJECTS_PAGE.TITLE' | translate }}
           </h1>
@@ -39,14 +40,12 @@ import { LucideAngularModule, ArrowLeft, ExternalLink } from 'lucide-angular';
             <div class="h-8 w-8 animate-spin rounded-full border-2 border-violet-600 border-t-transparent"></div>
           </div>
         } @else if (projects().length > 0) {
-          <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div appStaggerReveal class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             @for (project of projects(); track project.id; let i = $index) {
               <div
-                appGsapAnimate
-                [gsapDelay]="i * 0.08"
-                class="group overflow-hidden rounded-2xl border border-slate-200 bg-white
-                       shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl
-                       dark:border-slate-800 dark:bg-slate-900"
+                appTilt
+                class="glass-card group overflow-hidden rounded-2xl
+                       transition-all duration-300 hover:shadow-xl"
               >
                 <!-- Cover Image -->
                 @if (project.coverImage) {

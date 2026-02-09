@@ -5,7 +5,8 @@
     "STACK": "Tecnologías",
     "HOBBIES": "Hobbies",
     "COURSES": "Cursos",
-    "CONTACT": "Contacto"
+    "CONTACT": "Contacto",
+    "PROFILE": "Perfil"
   },
   "HERO": {
     "GREETING": "Hola, soy",
@@ -128,5 +129,14 @@
     "SKIP_NAV": "Saltar al contenido principal",
     "TOGGLE_MENU": "Alternar menú",
     "TOGGLE_THEME": "Cambiar tema"
+  },
+  "PROFILE": {
+    "BACK": "Volver al Inicio",
+    "ABOUT": "Sobre Mí",
+    "DOWNLOAD_CV": "Descargar CV",
+    "CV_ES": "CV (Español)",
+    "CV_EN": "CV (English)",
+    "EMPTY_TITLE": "Perfil no configurado",
+    "EMPTY_MSG": "Información del perfil próximamente."
   }
 }

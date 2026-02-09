@@ -3,16 +3,20 @@ import { RouterOutlet } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { Navbar } from './navbar/navbar';
 import { Footer } from './footer/footer';
+import { ParallaxBackground } from '../../shared/components/parallax-bg/parallax-bg';
 
 /**
- * Main layout — navbar + scroll progress + content + footer.
+ * Main layout — parallax bg + navbar + scroll progress + content + footer.
  * Initializes Lenis smooth scroll and connects it with GSAP.
  */
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [RouterOutlet, Navbar, Footer],
+  imports: [RouterOutlet, Navbar, Footer, ParallaxBackground],
   template: `
+    <!-- Global parallax background -->
+    <app-parallax-bg />
+
     <!-- Scroll Progress Bar -->
     <div
       class="scroll-progress"
@@ -21,7 +25,7 @@ import { Footer } from './footer/footer';
 
     <app-navbar />
 
-    <main id="main-content" class="pt-16">
+    <main id="main-content" class="relative z-10 pt-16">
       <router-outlet />
     </main>
 

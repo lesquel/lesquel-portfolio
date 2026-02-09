@@ -64,6 +64,13 @@ export const routes: Routes = [
             (m) => m.ContactPage,
           ),
       },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./presentation/pages/profile-page/profile-page').then(
+            (m) => m.ProfilePage,
+          ),
+      },
     ],
   },
 

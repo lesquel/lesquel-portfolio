@@ -12,7 +12,8 @@ import { RouterLink } from '@angular/router';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { LucideAngularModule, X, ExternalLink, Github } from 'lucide-angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { GsapAnimateDirective } from '../../../../shared/directives/gsap-animate.directive';
+import { StaggerRevealDirective } from '../../../../shared/directives/stagger-reveal.directive';
+import { TiltDirective } from '../../../../shared/directives/tilt.directive';
 import { TranslateObjPipe } from '../../../../shared/pipes/translate-obj.pipe';
 import { ProjectCard } from '../../../../shared/components/project-card/project-card';
 import { TechBadge } from '../../../../shared/components/tech-badge/tech-badge';
@@ -29,7 +30,8 @@ import { Project, LocalizedString } from '../../../../../domain/models';
     RouterLink,
     TranslateModule,
     TranslateObjPipe,
-    GsapAnimateDirective,
+    StaggerRevealDirective,
+    TiltDirective,
     ProjectCard,
     TechBadge,
     DialogModule,
@@ -39,7 +41,7 @@ import { Project, LocalizedString } from '../../../../../domain/models';
     <section id="projects" class="py-24">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <!-- Section Header -->
-        <div appGsapAnimate class="mb-16 text-center">
+        <div appStaggerReveal class="mb-16 text-center">
           <h2 class="mb-4 text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">
             {{ 'PROJECTS.TITLE' | translate }}
           </h2>
@@ -55,11 +57,10 @@ import { Project, LocalizedString } from '../../../../../domain/models';
 
         <!-- Bento Grid -->
         @if (projects().length > 0) {
-          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div appStaggerReveal staggerFrom="center" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @for (project of projects(); track project.id; let i = $index) {
               <div
-                appGsapAnimate
-                [gsapDelay]="i * 0.1"
+                appTilt
                 [class.sm:col-span-2]="i === 0"
                 [class.lg:col-span-2]="i === 0"
               >
@@ -84,8 +85,8 @@ import { Project, LocalizedString } from '../../../../../domain/models';
     <ng-template #projectModal>
       @if (selectedProject(); as project) {
         <div
-          class="relative mx-auto max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl
-                 bg-white p-6 shadow-2xl dark:bg-slate-800 sm:p-8"
+          class="glass-card relative mx-auto max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl
+                 p-6 shadow-2xl sm:p-8"
         >
           <!-- Close Button -->
           <button

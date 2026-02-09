@@ -3,7 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, ArrowLeft, Mail, Github, Linkedin, Twitter, ExternalLink, Loader } from 'lucide-angular';
-import { GsapAnimateDirective } from '../../shared/directives/gsap-animate.directive';
+import { StaggerRevealDirective } from '../../shared/directives/stagger-reveal.directive';
 import { MessageRepository } from '../../../domain/repositories';
 
 type FormState = 'idle' | 'sending' | 'success' | 'error';
@@ -11,7 +11,7 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
 @Component({
   selector: 'app-contact-page',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, TranslateModule, LucideAngularModule, GsapAnimateDirective],
+  imports: [ReactiveFormsModule, RouterLink, TranslateModule, LucideAngularModule, StaggerRevealDirective],
   template: `
     <div class="min-h-screen pt-24 pb-16">
       <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
@@ -26,7 +26,7 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
         </a>
 
         <!-- Header -->
-        <div appGsapAnimate class="mb-16 text-center">
+        <div appStaggerReveal class="mb-16 text-center">
           <h1 class="mb-4 text-4xl font-bold text-slate-900 dark:text-white sm:text-5xl">
             {{ 'CONTACT_PAGE.TITLE' | translate }}
           </h1>
@@ -40,11 +40,10 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
           <!-- Form -->
           <div class="lg:col-span-2">
             <form
-              appGsapAnimate
+              appStaggerReveal
               [formGroup]="form"
               (ngSubmit)="onSubmit()"
-              class="space-y-6 rounded-2xl border border-slate-200 bg-white p-8
-                     shadow-sm dark:border-slate-700 dark:bg-slate-800/50"
+              class="glass-card space-y-6 rounded-2xl p-8 shadow-sm"
             >
               <!-- Name -->
               <div>
@@ -56,7 +55,7 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
                   formControlName="fullName"
                   type="text"
                   [placeholder]="'CONTACT.NAME_PLACEHOLDER' | translate"
-                  class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm
+                  class="input-glow w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm
                          text-slate-900 outline-none transition-colors
                          focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20
                          dark:border-slate-600 dark:bg-slate-900 dark:text-white
@@ -79,7 +78,7 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
                   formControlName="email"
                   type="email"
                   [placeholder]="'CONTACT.EMAIL_PLACEHOLDER' | translate"
-                  class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm
+                  class="input-glow w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm
                          text-slate-900 outline-none transition-colors
                          focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20
                          dark:border-slate-600 dark:bg-slate-900 dark:text-white
@@ -107,7 +106,7 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
                   formControlName="content"
                   rows="6"
                   [placeholder]="'CONTACT.MESSAGE_PLACEHOLDER' | translate"
-                  class="w-full resize-none rounded-xl border border-slate-300 bg-white px-4 py-3
+                  class="input-glow w-full resize-none rounded-xl border border-slate-300 bg-white px-4 py-3
                          text-sm text-slate-900 outline-none transition-colors
                          focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20
                          dark:border-slate-600 dark:bg-slate-900 dark:text-white
@@ -143,9 +142,9 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
           </div>
 
           <!-- Contact Info -->
-          <div appGsapAnimate class="space-y-8">
+          <div appStaggerReveal class="space-y-8">
             <!-- Direct Contact -->
-            <div class="rounded-2xl border border-slate-200 bg-white p-8 dark:border-slate-700 dark:bg-slate-800/50">
+            <div class="glass-card rounded-2xl p-8">
               <h2 class="mb-6 text-lg font-bold text-slate-900 dark:text-white">
                 {{ 'CONTACT_PAGE.DIRECT' | translate }}
               </h2>
@@ -169,7 +168,7 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
             </div>
 
             <!-- Social Links -->
-            <div class="rounded-2xl border border-slate-200 bg-white p-8 dark:border-slate-700 dark:bg-slate-800/50">
+            <div class="glass-card rounded-2xl p-8">
               <h2 class="mb-6 text-lg font-bold text-slate-900 dark:text-white">
                 {{ 'CONTACT_PAGE.SOCIALS' | translate }}
               </h2>

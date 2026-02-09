@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { GsapAnimateDirective } from '../../../../shared/directives/gsap-animate.directive';
+import { StaggerRevealDirective } from '../../../../shared/directives/stagger-reveal.directive';
 import { TranslateObjPipe } from '../../../../shared/pipes/translate-obj.pipe';
 import { CourseRepository } from '../../../../../domain/repositories';
 import { Course } from '../../../../../domain/models';
@@ -10,12 +10,12 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-courses-section',
   standalone: true,
-  imports: [RouterLink, TranslateModule, GsapAnimateDirective, TranslateObjPipe, DatePipe],
+  imports: [RouterLink, TranslateModule, StaggerRevealDirective, TranslateObjPipe, DatePipe],
   template: `
     <section id="courses" class="py-24">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <!-- Section Header -->
-        <div appGsapAnimate class="mb-16 text-center">
+        <div appStaggerReveal class="mb-16 text-center">
           <h2 class="mb-4 text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">
             {{ 'COURSES.TITLE' | translate }}
           </h2>
@@ -30,13 +30,10 @@ import { DatePipe } from '@angular/common';
         </div>
 
         <!-- Courses List -->
-        <div class="mx-auto max-w-4xl space-y-6">
+        <div appStaggerReveal animationType="fade-left" class="mx-auto max-w-4xl space-y-6">
           @for (course of courses(); track course.id) {
             <div
-              appGsapAnimate
-              class="group rounded-2xl border border-slate-200 bg-white p-6 transition-all
-                     duration-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900
-                     dark:hover:border-slate-700"
+              class="glass-card group rounded-2xl p-6 transition-all duration-300 hover:shadow-lg"
             >
               <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div class="flex-1">

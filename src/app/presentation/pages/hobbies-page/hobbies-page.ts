@@ -1,7 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { GsapAnimateDirective } from '../../shared/directives/gsap-animate.directive';
+import { StaggerRevealDirective } from '../../shared/directives/stagger-reveal.directive';
+import { TiltDirective } from '../../shared/directives/tilt.directive';
 import { TranslateObjPipe } from '../../shared/pipes/translate-obj.pipe';
 import { HobbyRepository } from '../../../domain/repositories';
 import { Hobby } from '../../../domain/models';
@@ -10,7 +11,7 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
 @Component({
   selector: 'app-hobbies-page',
   standalone: true,
-  imports: [RouterLink, TranslateModule, GsapAnimateDirective, TranslateObjPipe, LucideAngularModule],
+  imports: [RouterLink, TranslateModule, StaggerRevealDirective, TiltDirective, TranslateObjPipe, LucideAngularModule],
   template: `
     <div class="min-h-screen pt-24 pb-16">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -25,7 +26,7 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
         </a>
 
         <!-- Header -->
-        <div appGsapAnimate class="mb-16 text-center">
+        <div appStaggerReveal class="mb-16 text-center">
           <h1 class="mb-4 text-4xl font-bold text-slate-900 dark:text-white sm:text-5xl">
             {{ 'HOBBIES_PAGE.TITLE' | translate }}
           </h1>
@@ -39,14 +40,12 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
             <div class="h-8 w-8 animate-spin rounded-full border-2 border-violet-600 border-t-transparent"></div>
           </div>
         } @else if (hobbies().length > 0) {
-          <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div appStaggerReveal staggerFrom="edges" class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             @for (hobby of hobbies(); track hobby.id; let i = $index) {
               <div
-                appGsapAnimate
-                [gsapDelay]="i * 0.08"
-                class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white
-                       p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl
-                       dark:border-slate-800 dark:bg-slate-900 dark:hover:border-violet-800/50"
+                appTilt
+                class="glass-card group relative overflow-hidden rounded-3xl
+                       p-8 transition-all duration-500 hover:shadow-2xl"
               >
                 <!-- Gradient top accent -->
                 <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-500 via-purple-500 to-pink-500

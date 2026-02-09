@@ -3,7 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule, Loader } from 'lucide-angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { GsapAnimateDirective } from '../../../../shared/directives/gsap-animate.directive';
+import { StaggerRevealDirective } from '../../../../shared/directives/stagger-reveal.directive';
 import { MessageRepository } from '../../../../../domain/repositories';
 
 type FormState = 'idle' | 'sending' | 'success' | 'error';
@@ -14,12 +14,12 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
 @Component({
   selector: 'app-contact-section',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, TranslateModule, GsapAnimateDirective, LucideAngularModule],
+  imports: [ReactiveFormsModule, RouterLink, TranslateModule, StaggerRevealDirective, LucideAngularModule],
   template: `
     <section id="contact" class="py-24">
       <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <!-- Section Header -->
-        <div appGsapAnimate class="mb-12 text-center">
+        <div appStaggerReveal class="mb-12 text-center">
           <h2 class="mb-4 text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">
             {{ 'CONTACT.TITLE' | translate }}
           </h2>
@@ -35,11 +35,10 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
 
         <!-- Form -->
         <form
-          appGsapAnimate
+          appStaggerReveal
           [formGroup]="form"
           (ngSubmit)="onSubmit()"
-          class="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm
-                 dark:border-slate-700 dark:bg-slate-800/50 sm:p-8"
+          class="glass-card space-y-6 rounded-2xl p-6 shadow-sm sm:p-8"
         >
           <!-- Name -->
           <div>
@@ -51,10 +50,10 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
               formControlName="fullName"
               type="text"
               [placeholder]="'CONTACT.NAME_PLACEHOLDER' | translate"
-              class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm
-                     text-slate-900 outline-none transition-colors
+              class="input-glow w-full rounded-xl border border-slate-300/60 bg-white/60 px-4 py-3 text-sm
+                     text-slate-900 outline-none backdrop-blur-sm transition-all
                      focus:border-primary focus:ring-2 focus:ring-primary/20
-                     dark:border-slate-600 dark:bg-slate-900 dark:text-white
+                     dark:border-slate-600/60 dark:bg-slate-900/60 dark:text-white
                      dark:focus:border-primary"
             />
             @if (form.controls.fullName.touched && form.controls.fullName.errors) {
@@ -74,10 +73,10 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
               formControlName="email"
               type="email"
               [placeholder]="'CONTACT.EMAIL_PLACEHOLDER' | translate"
-              class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm
-                     text-slate-900 outline-none transition-colors
+              class="input-glow w-full rounded-xl border border-slate-300/60 bg-white/60 px-4 py-3 text-sm
+                     text-slate-900 outline-none backdrop-blur-sm transition-all
                      focus:border-primary focus:ring-2 focus:ring-primary/20
-                     dark:border-slate-600 dark:bg-slate-900 dark:text-white
+                     dark:border-slate-600/60 dark:bg-slate-900/60 dark:text-white
                      dark:focus:border-primary"
             />
             @if (form.controls.email.touched && form.controls.email.errors?.['required']) {
@@ -102,10 +101,10 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
               formControlName="content"
               rows="5"
               [placeholder]="'CONTACT.MESSAGE_PLACEHOLDER' | translate"
-              class="w-full resize-none rounded-xl border border-slate-300 bg-white px-4 py-3
-                     text-sm text-slate-900 outline-none transition-colors
+              class="input-glow w-full resize-none rounded-xl border border-slate-300/60 bg-white/60 px-4 py-3
+                     text-sm text-slate-900 outline-none backdrop-blur-sm transition-all
                      focus:border-primary focus:ring-2 focus:ring-primary/20
-                     dark:border-slate-600 dark:bg-slate-900 dark:text-white
+                     dark:border-slate-600/60 dark:bg-slate-900/60 dark:text-white
                      dark:focus:border-primary"
             ></textarea>
             @if (form.controls.content.touched && form.controls.content.errors) {

@@ -1,7 +1,7 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { GsapAnimateDirective } from '../../shared/directives/gsap-animate.directive';
+import { StaggerRevealDirective } from '../../shared/directives/stagger-reveal.directive';
 import { SkillRepository } from '../../../domain/repositories';
 import { Skill } from '../../../domain/models';
 import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
@@ -9,7 +9,7 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
 @Component({
   selector: 'app-technologies-page',
   standalone: true,
-  imports: [RouterLink, TranslateModule, GsapAnimateDirective, LucideAngularModule],
+  imports: [RouterLink, TranslateModule, StaggerRevealDirective, LucideAngularModule],
   template: `
     <div class="min-h-screen pt-24 pb-16">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -24,7 +24,7 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
         </a>
 
         <!-- Header -->
-        <div appGsapAnimate class="mb-16 text-center">
+        <div appStaggerReveal class="mb-16 text-center">
           <h1 class="mb-4 text-4xl font-bold text-slate-900 dark:text-white sm:text-5xl">
             {{ 'TECHNOLOGIES.TITLE' | translate }}
           </h1>
@@ -40,7 +40,7 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
         } @else {
           <!-- Frontend -->
           @if (frontendSkills().length > 0) {
-            <div appGsapAnimate class="mb-16">
+            <div appStaggerReveal class="mb-16">
               <h2 class="mb-6 flex items-center gap-3 text-xl font-bold text-slate-900 dark:text-white">
                 <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100 text-sm dark:bg-blue-900/30">
                   🎨
@@ -54,9 +54,8 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
                 @for (skill of frontendSkills(); track skill.id) {
                   <a
                     [routerLink]="skill.slug ? ['/skill', skill.slug] : null"
-                    class="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white
-                           p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg
-                           dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700"
+                    class="glass-card group flex items-center gap-4 rounded-2xl
+                           p-4 transition-all duration-300 hover:shadow-lg"
                     [class.cursor-pointer]="skill.slug"
                   >
                     @if (skill.iconUrl) {
@@ -83,7 +82,7 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
 
           <!-- Backend -->
           @if (backendSkills().length > 0) {
-            <div appGsapAnimate class="mb-16">
+            <div appStaggerReveal class="mb-16">
               <h2 class="mb-6 flex items-center gap-3 text-xl font-bold text-slate-900 dark:text-white">
                 <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-green-100 text-sm dark:bg-green-900/30">
                   ⚙️
@@ -97,9 +96,8 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
                 @for (skill of backendSkills(); track skill.id) {
                   <a
                     [routerLink]="skill.slug ? ['/skill', skill.slug] : null"
-                    class="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white
-                           p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg
-                           dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700"
+                    class="glass-card group flex items-center gap-4 rounded-2xl
+                           p-4 transition-all duration-300 hover:shadow-lg"
                     [class.cursor-pointer]="skill.slug"
                   >
                     @if (skill.iconUrl) {
@@ -126,7 +124,7 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
 
           <!-- Tools -->
           @if (toolSkills().length > 0) {
-            <div appGsapAnimate class="mb-16">
+            <div appStaggerReveal class="mb-16">
               <h2 class="mb-6 flex items-center gap-3 text-xl font-bold text-slate-900 dark:text-white">
                 <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-100 text-sm dark:bg-amber-900/30">
                   🛠️
@@ -140,9 +138,8 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
                 @for (skill of toolSkills(); track skill.id) {
                   <a
                     [routerLink]="skill.slug ? ['/skill', skill.slug] : null"
-                    class="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white
-                           p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg
-                           dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700"
+                    class="glass-card group flex items-center gap-4 rounded-2xl
+                           p-4 transition-all duration-300 hover:shadow-lg"
                     [class.cursor-pointer]="skill.slug"
                   >
                     @if (skill.iconUrl) {
@@ -169,7 +166,7 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
 
           <!-- Other -->
           @if (otherSkills().length > 0) {
-            <div appGsapAnimate class="mb-16">
+            <div appStaggerReveal class="mb-16">
               <h2 class="mb-6 flex items-center gap-3 text-xl font-bold text-slate-900 dark:text-white">
                 <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-100 text-sm dark:bg-purple-900/30">
                   💡
@@ -183,9 +180,8 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
                 @for (skill of otherSkills(); track skill.id) {
                   <a
                     [routerLink]="skill.slug ? ['/skill', skill.slug] : null"
-                    class="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white
-                           p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg
-                           dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700"
+                    class="glass-card group flex items-center gap-4 rounded-2xl
+                           p-4 transition-all duration-300 hover:shadow-lg"
                     [class.cursor-pointer]="skill.slug"
                   >
                     @if (skill.iconUrl) {

@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { GsapAnimateDirective } from '../../shared/directives/gsap-animate.directive';
+import { StaggerRevealDirective } from '../../shared/directives/stagger-reveal.directive';
 import { TranslateObjPipe } from '../../shared/pipes/translate-obj.pipe';
 import { CourseRepository } from '../../../domain/repositories';
 import { Course } from '../../../domain/models';
@@ -11,7 +11,7 @@ import { LucideAngularModule, ArrowLeft, ExternalLink, GraduationCap } from 'luc
 @Component({
   selector: 'app-courses-page',
   standalone: true,
-  imports: [RouterLink, DatePipe, TranslateModule, GsapAnimateDirective, TranslateObjPipe, LucideAngularModule],
+  imports: [RouterLink, DatePipe, TranslateModule, StaggerRevealDirective, TranslateObjPipe, LucideAngularModule],
   template: `
     <div class="min-h-screen pt-24 pb-16">
       <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
@@ -26,7 +26,7 @@ import { LucideAngularModule, ArrowLeft, ExternalLink, GraduationCap } from 'luc
         </a>
 
         <!-- Header -->
-        <div appGsapAnimate class="mb-16 text-center">
+        <div appStaggerReveal class="mb-16 text-center">
           <h1 class="mb-4 text-4xl font-bold text-slate-900 dark:text-white sm:text-5xl">
             {{ 'COURSES_PAGE.TITLE' | translate }}
           </h1>
@@ -48,8 +48,7 @@ import { LucideAngularModule, ArrowLeft, ExternalLink, GraduationCap } from 'luc
             <div class="space-y-8">
               @for (course of courses(); track course.id; let i = $index) {
                 <div
-                  appGsapAnimate
-                  [gsapDelay]="i * 0.1"
+                  appStaggerReveal
                   class="group relative sm:pl-20"
                 >
                   <!-- Timeline dot -->
@@ -58,9 +57,8 @@ import { LucideAngularModule, ArrowLeft, ExternalLink, GraduationCap } from 'luc
                                 duration-300 group-hover:h-4 group-hover:w-4 dark:ring-violet-900/50"></div>
                   </div>
 
-                  <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white
-                              transition-all duration-300 hover:-translate-y-1 hover:shadow-xl
-                              dark:border-slate-800 dark:bg-slate-900 dark:hover:border-violet-800/40">
+                  <div class="glass-card overflow-hidden rounded-2xl
+                              transition-all duration-300 hover:shadow-xl">
                     <div class="p-6 sm:p-8">
                       <!-- Date badge -->
                       @if (course.completionDate) {

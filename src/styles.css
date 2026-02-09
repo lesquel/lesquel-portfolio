@@ -93,6 +93,83 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* Glassmorphism card variant — more prominent for content cards */
+.glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+}
+
+.dark .glass-card {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Glassmorphism hero — larger blur, more transparent */
+.glass-hero {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
+}
+
+.dark .glass-hero {
+  background: rgba(15, 23, 42, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+}
+
+/* Glassmorphism subtle — minimal, for section wrappers */
+.glass-subtle {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.dark .glass-subtle {
+  background: rgba(15, 23, 42, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* ── Glow Border Effect ────────────────────────────────────────────────── */
+.glow-border {
+  position: relative;
+}
+
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent), var(--color-primary));
+  background-size: 200% 200%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  animation: gradient-shift 4s ease infinite;
+}
+
+.glow-border:hover::before {
+  opacity: 1;
+}
+
+/* ── Focus glow for inputs ─────────────────────────────────────────────── */
+.input-glow:focus {
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15), 0 0 20px rgba(99, 102, 241, 0.1);
+}
+
+.dark .input-glow:focus {
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2), 0 0 20px rgba(129, 140, 248, 0.08);
+}
+
 /* ── Animated Gradient Background (Hero) ───────────────────────────────── */
 @keyframes gradient-shift {
   0%,
@@ -136,4 +213,48 @@ body {
   background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
   z-index: 9999;
   transform-origin: left;
+}
+
+/* ── View Transitions API ──────────────────────────────────────────────── */
+::view-transition-old(root) {
+  animation: vt-fade-out 250ms ease-in forwards;
+}
+
+::view-transition-new(root) {
+  animation: vt-fade-in 300ms ease-out 50ms both;
+}
+
+@keyframes vt-fade-out {
+  to { opacity: 0; transform: translateY(-8px); }
+}
+
+@keyframes vt-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Persist parallax bg and navbar across page transitions */
+::view-transition-old(parallax-bg),
+::view-transition-new(parallax-bg) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(main-nav),
+::view-transition-new(main-nav) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* ── Reduced Motion ────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
 }
