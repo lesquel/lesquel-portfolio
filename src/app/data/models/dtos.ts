@@ -83,3 +83,25 @@ export interface CourseDto {
   display_order: number;
   created_at: string;
 }
+
+/**
+ * DTO for `profile` table (singleton).
+ */
+export interface ProfileDto {
+  id: string;
+  user_id: string | null;
+  username: string;
+  full_name: string;
+  email: string;
+  headline: LocalizedString;
+  bio: LocalizedString;
+  avatar_url: string | null;
+  cv_url: string | null;
+  cv_url_en: string | null;
+  social_github: string | null;
+  social_linkedin: string | null;
+  social_twitter: string | null;
+  social_website: string | null;
+  updated_at: string;
+  created_at: string;
+}

@@ -1,5 +1,5 @@
-import { Project, Skill, Hobby, Course } from '../../domain/models';
-import { ProjectDto, HobbyDto, CourseDto } from '../models/dtos';
+import { Project, Skill, Hobby, Course, Profile } from '../../domain/models';
+import { ProjectDto, HobbyDto, CourseDto, ProfileDto } from '../models/dtos';
 
 /**
  * Maps Supabase ProjectDto → Domain Project entity.
@@ -86,5 +86,48 @@ export class CourseMapper {
       completionDate: dto.completion_date ? new Date(dto.completion_date) : null,
       displayOrder: dto.display_order,
     };
+  }
+}
+
+/**
+ * Maps Supabase ProfileDto → Domain Profile entity.
+ */
+export class ProfileMapper {
+  static toDomain(dto: ProfileDto): Profile {
+    return {
+      id: dto.id,
+      userId: dto.user_id,
+      username: dto.username ?? '',
+      fullName: dto.full_name,
+      email: dto.email ?? '',
+      headline: dto.headline ?? { es: '', en: '' },
+      bio: dto.bio ?? { es: '', en: '' },
+      avatarUrl: dto.avatar_url,
+      cvUrl: dto.cv_url,
+      cvUrlEn: dto.cv_url_en,
+      socialGithub: dto.social_github,
+      socialLinkedin: dto.social_linkedin,
+      socialTwitter: dto.social_twitter,
+      socialWebsite: dto.social_website,
+      updatedAt: new Date(dto.updated_at),
+      createdAt: new Date(dto.created_at),
+    };
+  }
+
+  static toDto(profile: Partial<Profile>): Partial<ProfileDto> {
+    const dto: Partial<ProfileDto> = {};
+    if (profile.username !== undefined) dto.username = profile.username;
+    if (profile.fullName !== undefined) dto.full_name = profile.fullName;
+    if (profile.email !== undefined) dto.email = profile.email;
+    if (profile.headline !== undefined) dto.headline = profile.headline;
+    if (profile.bio !== undefined) dto.bio = profile.bio;
+    if (profile.avatarUrl !== undefined) dto.avatar_url = profile.avatarUrl;
+    if (profile.cvUrl !== undefined) dto.cv_url = profile.cvUrl;
+    if (profile.cvUrlEn !== undefined) dto.cv_url_en = profile.cvUrlEn;
+    if (profile.socialGithub !== undefined) dto.social_github = profile.socialGithub;
+    if (profile.socialLinkedin !== undefined) dto.social_linkedin = profile.socialLinkedin;
+    if (profile.socialTwitter !== undefined) dto.social_twitter = profile.socialTwitter;
+    if (profile.socialWebsite !== undefined) dto.social_website = profile.socialWebsite;
+    return dto;
   }
 }

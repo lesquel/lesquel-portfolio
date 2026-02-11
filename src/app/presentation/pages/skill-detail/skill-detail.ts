@@ -141,7 +141,16 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
                           </span>
                         }
                       </div>
-                      <div class="mt-4 flex gap-3">
+                      <div class="mt-4 flex flex-wrap gap-3">
+                        @if (project.slug) {
+                          <a
+                            [routerLink]="['/project', project.slug]"
+                            class="text-sm font-medium text-violet-600 hover:text-violet-700
+                                   dark:text-violet-400 dark:hover:text-violet-300"
+                          >
+                            {{ 'SKILL_DETAIL.VIEW_PROJECT' | translate }} →
+                          </a>
+                        }
                         @if (project.demoUrl) {
                           <a
                             [href]="project.demoUrl"

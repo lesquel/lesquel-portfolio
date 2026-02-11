@@ -1,27 +1,12 @@
-import { Component, inject, signal, OnDestroy, afterNextRender, PLATFORM_ID, ElementRef, viewChild } from '@angular/core';
+import { Component, inject, OnDestroy, afterNextRender, PLATFORM_ID, ElementRef, viewChild, computed, effect } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, Github, Linkedin, Twitter, Globe, ArrowLeft, FileDown } from 'lucide-angular';
 import { TranslateObjPipe } from '../../shared/pipes/translate-obj.pipe';
 import { StaggerRevealDirective } from '../../shared/directives/stagger-reveal.directive';
-import { SupabaseService } from '../../../core/supabase/supabase.service';
-import { LanguageService } from '../../../core/i18n/language.service';
+import { ProfileService } from '../../../core/profile/profile.service';
 import { SeoService } from '../../../core/seo/seo.service';
-import { LocalizedString } from '../../../domain/models';
-
-interface ProfileData {
-  full_name: string;
-  headline: LocalizedString;
-  bio: LocalizedString;
-  avatar_url: string | null;
-  cv_url: string | null;
-  cv_url_en: string | null;
-  social_github: string | null;
-  social_linkedin: string | null;
-  social_twitter: string | null;
-  social_website: string | null;
-}
 
 @Component({
   selector: 'app-profile-page',
@@ -38,7 +23,7 @@ interface ProfileData {
           {{ 'PROFILE.BACK' | translate }}
         </a>
 
-        @if (loading()) {
+        @if (profileService.loading()) {
           <!-- Skeleton -->
           <div class="space-y-8">
             <div class="glass-hero rounded-3xl p-8 sm:p-12">
@@ -72,15 +57,15 @@ interface ProfileData {
               </div>
             </div>
           </div>
-        } @else if (profile(); as p) {
+        } @else if (profileService.profile(); as p) {
           <div appStaggerReveal class="space-y-8">
             <!-- Hero Card -->
             <div #profileCard class="glass-hero overflow-hidden rounded-3xl p-8 sm:p-12">
               <div class="flex flex-col items-center gap-8 sm:flex-row sm:items-start">
                 <!-- Avatar -->
-                @if (p.avatar_url) {
+                @if (p.avatarUrl) {
                   <div class="relative flex-shrink-0">
-                    <img [src]="p.avatar_url" [alt]="p.full_name"
+                    <img [src]="p.avatarUrl" [alt]="p.fullName"
                          class="h-32 w-32 rounded-3xl border-2 border-white/20 object-cover shadow-xl
                                 sm:h-40 sm:w-40" />
                     <div class="absolute -inset-1 -z-10 rounded-3xl bg-gradient-to-br from-violet-500/30
@@ -90,14 +75,14 @@ interface ProfileData {
                   <div class="flex h-32 w-32 items-center justify-center rounded-3xl
                               bg-gradient-to-br from-violet-500 to-indigo-600 text-5xl
                               font-bold text-white shadow-xl sm:h-40 sm:w-40">
-                    {{ p.full_name.charAt(0) }}
+                    {{ p.fullName.charAt(0) }}
                   </div>
                 }
 
                 <!-- Info -->
                 <div class="flex-1 text-center sm:text-left">
                   <h1 class="mb-2 text-4xl font-black tracking-tight text-slate-900 dark:text-white sm:text-5xl">
-                    {{ p.full_name }}
+                    {{ p.fullName }}
                   </h1>
                   <p class="mb-4 bg-gradient-to-r from-violet-500 to-indigo-500 bg-clip-text text-xl
                             font-semibold text-transparent">
@@ -106,29 +91,29 @@ interface ProfileData {
 
                   <!-- Social Links -->
                   <div class="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
-                    @if (p.social_github) {
-                      <a [href]="p.social_github" target="_blank" rel="noopener noreferrer"
+                    @if (p.socialGithub) {
+                      <a [href]="p.socialGithub" target="_blank" rel="noopener noreferrer"
                          class="glass-subtle flex h-10 w-10 items-center justify-center rounded-xl
                                 transition-all hover:scale-110 hover:shadow-lg">
                         <lucide-icon [img]="githubIcon" class="h-5 w-5 text-slate-700 dark:text-slate-300"></lucide-icon>
                       </a>
                     }
-                    @if (p.social_linkedin) {
-                      <a [href]="p.social_linkedin" target="_blank" rel="noopener noreferrer"
+                    @if (p.socialLinkedin) {
+                      <a [href]="p.socialLinkedin" target="_blank" rel="noopener noreferrer"
                          class="glass-subtle flex h-10 w-10 items-center justify-center rounded-xl
                                 transition-all hover:scale-110 hover:shadow-lg">
                         <lucide-icon [img]="linkedinIcon" class="h-5 w-5 text-blue-600 dark:text-blue-400"></lucide-icon>
                       </a>
                     }
-                    @if (p.social_twitter) {
-                      <a [href]="p.social_twitter" target="_blank" rel="noopener noreferrer"
+                    @if (p.socialTwitter) {
+                      <a [href]="p.socialTwitter" target="_blank" rel="noopener noreferrer"
                          class="glass-subtle flex h-10 w-10 items-center justify-center rounded-xl
                                 transition-all hover:scale-110 hover:shadow-lg">
                         <lucide-icon [img]="twitterIcon" class="h-5 w-5 text-sky-500 dark:text-sky-400"></lucide-icon>
                       </a>
                     }
-                    @if (p.social_website) {
-                      <a [href]="p.social_website" target="_blank" rel="noopener noreferrer"
+                    @if (p.socialWebsite) {
+                      <a [href]="p.socialWebsite" target="_blank" rel="noopener noreferrer"
                          class="glass-subtle flex h-10 w-10 items-center justify-center rounded-xl
                                 transition-all hover:scale-110 hover:shadow-lg">
                         <lucide-icon [img]="globeIcon" class="h-5 w-5 text-emerald-600 dark:text-emerald-400"></lucide-icon>
@@ -152,14 +137,14 @@ interface ProfileData {
             }
 
             <!-- CV Downloads -->
-            @if (p.cv_url || p.cv_url_en) {
+            @if (p.cvUrl || p.cvUrlEn) {
               <div class="glass-card rounded-2xl p-8">
                 <h2 class="mb-6 text-sm font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400">
                   {{ 'PROFILE.DOWNLOAD_CV' | translate }}
                 </h2>
                 <div class="flex flex-wrap gap-4">
-                  @if (p.cv_url) {
-                    <a [href]="p.cv_url" target="_blank" rel="noopener noreferrer"
+                  @if (p.cvUrl) {
+                    <a [href]="p.cvUrl" target="_blank" rel="noopener noreferrer"
                        class="glow-border inline-flex items-center gap-2 rounded-xl bg-violet-600 px-6 py-3
                               text-sm font-semibold text-white shadow-lg shadow-violet-500/25
                               transition-all hover:-translate-y-0.5 hover:bg-violet-500">
@@ -167,8 +152,8 @@ interface ProfileData {
                       {{ 'PROFILE.CV_ES' | translate }}
                     </a>
                   }
-                  @if (p.cv_url_en) {
-                    <a [href]="p.cv_url_en" target="_blank" rel="noopener noreferrer"
+                  @if (p.cvUrlEn) {
+                    <a [href]="p.cvUrlEn" target="_blank" rel="noopener noreferrer"
                        class="inline-flex items-center gap-2 rounded-xl border border-slate-300/60
                               bg-white/60 px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm
                               backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:shadow-md
@@ -197,7 +182,7 @@ interface ProfileData {
   `,
 })
 export class ProfilePage implements OnDestroy {
-  private readonly supabase = inject(SupabaseService);
+  readonly profileService = inject(ProfileService);
   private readonly seo = inject(SeoService);
   private readonly platformId = inject(PLATFORM_ID);
 
@@ -208,32 +193,18 @@ export class ProfilePage implements OnDestroy {
   protected readonly globeIcon = Globe;
   protected readonly fileDownIcon = FileDown;
 
-  protected readonly loading = signal(true);
-  protected readonly profile = signal<ProfileData | null>(null);
-
   private readonly profileCard = viewChild<ElementRef>('profileCard');
   private gsapCtx: any;
 
   constructor() {
     this.seo.update({ title: 'Profile' });
-    this.loadProfile();
-  }
 
-  private async loadProfile(): Promise<void> {
-    try {
-      const { data } = await this.supabase.client
-        .from('profile')
-        .select('full_name, headline, bio, avatar_url, cv_url, cv_url_en, social_github, social_linkedin, social_twitter, social_website')
-        .limit(1)
-        .single();
-
-      this.profile.set(data as ProfileData);
-    } catch {
-      this.profile.set(null);
-    } finally {
-      this.loading.set(false);
-      this.initAnimations();
-    }
+    // Initialize animation when profile loading completes
+    effect(() => {
+      if (!this.profileService.loading()) {
+        this.initAnimations();
+      }
+    });
   }
 
   private initAnimations(): void {

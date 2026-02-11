@@ -46,28 +46,56 @@ import { AdminService, type ProfileData } from '../../../../core/admin/admin.ser
 
               <!-- Name -->
               <div class="flex-1 space-y-4">
-                <div>
-                  <label class="mb-1.5 block text-xs font-medium text-slate-400">Nombre completo</label>
-                  <input
-                    type="text"
-                    [(ngModel)]="form.full_name"
-                    name="full_name"
-                    placeholder="Tu nombre completo"
-                    class="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
-                           placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
-                    required
-                  />
+                <div class="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label class="mb-1.5 block text-xs font-medium text-slate-400">Nombre de usuario (Hero)</label>
+                    <input
+                      type="text"
+                      [(ngModel)]="form.username"
+                      name="username"
+                      placeholder="Lesquel"
+                      class="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
+                             placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
+                    />
+                    <p class="mt-1 text-xs text-slate-500">Este nombre se muestra en el Hero y Footer</p>
+                  </div>
+                  <div>
+                    <label class="mb-1.5 block text-xs font-medium text-slate-400">Nombre completo</label>
+                    <input
+                      type="text"
+                      [(ngModel)]="form.full_name"
+                      name="full_name"
+                      placeholder="Tu nombre completo"
+                      class="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
+                             placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
+                      required
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label class="mb-1.5 block text-xs font-medium text-slate-400">Avatar URL (alternativa)</label>
-                  <input
-                    type="text"
-                    [(ngModel)]="form.avatar_url"
-                    name="avatar_url"
-                    placeholder="https://..."
-                    class="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
-                           placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
-                  />
+                <div class="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label class="mb-1.5 block text-xs font-medium text-slate-400">Email de contacto</label>
+                    <input
+                      type="email"
+                      [(ngModel)]="form.email"
+                      name="email"
+                      placeholder="tu@email.com"
+                      class="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
+                             placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
+                    />
+                    <p class="mt-1 text-xs text-slate-500">Se muestra en Footer y página de Contacto</p>
+                  </div>
+                  <div>
+                    <label class="mb-1.5 block text-xs font-medium text-slate-400">Avatar URL (alternativa)</label>
+                    <input
+                      type="text"
+                      [(ngModel)]="form.avatar_url"
+                      name="avatar_url"
+                      placeholder="https://..."
+                      class="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
+                             placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -302,7 +330,9 @@ export class AdminProfile implements OnInit {
       const profile = await this.admin.getProfile();
       if (profile) {
         this.form = {
+          username: profile.username ?? '',
           full_name: profile.full_name ?? '',
+          email: profile.email ?? '',
           headline_es: profile.headline?.['es'] ?? '',
           headline_en: profile.headline?.['en'] ?? '',
           bio_es: profile.bio?.['es'] ?? '',
@@ -340,7 +370,9 @@ export class AdminProfile implements OnInit {
     this.success.set(false);
 
     const data: ProfileData = {
+      username: this.form.username.trim(),
       full_name: this.form.full_name.trim(),
+      email: this.form.email.trim(),
       headline: { es: this.form.headline_es, en: this.form.headline_en },
       bio: { es: this.form.bio_es, en: this.form.bio_en },
       avatar_url: this.form.avatar_url || null,
@@ -365,7 +397,9 @@ export class AdminProfile implements OnInit {
 
   private emptyForm() {
     return {
+      username: '',
       full_name: '',
+      email: '',
       headline_es: '',
       headline_en: '',
       bio_es: '',

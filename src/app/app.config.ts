@@ -11,11 +11,13 @@ import { SkillRepository } from './domain/repositories/skill.repository';
 import { MessageRepository } from './domain/repositories/message.repository';
 import { HobbyRepository } from './domain/repositories/hobby.repository';
 import { CourseRepository } from './domain/repositories/course.repository';
+import { ProfileRepository } from './domain/repositories/profile.repository';
 import { SupabaseProjectRepository } from './data/repositories/supabase-project.repository';
 import { SupabaseSkillRepository } from './data/repositories/supabase-skill.repository';
 import { SupabaseMessageRepository } from './data/repositories/supabase-message.repository';
 import { SupabaseHobbyRepository } from './data/repositories/supabase-hobby.repository';
 import { SupabaseCourseRepository } from './data/repositories/supabase-course.repository';
+import { SupabaseProfileRepository } from './data/repositories/supabase-profile.repository';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,5 +36,6 @@ export const appConfig: ApplicationConfig = {
     { provide: MessageRepository, useClass: SupabaseMessageRepository },
     { provide: HobbyRepository, useClass: SupabaseHobbyRepository },
     { provide: CourseRepository, useClass: SupabaseCourseRepository },
+    { provide: ProfileRepository, useClass: SupabaseProfileRepository },
   ],
 };

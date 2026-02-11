@@ -101,19 +101,30 @@ import { LucideAngularModule, ArrowLeft, ExternalLink } from 'lucide-angular';
                   @if (project.technologies && project.technologies.length > 0) {
                     <div class="mb-4 flex flex-wrap gap-2">
                       @for (skill of project.technologies.slice(0, 3); track skill.id) {
-                        <a
-                          [routerLink]="skill.slug ? ['/skill', skill.slug] : null"
-                          [class.cursor-pointer]="skill.slug"
-                          class="inline-flex items-center gap-1 rounded-full bg-violet-50 px-3 py-1
-                                 text-xs font-medium text-violet-700 transition-colors
-                                 hover:bg-violet-100 dark:bg-violet-900/30 dark:text-violet-300
-                                 dark:hover:bg-violet-900/50"
-                        >
-                          @if (skill.iconUrl) {
-                            <img [src]="skill.iconUrl" [alt]="skill.name" class="h-3 w-3 rounded object-contain" />
-                          }
-                          {{ skill.name }}
-                        </a>
+                        @if (skill.slug) {
+                          <a
+                            [routerLink]="['/skill', skill.slug]"
+                            class="inline-flex items-center gap-1 rounded-full bg-violet-50 px-3 py-1
+                                   text-xs font-medium text-violet-700 transition-colors
+                                   hover:bg-violet-100 dark:bg-violet-900/30 dark:text-violet-300
+                                   dark:hover:bg-violet-900/50"
+                          >
+                            @if (skill.iconUrl) {
+                              <img [src]="skill.iconUrl" [alt]="skill.name" class="h-3 w-3 rounded object-contain" />
+                            }
+                            {{ skill.name }}
+                          </a>
+                        } @else {
+                          <span
+                            class="inline-flex items-center gap-1 rounded-full bg-violet-50 px-3 py-1
+                                   text-xs font-medium text-violet-700 dark:bg-violet-900/30 dark:text-violet-300"
+                          >
+                            @if (skill.iconUrl) {
+                              <img [src]="skill.iconUrl" [alt]="skill.name" class="h-3 w-3 rounded object-contain" />
+                            }
+                            {{ skill.name }}
+                          </span>
+                        }
                       }
                       @if (project.technologies.length > 3) {
                         <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1
@@ -126,14 +137,22 @@ import { LucideAngularModule, ArrowLeft, ExternalLink } from 'lucide-angular';
 
                   <!-- Links -->
                   <div class="flex gap-2">
-                    <a
-                      [routerLink]="project.slug ? ['/project', project.slug] : null"
-                      [class.cursor-pointer]="project.slug"
-                      class="flex-1 rounded-lg bg-violet-600 px-4 py-2.5 text-center text-sm font-medium
-                             text-white transition-colors hover:bg-violet-700 dark:hover:bg-violet-500"
-                    >
-                      {{ 'PROJECTS_PAGE.VIEW_DETAIL' | translate }}
-                    </a>
+                    @if (project.slug) {
+                      <a
+                        [routerLink]="['/project', project.slug]"
+                        class="flex-1 rounded-lg bg-violet-600 px-4 py-2.5 text-center text-sm font-medium
+                               text-white transition-colors hover:bg-violet-700 dark:hover:bg-violet-500"
+                      >
+                        {{ 'PROJECTS_PAGE.VIEW_DETAIL' | translate }}
+                      </a>
+                    } @else {
+                      <span
+                        class="flex-1 rounded-lg bg-slate-300 px-4 py-2.5 text-center text-sm font-medium
+                               text-slate-500 cursor-not-allowed dark:bg-slate-700 dark:text-slate-400"
+                      >
+                        {{ 'PROJECTS_PAGE.VIEW_DETAIL' | translate }}
+                      </span>
+                    }
                     @if (project.demoUrl) {
                       <a
                         [href]="project.demoUrl"

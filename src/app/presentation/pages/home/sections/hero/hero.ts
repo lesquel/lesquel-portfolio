@@ -1,10 +1,13 @@
 import { Component, afterNextRender, inject, PLATFORM_ID, ElementRef, viewChild, OnDestroy } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { ProfileService } from '../../../../../core/profile/profile.service';
 
 /**
  * Hero section — immersive glassmorphism hero with character-split name animation.
  * Background layers are now handled by the global ParallaxBackground component.
+ * 
+ * Name, role, and subtitle are dynamically loaded from the profile database.
  */
 @Component({
   selector: 'app-hero-section',
@@ -34,26 +37,26 @@ import { TranslateModule } from '@ngx-translate/core';
             </span>
           </div>
 
-          <!-- Name (character-split animation) -->
+          <!-- Name (character-split animation) - Dynamic from profile -->
           <h1 #heroName
             class="mb-6 text-5xl font-black tracking-tight text-slate-900 opacity-0
                    dark:text-white sm:text-7xl lg:text-8xl">
-            <span class="inline-block">{{ 'HERO.NAME' | translate }}</span>
+            <span class="inline-block">{{ profileService.username() || 'HERO.NAME' | translate }}</span>
           </h1>
 
-          <!-- Role with gradient text -->
+          <!-- Role with gradient text - Dynamic from profile -->
           <div class="mb-8 h-12 sm:h-14">
             <h2 #heroRole
               class="bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500 bg-clip-text
                      text-2xl font-bold text-transparent opacity-0 sm:text-3xl lg:text-4xl">
-              {{ 'HERO.ROLE' | translate }}
+              {{ profileService.headline() || ('HERO.ROLE' | translate) }}
             </h2>
           </div>
 
-          <!-- Subtitle -->
+          <!-- Subtitle - Dynamic from profile bio -->
           <p #subtitle
             class="mx-auto mb-10 max-w-2xl text-lg text-slate-500 opacity-0 dark:text-slate-400 sm:text-xl">
-            {{ 'HERO.SUBTITLE' | translate }}
+            {{ profileService.bio() || ('HERO.SUBTITLE' | translate) }}
           </p>
 
           <!-- CTAs -->
@@ -92,6 +95,7 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class HeroSection implements OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
+  readonly profileService = inject(ProfileService);
 
   // Content refs
   private readonly contentBlock = viewChild<ElementRef>('contentBlock');

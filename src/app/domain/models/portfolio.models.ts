@@ -60,3 +60,26 @@ export interface Course {
   completionDate: Date | null;
   displayOrder: number;
 }
+
+/**
+ * Profile entity - singleton containing personal/contact information.
+ * Used by Hero, Footer, Contact page, and Profile page.
+ */
+export interface Profile {
+  id: string;
+  userId: string | null;
+  username: string;           // Display name for Hero (e.g., "Lesquel")
+  fullName: string;           // Full legal name
+  email: string;              // Contact email
+  headline: LocalizedString;  // Role/title (e.g., "Full Stack Developer")
+  bio: LocalizedString;       // Biography/description
+  avatarUrl: string | null;
+  cvUrl: string | null;       // CV/Resume URL (Spanish)
+  cvUrlEn: string | null;     // CV/Resume URL (English)
+  socialGithub: string | null;
+  socialLinkedin: string | null;
+  socialTwitter: string | null;
+  socialWebsite: string | null;
+  updatedAt: Date;
+  createdAt: Date;
+}

@@ -13,13 +13,13 @@ import { TechBadge } from '../tech-badge/tech-badge';
       (keydown.enter)="cardClick.emit(project())"
       tabindex="0"
       role="button"
-      class="group cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white
+      class="group cursor-pointer overflow-hidden rounded-xl border border-slate-200 bg-white
              shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl
              dark:border-slate-700 dark:bg-slate-800/50"
     >
-      <!-- Cover Image -->
+      <!-- Cover Image (reduced height with aspect-[16/10]) -->
       @if (project().coverImage) {
-        <div class="relative aspect-video overflow-hidden">
+        <div class="relative aspect-[16/10] overflow-hidden">
           <img
             [src]="project().coverImage"
             [alt]="project().title | translateObj"
@@ -31,17 +31,17 @@ import { TechBadge } from '../tech-badge/tech-badge';
         </div>
       }
 
-      <!-- Content -->
-      <div class="p-5">
-        <h3 class="mb-2 text-lg font-bold text-slate-900 dark:text-white">
+      <!-- Content (reduced padding) -->
+      <div class="p-4">
+        <h3 class="mb-1.5 text-base font-bold text-slate-900 dark:text-white">
           {{ project().title | translateObj }}
         </h3>
-        <p class="mb-4 line-clamp-2 text-sm text-slate-600 dark:text-slate-400">
+        <p class="mb-3 line-clamp-2 text-sm text-slate-600 dark:text-slate-400">
           {{ project().description | translateObj }}
         </p>
 
-        <!-- Tech Badges -->
-        <div class="flex flex-wrap gap-1.5">
+        <!-- Tech Badges (reduced gap) -->
+        <div class="flex flex-wrap gap-1">
           @for (tech of project().technologies; track tech.id) {
             <app-tech-badge [name]="tech.name" [iconUrl]="tech.iconUrl" />
           }

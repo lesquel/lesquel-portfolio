@@ -2,9 +2,10 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule, ArrowLeft, Mail, Github, Linkedin, Twitter, ExternalLink, Loader } from 'lucide-angular';
+import { LucideAngularModule, ArrowLeft, Mail, Github, Linkedin, Twitter, ExternalLink, Loader, Globe } from 'lucide-angular';
 import { StaggerRevealDirective } from '../../shared/directives/stagger-reveal.directive';
 import { MessageRepository } from '../../../domain/repositories';
+import { ProfileService } from '../../../core/profile/profile.service';
 
 type FormState = 'idle' | 'sending' | 'success' | 'error';
 
@@ -150,24 +151,26 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
               </h2>
 
               <div class="space-y-4">
-                <!-- Email -->
-                <a
-                  href="mailto:lesquel1319@gmail.com"
-                  class="flex items-center gap-4 rounded-lg p-3 transition-colors
-                         hover:bg-slate-50 dark:hover:bg-slate-900"
-                >
-                  <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-red-100 dark:bg-red-900/30">
-                    <lucide-icon [img]="mailIcon" [size]="20" class="text-red-600 dark:text-red-400" />
-                  </div>
-                  <div class="flex-1">
-                    <p class="text-sm font-medium text-slate-900 dark:text-white">Email</p>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 truncate">lesquel1319@gmail.com</p>
-                  </div>
-                </a>
+                <!-- Email (dynamic from profile) -->
+                @if (profileService.email()) {
+                  <a
+                    [href]="'mailto:' + profileService.email()"
+                    class="flex items-center gap-4 rounded-lg p-3 transition-colors
+                           hover:bg-slate-50 dark:hover:bg-slate-900"
+                  >
+                    <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-red-100 dark:bg-red-900/30">
+                      <lucide-icon [img]="mailIcon" [size]="20" class="text-red-600 dark:text-red-400" />
+                    </div>
+                    <div class="flex-1">
+                      <p class="text-sm font-medium text-slate-900 dark:text-white">Email</p>
+                      <p class="text-xs text-slate-500 dark:text-slate-400 truncate">{{ profileService.email() }}</p>
+                    </div>
+                  </a>
+                }
               </div>
             </div>
 
-            <!-- Social Links -->
+            <!-- Social Links (dynamic from profile) -->
             <div class="glass-card rounded-2xl p-8">
               <h2 class="mb-6 text-lg font-bold text-slate-900 dark:text-white">
                 {{ 'CONTACT_PAGE.SOCIALS' | translate }}
@@ -175,43 +178,64 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
 
               <div class="space-y-3">
                 <!-- GitHub -->
-                <a
-                  href="https://github.com/lesquel"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="flex items-center gap-3 rounded-lg p-3 transition-colors
-                         hover:bg-slate-50 dark:hover:bg-slate-900"
-                >
-                  <lucide-icon [img]="githubIcon" [size]="20" class="text-slate-600 dark:text-slate-400" />
-                  <span class="text-sm font-medium text-slate-900 dark:text-white">GitHub</span>
-                  <lucide-icon [img]="externalLinkIcon" [size]="16" class="ml-auto text-slate-400" />
-                </a>
+                @if (profileService.socialGithub()) {
+                  <a
+                    [href]="profileService.socialGithub()"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex items-center gap-3 rounded-lg p-3 transition-colors
+                           hover:bg-slate-50 dark:hover:bg-slate-900"
+                  >
+                    <lucide-icon [img]="githubIcon" [size]="20" class="text-slate-600 dark:text-slate-400" />
+                    <span class="text-sm font-medium text-slate-900 dark:text-white">GitHub</span>
+                    <lucide-icon [img]="externalLinkIcon" [size]="16" class="ml-auto text-slate-400" />
+                  </a>
+                }
 
                 <!-- LinkedIn -->
-                <a
-                  href="https://linkedin.com/in/lesquel"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="flex items-center gap-3 rounded-lg p-3 transition-colors
-                         hover:bg-slate-50 dark:hover:bg-slate-900"
-                >
-                  <lucide-icon [img]="linkedinIcon" [size]="20" class="text-blue-600 dark:text-blue-400" />
-                  <span class="text-sm font-medium text-slate-900 dark:text-white">LinkedIn</span>
-                  <lucide-icon [img]="externalLinkIcon" [size]="16" class="ml-auto text-slate-400" />
-                </a>
+                @if (profileService.socialLinkedin()) {
+                  <a
+                    [href]="profileService.socialLinkedin()"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex items-center gap-3 rounded-lg p-3 transition-colors
+                           hover:bg-slate-50 dark:hover:bg-slate-900"
+                  >
+                    <lucide-icon [img]="linkedinIcon" [size]="20" class="text-blue-600 dark:text-blue-400" />
+                    <span class="text-sm font-medium text-slate-900 dark:text-white">LinkedIn</span>
+                    <lucide-icon [img]="externalLinkIcon" [size]="16" class="ml-auto text-slate-400" />
+                  </a>
+                }
 
                 <!-- Twitter -->
-                <a
-                  href="https://twitter.com/lesquel"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="flex items-center gap-3 rounded-lg p-3 transition-colors
-                         hover:bg-slate-50 dark:hover:bg-slate-900"
-                >
-                  <lucide-icon [img]="twitterIcon" [size]="20" class="text-sky-500 dark:text-sky-400" />
-                  <span class="text-sm font-medium text-slate-900 dark:text-white">Twitter</span>
-                  <lucide-icon [img]="externalLinkIcon" [size]="16" class="ml-auto text-slate-400" />
-                </a>
+                @if (profileService.socialTwitter()) {
+                  <a
+                    [href]="profileService.socialTwitter()"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex items-center gap-3 rounded-lg p-3 transition-colors
+                           hover:bg-slate-50 dark:hover:bg-slate-900"
+                  >
+                    <lucide-icon [img]="twitterIcon" [size]="20" class="text-sky-500 dark:text-sky-400" />
+                    <span class="text-sm font-medium text-slate-900 dark:text-white">Twitter</span>
+                    <lucide-icon [img]="externalLinkIcon" [size]="16" class="ml-auto text-slate-400" />
+                  </a>
+                }
+
+                <!-- Website -->
+                @if (profileService.socialWebsite()) {
+                  <a
+                    [href]="profileService.socialWebsite()"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex items-center gap-3 rounded-lg p-3 transition-colors
+                           hover:bg-slate-50 dark:hover:bg-slate-900"
+                  >
+                    <lucide-icon [img]="globeIcon" [size]="20" class="text-green-500 dark:text-green-400" />
+                    <span class="text-sm font-medium text-slate-900 dark:text-white">Website</span>
+                    <lucide-icon [img]="externalLinkIcon" [size]="16" class="ml-auto text-slate-400" />
+                  </a>
+                }
               </div>
             </div>
           </div>
@@ -223,6 +247,7 @@ type FormState = 'idle' | 'sending' | 'success' | 'error';
 export class ContactPage {
   private readonly fb = inject(FormBuilder);
   private readonly messageRepo = inject(MessageRepository);
+  readonly profileService = inject(ProfileService);
 
   protected readonly form = this.fb.group({
     fullName: ['', Validators.required],
@@ -239,6 +264,7 @@ export class ContactPage {
   protected readonly twitterIcon = Twitter;
   protected readonly externalLinkIcon = ExternalLink;
   protected readonly loaderIcon = Loader;
+  protected readonly globeIcon = Globe;
 
   async onSubmit() {
     if (this.form.invalid) return;

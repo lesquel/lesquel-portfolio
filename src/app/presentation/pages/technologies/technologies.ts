@@ -70,29 +70,45 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
               </h2>
               <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 @for (skill of frontendSkills(); track skill.id) {
-                  <a
-                    [routerLink]="skill.slug ? ['/skill', skill.slug] : null"
-                    class="glass-card group flex items-center gap-4 rounded-2xl
-                           p-4 transition-all duration-300 hover:shadow-lg"
-                    [class.cursor-pointer]="skill.slug"
-                  >
-                    @if (skill.iconUrl) {
-                      <img [src]="skill.iconUrl" [alt]="skill.name"
-                           class="h-10 w-10 rounded-lg object-contain transition-transform duration-300
-                                  group-hover:scale-110" />
-                    } @else {
-                      <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100
-                                  text-xs font-bold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
-                        {{ skill.name.substring(0, 2).toUpperCase() }}
-                      </div>
-                    }
-                    <div class="flex-1 min-w-0">
-                      <p class="font-semibold text-slate-900 dark:text-white truncate">{{ skill.name }}</p>
-                      @if (skill.slug) {
-                        <p class="text-xs text-violet-500 dark:text-violet-400">{{ 'TECHNOLOGIES.VIEW_DETAIL' | translate }} →</p>
+                  @if (skill.slug) {
+                    <a
+                      [routerLink]="['/skill', skill.slug]"
+                      class="glass-card group flex cursor-pointer items-center gap-4 rounded-2xl
+                             p-4 transition-all duration-300 hover:shadow-lg"
+                    >
+                      @if (skill.iconUrl) {
+                        <img [src]="skill.iconUrl" [alt]="skill.name"
+                             class="h-10 w-10 rounded-lg object-contain transition-transform duration-300
+                                    group-hover:scale-110" />
+                      } @else {
+                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100
+                                    text-xs font-bold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                          {{ skill.name.substring(0, 2).toUpperCase() }}
+                        </div>
                       }
+                      <div class="flex-1 min-w-0">
+                        <p class="font-semibold text-slate-900 dark:text-white truncate">{{ skill.name }}</p>
+                        <p class="text-xs text-violet-500 dark:text-violet-400">{{ 'TECHNOLOGIES.VIEW_DETAIL' | translate }} →</p>
+                      </div>
+                    </a>
+                  } @else {
+                    <div
+                      class="glass-card flex items-center gap-4 rounded-2xl p-4"
+                    >
+                      @if (skill.iconUrl) {
+                        <img [src]="skill.iconUrl" [alt]="skill.name"
+                             class="h-10 w-10 rounded-lg object-contain" />
+                      } @else {
+                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100
+                                    text-xs font-bold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                          {{ skill.name.substring(0, 2).toUpperCase() }}
+                        </div>
+                      }
+                      <div class="flex-1 min-w-0">
+                        <p class="font-semibold text-slate-900 dark:text-white truncate">{{ skill.name }}</p>
+                      </div>
                     </div>
-                  </a>
+                  }
                 }
               </div>
             </div>
@@ -112,29 +128,45 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
               </h2>
               <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 @for (skill of backendSkills(); track skill.id) {
-                  <a
-                    [routerLink]="skill.slug ? ['/skill', skill.slug] : null"
-                    class="glass-card group flex items-center gap-4 rounded-2xl
-                           p-4 transition-all duration-300 hover:shadow-lg"
-                    [class.cursor-pointer]="skill.slug"
-                  >
-                    @if (skill.iconUrl) {
-                      <img [src]="skill.iconUrl" [alt]="skill.name"
-                           class="h-10 w-10 rounded-lg object-contain transition-transform duration-300
-                                  group-hover:scale-110" />
-                    } @else {
-                      <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100
-                                  text-xs font-bold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
-                        {{ skill.name.substring(0, 2).toUpperCase() }}
-                      </div>
-                    }
-                    <div class="flex-1 min-w-0">
-                      <p class="font-semibold text-slate-900 dark:text-white truncate">{{ skill.name }}</p>
-                      @if (skill.slug) {
-                        <p class="text-xs text-violet-500 dark:text-violet-400">{{ 'TECHNOLOGIES.VIEW_DETAIL' | translate }} →</p>
+                  @if (skill.slug) {
+                    <a
+                      [routerLink]="['/skill', skill.slug]"
+                      class="glass-card group flex cursor-pointer items-center gap-4 rounded-2xl
+                             p-4 transition-all duration-300 hover:shadow-lg"
+                    >
+                      @if (skill.iconUrl) {
+                        <img [src]="skill.iconUrl" [alt]="skill.name"
+                             class="h-10 w-10 rounded-lg object-contain transition-transform duration-300
+                                    group-hover:scale-110" />
+                      } @else {
+                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100
+                                    text-xs font-bold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                          {{ skill.name.substring(0, 2).toUpperCase() }}
+                        </div>
                       }
+                      <div class="flex-1 min-w-0">
+                        <p class="font-semibold text-slate-900 dark:text-white truncate">{{ skill.name }}</p>
+                        <p class="text-xs text-violet-500 dark:text-violet-400">{{ 'TECHNOLOGIES.VIEW_DETAIL' | translate }} →</p>
+                      </div>
+                    </a>
+                  } @else {
+                    <div
+                      class="glass-card flex items-center gap-4 rounded-2xl p-4"
+                    >
+                      @if (skill.iconUrl) {
+                        <img [src]="skill.iconUrl" [alt]="skill.name"
+                             class="h-10 w-10 rounded-lg object-contain" />
+                      } @else {
+                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100
+                                    text-xs font-bold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                          {{ skill.name.substring(0, 2).toUpperCase() }}
+                        </div>
+                      }
+                      <div class="flex-1 min-w-0">
+                        <p class="font-semibold text-slate-900 dark:text-white truncate">{{ skill.name }}</p>
+                      </div>
                     </div>
-                  </a>
+                  }
                 }
               </div>
             </div>
@@ -154,29 +186,45 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
               </h2>
               <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 @for (skill of toolSkills(); track skill.id) {
-                  <a
-                    [routerLink]="skill.slug ? ['/skill', skill.slug] : null"
-                    class="glass-card group flex items-center gap-4 rounded-2xl
-                           p-4 transition-all duration-300 hover:shadow-lg"
-                    [class.cursor-pointer]="skill.slug"
-                  >
-                    @if (skill.iconUrl) {
-                      <img [src]="skill.iconUrl" [alt]="skill.name"
-                           class="h-10 w-10 rounded-lg object-contain transition-transform duration-300
-                                  group-hover:scale-110" />
-                    } @else {
-                      <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100
-                                  text-xs font-bold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
-                        {{ skill.name.substring(0, 2).toUpperCase() }}
-                      </div>
-                    }
-                    <div class="flex-1 min-w-0">
-                      <p class="font-semibold text-slate-900 dark:text-white truncate">{{ skill.name }}</p>
-                      @if (skill.slug) {
-                        <p class="text-xs text-violet-500 dark:text-violet-400">{{ 'TECHNOLOGIES.VIEW_DETAIL' | translate }} →</p>
+                  @if (skill.slug) {
+                    <a
+                      [routerLink]="['/skill', skill.slug]"
+                      class="glass-card group flex cursor-pointer items-center gap-4 rounded-2xl
+                             p-4 transition-all duration-300 hover:shadow-lg"
+                    >
+                      @if (skill.iconUrl) {
+                        <img [src]="skill.iconUrl" [alt]="skill.name"
+                             class="h-10 w-10 rounded-lg object-contain transition-transform duration-300
+                                    group-hover:scale-110" />
+                      } @else {
+                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100
+                                    text-xs font-bold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                          {{ skill.name.substring(0, 2).toUpperCase() }}
+                        </div>
                       }
+                      <div class="flex-1 min-w-0">
+                        <p class="font-semibold text-slate-900 dark:text-white truncate">{{ skill.name }}</p>
+                        <p class="text-xs text-violet-500 dark:text-violet-400">{{ 'TECHNOLOGIES.VIEW_DETAIL' | translate }} →</p>
+                      </div>
+                    </a>
+                  } @else {
+                    <div
+                      class="glass-card flex items-center gap-4 rounded-2xl p-4"
+                    >
+                      @if (skill.iconUrl) {
+                        <img [src]="skill.iconUrl" [alt]="skill.name"
+                             class="h-10 w-10 rounded-lg object-contain" />
+                      } @else {
+                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100
+                                    text-xs font-bold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                          {{ skill.name.substring(0, 2).toUpperCase() }}
+                        </div>
+                      }
+                      <div class="flex-1 min-w-0">
+                        <p class="font-semibold text-slate-900 dark:text-white truncate">{{ skill.name }}</p>
+                      </div>
                     </div>
-                  </a>
+                  }
                 }
               </div>
             </div>
@@ -196,29 +244,45 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
               </h2>
               <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 @for (skill of otherSkills(); track skill.id) {
-                  <a
-                    [routerLink]="skill.slug ? ['/skill', skill.slug] : null"
-                    class="glass-card group flex items-center gap-4 rounded-2xl
-                           p-4 transition-all duration-300 hover:shadow-lg"
-                    [class.cursor-pointer]="skill.slug"
-                  >
-                    @if (skill.iconUrl) {
-                      <img [src]="skill.iconUrl" [alt]="skill.name"
-                           class="h-10 w-10 rounded-lg object-contain transition-transform duration-300
-                                  group-hover:scale-110" />
-                    } @else {
-                      <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100
-                                  text-xs font-bold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
-                        {{ skill.name.substring(0, 2).toUpperCase() }}
-                      </div>
-                    }
-                    <div class="flex-1 min-w-0">
-                      <p class="font-semibold text-slate-900 dark:text-white truncate">{{ skill.name }}</p>
-                      @if (skill.slug) {
-                        <p class="text-xs text-violet-500 dark:text-violet-400">{{ 'TECHNOLOGIES.VIEW_DETAIL' | translate }} →</p>
+                  @if (skill.slug) {
+                    <a
+                      [routerLink]="['/skill', skill.slug]"
+                      class="glass-card group flex cursor-pointer items-center gap-4 rounded-2xl
+                             p-4 transition-all duration-300 hover:shadow-lg"
+                    >
+                      @if (skill.iconUrl) {
+                        <img [src]="skill.iconUrl" [alt]="skill.name"
+                             class="h-10 w-10 rounded-lg object-contain transition-transform duration-300
+                                    group-hover:scale-110" />
+                      } @else {
+                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100
+                                    text-xs font-bold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                          {{ skill.name.substring(0, 2).toUpperCase() }}
+                        </div>
                       }
+                      <div class="flex-1 min-w-0">
+                        <p class="font-semibold text-slate-900 dark:text-white truncate">{{ skill.name }}</p>
+                        <p class="text-xs text-violet-500 dark:text-violet-400">{{ 'TECHNOLOGIES.VIEW_DETAIL' | translate }} →</p>
+                      </div>
+                    </a>
+                  } @else {
+                    <div
+                      class="glass-card flex items-center gap-4 rounded-2xl p-4"
+                    >
+                      @if (skill.iconUrl) {
+                        <img [src]="skill.iconUrl" [alt]="skill.name"
+                             class="h-10 w-10 rounded-lg object-contain" />
+                      } @else {
+                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100
+                                    text-xs font-bold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                          {{ skill.name.substring(0, 2).toUpperCase() }}
+                        </div>
+                      }
+                      <div class="flex-1 min-w-0">
+                        <p class="font-semibold text-slate-900 dark:text-white truncate">{{ skill.name }}</p>
+                      </div>
                     </div>
-                  </a>
+                  }
                 }
               </div>
             </div>

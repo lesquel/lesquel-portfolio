@@ -53,7 +53,9 @@ export interface CourseFormData {
 }
 
 export interface ProfileData {
+  username: string;           // Display name for Hero section
   full_name: string;
+  email: string;              // Contact email
   headline: LocalizedString;
   bio: LocalizedString;
   avatar_url: string | null;

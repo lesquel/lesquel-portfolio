@@ -132,6 +132,14 @@ export class StackSection implements OnDestroy {
     afterNextRender(async () => {
       if (!isPlatformBrowser(this.platformId)) return;
 
+      // Wait for DOM to fully paint after @if condition change
+      // Using double requestAnimationFrame ensures the browser has painted
+      await new Promise<void>((resolve) => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => resolve());
+        });
+      });
+
       const { gsap } = await import('gsap');
       const { ScrollTrigger } = await import('gsap/ScrollTrigger');
       gsap.registerPlugin(ScrollTrigger);
@@ -148,8 +156,15 @@ export class StackSection implements OnDestroy {
         // Width of one set (first third of children)
         let oneSetWidth = 0;
         for (let i = 0; i < totalItems; i++) {
-          oneSetWidth += children[i]?.offsetWidth ?? 0;
+          const childWidth = children[i]?.offsetWidth ?? 0;
+          // If element hasn't rendered yet, use fallback width
+          oneSetWidth += childWidth > 0 ? childWidth : 100;
           oneSetWidth += 40; // gap-10 = 2.5rem = 40px
+        }
+
+        // Ensure minimum width to prevent stuck animation
+        if (oneSetWidth < 100) {
+          oneSetWidth = totalItems * 140; // fallback: 100px per item + 40px gap
         }
 
         // Infinite horizontal scroll
