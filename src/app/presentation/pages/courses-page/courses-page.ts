@@ -77,63 +77,106 @@ import { LucideAngularModule, ArrowLeft, ExternalLink, GraduationCap } from 'luc
                                 duration-300 group-hover:h-4 group-hover:w-4 dark:ring-violet-900/50"></div>
                   </div>
 
-                  <div class="glass-card overflow-hidden rounded-2xl
-                              transition-all duration-300 hover:shadow-xl">
-                    <div class="p-6 sm:p-8">
-                      <!-- Date badge -->
-                      @if (course.completionDate) {
-                        <span class="mb-3 inline-block rounded-full bg-violet-100 px-3 py-1 text-xs font-semibold
-                                     text-violet-700 dark:bg-violet-900/30 dark:text-violet-300">
-                          {{ course.completionDate | date: 'MMMM yyyy' }}
-                        </span>
-                      }
+                  @if (course.slug) {
+                    <a
+                      [routerLink]="['/course', course.slug]"
+                      class="glass-card block overflow-hidden rounded-2xl
+                             transition-all duration-300 hover:shadow-xl"
+                    >
+                      <div class="p-6 sm:p-8">
+                        <!-- Date badge -->
+                        @if (course.completionDate) {
+                          <span class="mb-3 inline-block rounded-full bg-violet-100 px-3 py-1 text-xs font-semibold
+                                       text-violet-700 dark:bg-violet-900/30 dark:text-violet-300">
+                            {{ course.completionDate | date: 'MMMM yyyy' }}
+                          </span>
+                        }
 
-                      <!-- Title & Institution -->
-                      <h2 class="text-xl font-bold text-slate-900 dark:text-white">
-                        {{ course.name | translateObj }}
-                      </h2>
-                      @if (course.institution) {
-                        <p class="mt-1 flex items-center gap-1.5 text-sm font-medium text-violet-600 dark:text-violet-400">
-                          <lucide-icon [img]="graduationCapIcon" [size]="14" />
-                          {{ course.institution | translateObj }}
-                        </p>
-                      }
+                        <!-- Title & Institution -->
+                        <h2 class="text-xl font-bold text-slate-900 dark:text-white">
+                          {{ course.name | translateObj }}
+                        </h2>
+                        @if (course.institution) {
+                          <p class="mt-1 flex items-center gap-1.5 text-sm font-medium text-violet-600 dark:text-violet-400">
+                            <lucide-icon [img]="graduationCapIcon" [size]="14" />
+                            {{ course.institution | translateObj }}
+                          </p>
+                        }
 
-                      <!-- Description -->
-                      @if (course.description) {
-                        <p class="mt-4 leading-relaxed text-slate-500 dark:text-slate-400">
-                          {{ course.description | translateObj }}
-                        </p>
-                      }
+                        <!-- Description -->
+                        @if (course.description) {
+                          <p class="mt-4 line-clamp-2 leading-relaxed text-slate-500 dark:text-slate-400">
+                            {{ course.description | translateObj }}
+                          </p>
+                        }
 
-                      <!-- Certificate link -->
-                      @if (course.certificateUrl) {
-                        <a
-                          [href]="course.certificateUrl"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="mt-5 inline-flex items-center gap-2 rounded-full bg-violet-600 px-5 py-2
-                                 text-sm font-semibold text-white transition-all hover:bg-violet-700
-                                 hover:shadow-lg hover:shadow-violet-600/25"
-                        >
-                          {{ 'COURSES_PAGE.VIEW_CERTIFICATE' | translate }}
-                          <lucide-icon [img]="externalLinkIcon" [size]="14" />
-                        </a>
-                      }
+                        <!-- Actions -->
+                        <div class="mt-5 flex flex-wrap items-center gap-3">
+                          @if (course.certificateUrl) {
+                            <span
+                              (click)="$event.stopPropagation(); openCertificate(course.certificateUrl!)"
+                              class="inline-flex cursor-pointer items-center gap-2 rounded-full bg-violet-600 px-5 py-2
+                                     text-sm font-semibold text-white transition-all hover:bg-violet-700
+                                     hover:shadow-lg hover:shadow-violet-600/25"
+                            >
+                              {{ 'COURSES_PAGE.VIEW_CERTIFICATE' | translate }}
+                              <lucide-icon [img]="externalLinkIcon" [size]="14" />
+                            </span>
+                          }
+                          <span class="inline-flex items-center gap-1 text-sm font-medium text-violet-600
+                                       dark:text-violet-400">
+                            {{ 'COURSES_PAGE.VIEW_DETAIL' | translate }} →
+                          </span>
+                        </div>
+                      </div>
+                    </a>
+                  } @else {
+                    <div class="glass-card overflow-hidden rounded-2xl
+                                transition-all duration-300 hover:shadow-xl">
+                      <div class="p-6 sm:p-8">
+                        <!-- Date badge -->
+                        @if (course.completionDate) {
+                          <span class="mb-3 inline-block rounded-full bg-violet-100 px-3 py-1 text-xs font-semibold
+                                       text-violet-700 dark:bg-violet-900/30 dark:text-violet-300">
+                            {{ course.completionDate | date: 'MMMM yyyy' }}
+                          </span>
+                        }
 
-                      <!-- Detail link -->
-                      @if (course.slug) {
-                        <a
-                          [routerLink]="['/course', course.slug]"
-                          class="mt-5 inline-flex items-center gap-1 text-sm font-medium text-violet-600
-                                 transition-colors hover:text-violet-700 dark:text-violet-400 dark:hover:text-violet-300"
-                          [class.ml-3]="course.certificateUrl"
-                        >
-                          {{ 'COURSES_PAGE.VIEW_DETAIL' | translate }} →
-                        </a>
-                      }
+                        <!-- Title & Institution -->
+                        <h2 class="text-xl font-bold text-slate-900 dark:text-white">
+                          {{ course.name | translateObj }}
+                        </h2>
+                        @if (course.institution) {
+                          <p class="mt-1 flex items-center gap-1.5 text-sm font-medium text-violet-600 dark:text-violet-400">
+                            <lucide-icon [img]="graduationCapIcon" [size]="14" />
+                            {{ course.institution | translateObj }}
+                          </p>
+                        }
+
+                        <!-- Description -->
+                        @if (course.description) {
+                          <p class="mt-4 leading-relaxed text-slate-500 dark:text-slate-400">
+                            {{ course.description | translateObj }}
+                          </p>
+                        }
+
+                        <!-- Certificate link only -->
+                        @if (course.certificateUrl) {
+                          <a
+                            [href]="course.certificateUrl"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="mt-5 inline-flex items-center gap-2 rounded-full bg-violet-600 px-5 py-2
+                                   text-sm font-semibold text-white transition-all hover:bg-violet-700
+                                   hover:shadow-lg hover:shadow-violet-600/25"
+                          >
+                            {{ 'COURSES_PAGE.VIEW_CERTIFICATE' | translate }}
+                            <lucide-icon [img]="externalLinkIcon" [size]="14" />
+                          </a>
+                        }
+                      </div>
                     </div>
-                  </div>
+                  }
                 </div>
               }
             </div>
@@ -171,5 +214,9 @@ export class CoursesPage {
     } finally {
       this.loading.set(false);
     }
+  }
+
+  openCertificate(url: string): void {
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
 }

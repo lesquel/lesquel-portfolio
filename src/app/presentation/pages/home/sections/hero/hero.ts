@@ -24,6 +24,25 @@ import { ProfileService } from '../../../../../core/profile/profile.service';
         <!-- Glass container -->
         <div class="glass-hero mx-auto max-w-3xl rounded-3xl px-8 py-12 sm:px-12 sm:py-16">
 
+          <!-- Avatar -->
+          @if (profileService.avatarUrl()) {
+            <div #avatar class="mb-6 flex justify-center opacity-0">
+              <div class="relative">
+                <img
+                  [src]="profileService.avatarUrl()"
+                  [alt]="profileService.username() || 'Avatar'"
+                  class="h-24 w-24 rounded-full border-4 border-white/80 object-cover shadow-xl
+                         ring-4 ring-indigo-500/20 dark:border-slate-800/80 dark:ring-violet-500/20
+                         sm:h-28 sm:w-28"
+                />
+                <div class="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center
+                            rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900">
+                  <span class="text-xs">✓</span>
+                </div>
+              </div>
+            </div>
+          }
+
           <!-- Badge -->
           <div #badge class="mb-6 inline-flex items-center gap-2 rounded-full border border-indigo-200/60
                             bg-indigo-50/80 px-4 py-1.5 opacity-0 backdrop-blur-sm
@@ -99,6 +118,7 @@ export class HeroSection implements OnDestroy {
 
   // Content refs
   private readonly contentBlock = viewChild<ElementRef>('contentBlock');
+  private readonly avatar = viewChild<ElementRef>('avatar');
   private readonly badge = viewChild<ElementRef>('badge');
   private readonly heroName = viewChild<ElementRef>('heroName');
   private readonly heroRole = viewChild<ElementRef>('heroRole');
@@ -138,8 +158,18 @@ export class HeroSection implements OnDestroy {
         /* ── Entrance Timeline ── */
         const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
+        // Fade in avatar with scale
+        const avatarEl = this.avatar()?.nativeElement;
+        if (avatarEl) {
+          tl.fromTo(avatarEl,
+            { opacity: 0, scale: 0.8, y: 20 },
+            { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'back.out(1.7)' },
+            0.2
+          );
+        }
+
         // Fade in badge
-        tl.to(this.badge()?.nativeElement, { opacity: 1, y: 0, duration: 0.5 }, 0.3);
+        tl.to(this.badge()?.nativeElement, { opacity: 1, y: 0, duration: 0.5 }, 0.4);
 
         // Character stagger for name
         if (nameEl) {

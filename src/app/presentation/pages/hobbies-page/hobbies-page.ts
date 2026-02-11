@@ -55,52 +55,90 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
         } @else if (hobbies().length > 0) {
           <div appStaggerReveal staggerFrom="edges" class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             @for (hobby of hobbies(); track hobby.id; let i = $index) {
-              <div
-                appTilt
-                class="glass-card group relative overflow-hidden rounded-3xl
-                       p-8 transition-all duration-500 hover:shadow-2xl"
-              >
-                <!-- Gradient top accent -->
-                <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-500 via-purple-500 to-pink-500
-                            opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+              @if (hobby.slug) {
+                <a
+                  [routerLink]="['/hobby', hobby.slug]"
+                  appTilt
+                  class="glass-card group relative block overflow-hidden rounded-3xl
+                         p-8 transition-all duration-500 hover:shadow-2xl"
+                >
+                  <!-- Gradient top accent -->
+                  <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-500 via-purple-500 to-pink-500
+                              opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
 
-                <!-- Icon -->
-                <div class="mb-6">
-                  @if (hobby.iconUrl) {
-                    <img [src]="hobby.iconUrl" [alt]="hobby.name | translateObj"
-                         class="h-16 w-16 rounded-2xl object-contain transition-transform duration-500
-                                group-hover:scale-110 group-hover:rotate-3" />
-                  } @else {
-                    <div class="flex h-16 w-16 items-center justify-center rounded-2xl
-                                bg-gradient-to-br from-violet-100 to-purple-100 text-3xl
-                                transition-transform duration-500 group-hover:scale-110
-                                dark:from-violet-900/30 dark:to-purple-900/30">
-                      ❤️
-                    </div>
+                  <!-- Icon -->
+                  <div class="mb-6">
+                    @if (hobby.iconUrl) {
+                      <img [src]="hobby.iconUrl" [alt]="hobby.name | translateObj"
+                           class="h-16 w-16 rounded-2xl object-contain transition-transform duration-500
+                                  group-hover:scale-110 group-hover:rotate-3" />
+                    } @else {
+                      <div class="flex h-16 w-16 items-center justify-center rounded-2xl
+                                  bg-gradient-to-br from-violet-100 to-purple-100 text-3xl
+                                  transition-transform duration-500 group-hover:scale-110
+                                  dark:from-violet-900/30 dark:to-purple-900/30">
+                        ❤️
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Name -->
+                  <h2 class="mb-3 text-xl font-bold text-slate-900 dark:text-white">
+                    {{ hobby.name | translateObj }}
+                  </h2>
+
+                  <!-- Description -->
+                  @if (hobby.description) {
+                    <p class="text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                      {{ hobby.description | translateObj }}
+                    </p>
+                  }
+
+                  <!-- View detail indicator -->
+                  <span class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-violet-600
+                               transition-colors dark:text-violet-400">
+                    {{ 'HOBBIES_PAGE.VIEW_DETAIL' | translate }} →
+                  </span>
+                </a>
+              } @else {
+                <div
+                  appTilt
+                  class="glass-card group relative overflow-hidden rounded-3xl
+                         p-8 transition-all duration-500 hover:shadow-2xl"
+                >
+                  <!-- Gradient top accent -->
+                  <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-500 via-purple-500 to-pink-500
+                              opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+
+                  <!-- Icon -->
+                  <div class="mb-6">
+                    @if (hobby.iconUrl) {
+                      <img [src]="hobby.iconUrl" [alt]="hobby.name | translateObj"
+                           class="h-16 w-16 rounded-2xl object-contain transition-transform duration-500
+                                  group-hover:scale-110 group-hover:rotate-3" />
+                    } @else {
+                      <div class="flex h-16 w-16 items-center justify-center rounded-2xl
+                                  bg-gradient-to-br from-violet-100 to-purple-100 text-3xl
+                                  transition-transform duration-500 group-hover:scale-110
+                                  dark:from-violet-900/30 dark:to-purple-900/30">
+                        ❤️
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Name -->
+                  <h2 class="mb-3 text-xl font-bold text-slate-900 dark:text-white">
+                    {{ hobby.name | translateObj }}
+                  </h2>
+
+                  <!-- Description -->
+                  @if (hobby.description) {
+                    <p class="text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                      {{ hobby.description | translateObj }}
+                    </p>
                   }
                 </div>
-
-                <!-- Name -->
-                <h2 class="mb-3 text-xl font-bold text-slate-900 dark:text-white">
-                  {{ hobby.name | translateObj }}
-                </h2>
-
-                <!-- Description -->
-                @if (hobby.description) {
-                  <p class="text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-                    {{ hobby.description | translateObj }}
-                  </p>
-                }
-
-                <!-- Detail Link -->
-                @if (hobby.slug) {
-                  <a [routerLink]="['/hobby', hobby.slug]"
-                     class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-violet-600
-                            transition-colors hover:text-violet-700 dark:text-violet-400 dark:hover:text-violet-300">
-                    {{ 'HOBBIES_PAGE.VIEW_DETAIL' | translate }} →
-                  </a>
-                }
-              </div>
+              }
             }
           </div>
         } @else {

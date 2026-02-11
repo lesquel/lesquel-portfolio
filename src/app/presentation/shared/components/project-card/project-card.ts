@@ -1,4 +1,6 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Project } from '../../../../domain/models';
 import { TranslateObjPipe } from '../../pipes/translate-obj.pipe';
 import { TechBadge } from '../tech-badge/tech-badge';
@@ -6,20 +8,30 @@ import { TechBadge } from '../tech-badge/tech-badge';
 @Component({
   selector: 'app-project-card',
   standalone: true,
-  imports: [TranslateObjPipe, TechBadge],
+  imports: [CommonModule, RouterLink, TranslateObjPipe, TechBadge],
   template: `
-    <article
-      (click)="cardClick.emit(project())"
-      (keydown.enter)="cardClick.emit(project())"
-      tabindex="0"
-      role="button"
-      class="group cursor-pointer overflow-hidden rounded-xl border border-slate-200 bg-white
-             shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl
-             dark:border-slate-700 dark:bg-slate-800/50"
-    >
-      <!-- Cover Image (reduced height with aspect-[16/10]) -->
+    @if (project().slug) {
+      <a
+        [routerLink]="['/project', project().slug]"
+        class="group block cursor-pointer overflow-hidden rounded-xl border border-slate-200 bg-white
+               shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl
+               dark:border-slate-700 dark:bg-slate-800/50"
+      >
+        <ng-container *ngTemplateOutlet="cardContent" />
+      </a>
+    } @else {
+      <article
+        class="group overflow-hidden rounded-xl border border-slate-200 bg-white
+               shadow-sm dark:border-slate-700 dark:bg-slate-800/50"
+      >
+        <ng-container *ngTemplateOutlet="cardContent" />
+      </article>
+    }
+
+    <ng-template #cardContent>
+      <!-- Cover Image (reduced height with aspect-[2/1]) -->
       @if (project().coverImage) {
-        <div class="relative aspect-[16/10] overflow-hidden">
+        <div class="relative aspect-[2/1] overflow-hidden">
           <img
             [src]="project().coverImage"
             [alt]="project().title | translateObj"
@@ -32,25 +44,30 @@ import { TechBadge } from '../tech-badge/tech-badge';
       }
 
       <!-- Content (reduced padding) -->
-      <div class="p-4">
-        <h3 class="mb-1.5 text-base font-bold text-slate-900 dark:text-white">
+      <div class="p-3">
+        <h3 class="mb-1 text-sm font-bold text-slate-900 dark:text-white">
           {{ project().title | translateObj }}
         </h3>
-        <p class="mb-3 line-clamp-2 text-sm text-slate-600 dark:text-slate-400">
+        <p class="mb-2 line-clamp-2 text-xs text-slate-600 dark:text-slate-400">
           {{ project().description | translateObj }}
         </p>
 
         <!-- Tech Badges (reduced gap) -->
         <div class="flex flex-wrap gap-1">
-          @for (tech of project().technologies; track tech.id) {
-            <app-tech-badge [name]="tech.name" [iconUrl]="tech.iconUrl" />
+          @for (tech of project().technologies.slice(0, 4); track tech.id) {
+            <app-tech-badge [name]="tech.name" [iconUrl]="tech.iconUrl" size="sm" />
+          }
+          @if (project().technologies.length > 4) {
+            <span class="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-500
+                         dark:bg-slate-700 dark:text-slate-400">
+              +{{ project().technologies.length - 4 }}
+            </span>
           }
         </div>
       </div>
-    </article>
+    </ng-template>
   `,
 })
 export class ProjectCard {
   readonly project = input.required<Project>();
-  readonly cardClick = output<Project>();
 }

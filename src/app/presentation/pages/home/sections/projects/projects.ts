@@ -3,7 +3,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { StaggerRevealDirective } from '../../../../shared/directives/stagger-reveal.directive';
 import { TiltDirective } from '../../../../shared/directives/tilt.directive';
@@ -44,35 +44,32 @@ import { Project } from '../../../../../domain/models';
 
         <!-- Bento Grid -->
         @if (loading()) {
-          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @for (i of [1,2,3]; track i) {
               <div class="glass-card overflow-hidden rounded-2xl" [class.sm:col-span-2]="i === 1" [class.lg:col-span-2]="i === 1">
-                <div class="skeleton h-48 w-full !rounded-none"></div>
-                <div class="space-y-3 p-6">
-                  <div class="skeleton h-5 w-3/4"></div>
-                  <div class="skeleton h-4 w-full"></div>
-                  <div class="skeleton h-4 w-2/3"></div>
+                <div class="skeleton h-40 w-full !rounded-none"></div>
+                <div class="space-y-2 p-4">
+                  <div class="skeleton h-4 w-3/4"></div>
+                  <div class="skeleton h-3 w-full"></div>
+                  <div class="skeleton h-3 w-2/3"></div>
                   <div class="flex gap-2">
-                    <div class="skeleton h-6 w-16 rounded-full"></div>
-                    <div class="skeleton h-6 w-20 rounded-full"></div>
-                    <div class="skeleton h-6 w-14 rounded-full"></div>
+                    <div class="skeleton h-5 w-14 rounded-full"></div>
+                    <div class="skeleton h-5 w-16 rounded-full"></div>
+                    <div class="skeleton h-5 w-12 rounded-full"></div>
                   </div>
                 </div>
               </div>
             }
           </div>
         } @else if (projects().length > 0) {
-          <div appStaggerReveal staggerFrom="center" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div appStaggerReveal staggerFrom="center" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @for (project of projects(); track project.id; let i = $index) {
               <div
                 appTilt
                 [class.sm:col-span-2]="i === 0"
                 [class.lg:col-span-2]="i === 0"
               >
-                <app-project-card
-                  [project]="project"
-                  (cardClick)="navigateToProject(project)"
-                />
+                <app-project-card [project]="project" />
               </div>
             }
           </div>
@@ -89,7 +86,6 @@ import { Project } from '../../../../../domain/models';
 })
 export class ProjectsSection {
   private readonly projectRepo = inject(ProjectRepository);
-  private readonly router = inject(Router);
 
   protected readonly projects = signal<Project[]>([]);
   protected readonly loading = signal(true);
@@ -106,12 +102,6 @@ export class ProjectsSection {
       this.projects.set([]);
     } finally {
       this.loading.set(false);
-    }
-  }
-
-  navigateToProject(project: Project): void {
-    if (project.slug) {
-      this.router.navigate(['/project', project.slug]);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, afterNextRender, PLATFORM_ID, ElementRef, viewChild, computed, effect } from '@angular/core';
+import { Component, inject, OnDestroy, PLATFORM_ID, ElementRef, viewChild, computed, effect } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -208,19 +208,22 @@ export class ProfilePage implements OnDestroy {
   }
 
   private initAnimations(): void {
-    afterNextRender(async () => {
-      if (!isPlatformBrowser(this.platformId)) return;
+    if (!isPlatformBrowser(this.platformId)) return;
 
-      const { gsap } = await import('gsap');
+    // Use double requestAnimationFrame to ensure DOM is ready
+    requestAnimationFrame(() => {
+      requestAnimationFrame(async () => {
+        const { gsap } = await import('gsap');
 
-      this.gsapCtx = gsap.context(() => {
-        const card = this.profileCard()?.nativeElement;
-        if (card) {
-          gsap.fromTo(card,
-            { opacity: 0, y: 30, scale: 0.97 },
-            { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power3.out' },
-          );
-        }
+        this.gsapCtx = gsap.context(() => {
+          const card = this.profileCard()?.nativeElement;
+          if (card) {
+            gsap.fromTo(card,
+              { opacity: 0, y: 30, scale: 0.97 },
+              { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power3.out' },
+            );
+          }
+        });
       });
     });
   }
