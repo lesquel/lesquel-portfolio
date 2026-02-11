@@ -5,4 +5,5 @@ import { Hobby } from '../models';
  */
 export abstract class HobbyRepository {
   abstract getAllHobbies(): Promise<Hobby[]>;
+  abstract getHobbyBySlug(slug: string): Promise<Hobby | null>;
 }

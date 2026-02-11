@@ -300,6 +300,30 @@ import type { ProjectDto, SkillDto } from '../../../../data/models/dtos';
                 }
               </div>
 
+              <!-- Gallery -->
+              <div>
+                <label class="mb-1.5 block text-xs font-medium text-slate-400">Galería de imágenes</label>
+                @if (form.gallery_urls.length > 0) {
+                  <div class="mb-3 grid grid-cols-4 gap-2">
+                    @for (url of form.gallery_urls; track url; let gi = $index) {
+                      <div class="group/gal relative">
+                        <img [src]="url" alt="Gallery" class="h-20 w-full rounded-lg border border-slate-700 object-cover" />
+                        <button type="button" (click)="removeGalleryImage(gi)"
+                          class="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full
+                                 bg-red-600 text-[10px] text-white opacity-0 transition-opacity group-hover/gal:opacity-100">
+                          ✕
+                        </button>
+                      </div>
+                    }
+                  </div>
+                }
+                <label class="cursor-pointer rounded-lg border border-dashed border-slate-600 px-3 py-2.5 text-sm
+                              text-slate-400 transition-colors hover:border-indigo-500 hover:text-indigo-400 inline-flex items-center gap-1">
+                  <input type="file" accept="image/*" class="hidden" (change)="onGalleryUpload($event)" multiple />
+                  📁 Añadir imágenes
+                </label>
+              </div>
+
               <!-- URLs -->
               <div class="grid gap-4 sm:grid-cols-2">
                 <div>
@@ -505,6 +529,7 @@ export class AdminProjects implements OnInit {
       is_published: project.is_published,
       display_order: project.display_order,
       skill_ids: project.project_skills?.map((ps) => ps.skills.id) ?? [],
+      gallery_urls: project.gallery_urls ?? [],
     };
     this.showForm.set(true);
   }
@@ -535,6 +560,23 @@ export class AdminProjects implements OnInit {
     }
   }
 
+  async onGalleryUpload(event: Event): Promise<void> {
+    const files = (event.target as HTMLInputElement).files;
+    if (!files) return;
+    for (const file of Array.from(files)) {
+      try {
+        const url = await this.admin.uploadImage(file);
+        this.form.gallery_urls = [...this.form.gallery_urls, url];
+      } catch {
+        this.formError.set('Error al subir imagen de galería');
+      }
+    }
+  }
+
+  removeGalleryImage(index: number): void {
+    this.form.gallery_urls = this.form.gallery_urls.filter((_, i) => i !== index);
+  }
+
   async saveProject(): Promise<void> {
     this.saving.set(true);
     this.formError.set(null);
@@ -547,7 +589,7 @@ export class AdminProjects implements OnInit {
         ? { es: this.form.content_es, en: this.form.content_en }
         : null,
       image_url: this.form.image_url || null,
-      gallery_urls: [],
+      gallery_urls: this.form.gallery_urls,
       demo_url: this.form.demo_url || null,
       repo_url: this.form.repo_url || null,
       is_published: this.form.is_published,
@@ -630,6 +672,7 @@ export class AdminProjects implements OnInit {
       is_published: false,
       display_order: 0,
       skill_ids: [] as string[],
+      gallery_urls: [] as string[],
     };
   }
 }

@@ -42,13 +42,15 @@
   "HOBBIES": {
     "TITLE": "Hobbies & Pasiones",
     "SUBTITLE": "Lo que me apasiona más allá del código",
-    "VIEW_ALL": "Ver todos los hobbies"
+    "VIEW_ALL": "Ver todos los hobbies",
+    "VIEW_DETAIL": "Ver detalle"
   },
   "COURSES": {
     "TITLE": "Cursos & Certificaciones",
     "SUBTITLE": "Formación continua y aprendizaje",
     "VIEW_CERTIFICATE": "Ver Certificado",
-    "VIEW_ALL": "Ver todos los cursos"
+    "VIEW_ALL": "Ver todos los cursos",
+    "VIEW_DETAIL": "Ver detalle"
   },
   "TECHNOLOGIES": {
     "TITLE": "Tecnologías",
@@ -65,14 +67,16 @@
     "TITLE": "Hobbies & Pasiones",
     "SUBTITLE": "Más allá del código, estas son las actividades que me apasionan y me inspiran cada día",
     "BACK": "Volver al Inicio",
-    "EMPTY": "Próximamente se añadirán hobbies."
+    "EMPTY": "Próximamente se añadirán hobbies.",
+    "VIEW_DETAIL": "Ver detalle"
   },
   "COURSES_PAGE": {
     "TITLE": "Cursos & Certificaciones",
     "SUBTITLE": "Mi camino de aprendizaje continuo y desarrollo profesional",
     "BACK": "Volver al Inicio",
     "VIEW_CERTIFICATE": "Ver Certificado",
-    "EMPTY": "Próximamente se añadirán cursos."
+    "EMPTY": "Próximamente se añadirán cursos.",
+    "VIEW_DETAIL": "Ver detalle"
   },
   "SKILL_DETAIL": {
     "BACK": "Volver a Tecnologías",
@@ -138,5 +142,32 @@
     "CV_EN": "CV (English)",
     "EMPTY_TITLE": "Perfil no configurado",
     "EMPTY_MSG": "Información del perfil próximamente."
+  },
+  "PROJECT_DETAIL": {
+    "BACK": "Volver a Proyectos",
+    "ABOUT": "Sobre este Proyecto",
+    "TECHNOLOGIES": "Tecnologías",
+    "GALLERY": "Galería",
+    "LIVE_DEMO": "Demo en Vivo",
+    "SOURCE_CODE": "Código Fuente",
+    "NOT_FOUND": "Proyecto no encontrado",
+    "NOT_FOUND_MESSAGE": "El proyecto que buscas no existe o ha sido eliminado.",
+    "GO_HOME": "Ir al Inicio"
+  },
+  "HOBBY_DETAIL": {
+    "BACK": "Volver a Hobbies",
+    "ABOUT": "Acerca de",
+    "GALLERY": "Galería",
+    "NOT_FOUND": "Hobby no encontrado",
+    "NOT_FOUND_MESSAGE": "El hobby que buscas no existe o ha sido eliminado.",
+    "GO_HOME": "Ir al Inicio"
+  },
+  "COURSE_DETAIL": {
+    "BACK": "Volver a Cursos",
+    "ABOUT": "Sobre este Curso",
+    "VIEW_CERTIFICATE": "Ver Certificado",
+    "NOT_FOUND": "Curso no encontrado",
+    "NOT_FOUND_MESSAGE": "El curso que buscas no existe o ha sido eliminado.",
+    "GO_HOME": "Ir al Inicio"
   }
 }

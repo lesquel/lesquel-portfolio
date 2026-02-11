@@ -91,7 +91,7 @@ import type { HobbyDto } from '../../../../data/models/dtos';
       @if (showForm()) {
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
              (click)="closeForm()" (keydown.escape)="closeForm()">
-          <div class="w-full max-w-lg rounded-xl border border-slate-700 bg-slate-900 shadow-2xl"
+          <div class="w-full max-w-3xl rounded-xl border border-slate-700 bg-slate-900 shadow-2xl"
                (click)="$event.stopPropagation()">
             <div class="flex items-center justify-between border-b border-slate-800 px-6 py-4">
               <h2 class="text-lg font-semibold text-white">
@@ -121,6 +121,14 @@ import type { HobbyDto } from '../../../../data/models/dtos';
                 </div>
               </div>
 
+              <!-- Slug -->
+              <div>
+                <label class="mb-1.5 block text-xs font-medium text-slate-400">Slug (URL)</label>
+                <input type="text" [(ngModel)]="form.slug" name="slug" placeholder="mi-hobby"
+                  class="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
+                         placeholder-slate-500 focus:border-indigo-500 focus:outline-none" />
+              </div>
+
               <!-- Description ES/EN -->
               <div class="grid gap-4 sm:grid-cols-2">
                 <div>
@@ -132,6 +140,22 @@ import type { HobbyDto } from '../../../../data/models/dtos';
                 <div>
                   <label class="mb-1.5 block text-xs font-medium text-slate-400">Description (English)</label>
                   <textarea [(ngModel)]="form.desc_en" name="desc_en" rows="3" placeholder="Description..."
+                    class="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
+                           placeholder-slate-500 focus:border-indigo-500 focus:outline-none resize-none"></textarea>
+                </div>
+              </div>
+
+              <!-- Content ES/EN -->
+              <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label class="mb-1.5 block text-xs font-medium text-slate-400">Contenido largo (Español)</label>
+                  <textarea [(ngModel)]="form.content_es" name="content_es" rows="4" placeholder="Contenido detallado..."
+                    class="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
+                           placeholder-slate-500 focus:border-indigo-500 focus:outline-none resize-none"></textarea>
+                </div>
+                <div>
+                  <label class="mb-1.5 block text-xs font-medium text-slate-400">Long content (English)</label>
+                  <textarea [(ngModel)]="form.content_en" name="content_en" rows="4" placeholder="Detailed content..."
                     class="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
                            placeholder-slate-500 focus:border-indigo-500 focus:outline-none resize-none"></textarea>
                 </div>
@@ -153,6 +177,48 @@ import type { HobbyDto } from '../../../../data/models/dtos';
                 @if (form.icon_url) {
                   <img [src]="form.icon_url" alt="Preview" class="mt-2 h-10 w-10 object-contain" />
                 }
+              </div>
+
+              <!-- Cover Image -->
+              <div>
+                <label class="mb-1.5 block text-xs font-medium text-slate-400">Imagen de portada</label>
+                <div class="flex gap-3">
+                  <input type="text" [(ngModel)]="form.image_url" name="image_url" placeholder="URL de la imagen"
+                    class="flex-1 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
+                           placeholder-slate-500 focus:border-indigo-500 focus:outline-none" />
+                  <label class="cursor-pointer rounded-lg border border-dashed border-slate-600 px-3 py-2.5 text-sm
+                                text-slate-400 transition-colors hover:border-indigo-500 hover:text-indigo-400">
+                    <input type="file" accept="image/*" class="hidden" (change)="onCoverUpload($event)" />
+                    📁 Subir
+                  </label>
+                </div>
+                @if (form.image_url) {
+                  <img [src]="form.image_url" alt="Preview" class="mt-2 h-20 w-32 rounded-lg border border-slate-700 object-cover" />
+                }
+              </div>
+
+              <!-- Gallery -->
+              <div>
+                <label class="mb-1.5 block text-xs font-medium text-slate-400">Galería de imágenes</label>
+                @if (form.gallery_urls.length > 0) {
+                  <div class="mb-3 grid grid-cols-4 gap-2">
+                    @for (url of form.gallery_urls; track url; let gi = $index) {
+                      <div class="group/gal relative">
+                        <img [src]="url" alt="Gallery" class="h-20 w-full rounded-lg border border-slate-700 object-cover" />
+                        <button type="button" (click)="removeGalleryImage(gi)"
+                          class="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full
+                                 bg-red-600 text-[10px] text-white opacity-0 transition-opacity group-hover/gal:opacity-100">
+                          ✕
+                        </button>
+                      </div>
+                    }
+                  </div>
+                }
+                <label class="inline-flex cursor-pointer items-center gap-1 rounded-lg border border-dashed border-slate-600
+                              px-3 py-2.5 text-sm text-slate-400 transition-colors hover:border-indigo-500 hover:text-indigo-400">
+                  <input type="file" accept="image/*" class="hidden" (change)="onGalleryUpload($event)" multiple />
+                  📁 Añadir imágenes
+                </label>
               </div>
 
               <!-- Order -->
@@ -254,11 +320,16 @@ export class AdminHobbies implements OnInit {
     this.editingId.set(hobby.id);
     this.formError.set(null);
     this.form = {
+      slug: hobby.slug ?? '',
       name_es: hobby.name['es'] ?? '',
       name_en: hobby.name['en'] ?? '',
       desc_es: hobby.description?.['es'] ?? '',
       desc_en: hobby.description?.['en'] ?? '',
+      content_es: hobby.content?.['es'] ?? '',
+      content_en: hobby.content?.['en'] ?? '',
       icon_url: hobby.icon_url ?? '',
+      image_url: hobby.image_url ?? '',
+      gallery_urls: hobby.gallery_urls ?? [],
       display_order: hobby.display_order,
     };
     this.showForm.set(true);
@@ -280,16 +351,50 @@ export class AdminHobbies implements OnInit {
     }
   }
 
+  async onCoverUpload(event: Event): Promise<void> {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    try {
+      const url = await this.admin.uploadImage(file);
+      this.form.image_url = url;
+    } catch {
+      this.formError.set('Error al subir imagen');
+    }
+  }
+
+  async onGalleryUpload(event: Event): Promise<void> {
+    const files = (event.target as HTMLInputElement).files;
+    if (!files) return;
+    for (const file of Array.from(files)) {
+      try {
+        const url = await this.admin.uploadImage(file);
+        this.form.gallery_urls = [...this.form.gallery_urls, url];
+      } catch {
+        this.formError.set('Error al subir imagen de galería');
+      }
+    }
+  }
+
+  removeGalleryImage(index: number): void {
+    this.form.gallery_urls = this.form.gallery_urls.filter((_, i) => i !== index);
+  }
+
   async saveHobby(): Promise<void> {
     this.saving.set(true);
     this.formError.set(null);
 
     const data: HobbyFormData = {
+      slug: this.form.slug.trim() || null,
       name: { es: this.form.name_es.trim(), en: this.form.name_en.trim() },
       description: this.form.desc_es || this.form.desc_en
         ? { es: this.form.desc_es, en: this.form.desc_en }
         : null,
+      content: this.form.content_es || this.form.content_en
+        ? { es: this.form.content_es, en: this.form.content_en }
+        : null,
       icon_url: this.form.icon_url || null,
+      image_url: this.form.image_url || null,
+      gallery_urls: this.form.gallery_urls,
       display_order: this.form.display_order,
     };
 
@@ -327,11 +432,16 @@ export class AdminHobbies implements OnInit {
 
   private emptyForm() {
     return {
+      slug: '',
       name_es: '',
       name_en: '',
       desc_es: '',
       desc_en: '',
+      content_es: '',
+      content_en: '',
       icon_url: '',
+      image_url: '',
+      gallery_urls: [] as string[],
       display_order: 0,
     };
   }

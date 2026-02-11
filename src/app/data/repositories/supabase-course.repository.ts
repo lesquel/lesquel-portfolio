@@ -18,4 +18,18 @@ export class SupabaseCourseRepository extends CourseRepository {
     if (error) throw error;
     return (data as CourseDto[]).map(CourseMapper.toDomain);
   }
+
+  override async getCourseBySlug(slug: string): Promise<Course | null> {
+    const { data, error } = await this.supabase.client
+      .from('courses')
+      .select('*')
+      .eq('slug', slug)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') return null;
+      throw error;
+    }
+    return CourseMapper.toDomain(data as CourseDto);
+  }
 }

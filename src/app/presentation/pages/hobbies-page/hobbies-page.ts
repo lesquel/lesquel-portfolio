@@ -91,6 +91,15 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
                     {{ hobby.description | translateObj }}
                   </p>
                 }
+
+                <!-- Detail Link -->
+                @if (hobby.slug) {
+                  <a [routerLink]="['/hobby', hobby.slug]"
+                     class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-violet-600
+                            transition-colors hover:text-violet-700 dark:text-violet-400 dark:hover:text-violet-300">
+                    {{ 'HOBBIES_PAGE.VIEW_DETAIL' | translate }} →
+                  </a>
+                }
               </div>
             }
           </div>

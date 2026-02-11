@@ -53,8 +53,22 @@ export const routes: Routes = [
       {
         path: 'project/:slug',
         loadComponent: () =>
-          import('./presentation/pages/skill-detail/skill-detail').then(
-            (m) => m.SkillDetailPage,
+          import('./presentation/pages/project-detail/project-detail').then(
+            (m) => m.ProjectDetailPage,
+          ),
+      },
+      {
+        path: 'hobby/:slug',
+        loadComponent: () =>
+          import('./presentation/pages/hobby-detail/hobby-detail').then(
+            (m) => m.HobbyDetailPage,
+          ),
+      },
+      {
+        path: 'course/:slug',
+        loadComponent: () =>
+          import('./presentation/pages/course-detail/course-detail').then(
+            (m) => m.CourseDetailPage,
           ),
       },
       {

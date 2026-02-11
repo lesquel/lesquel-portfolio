@@ -18,4 +18,18 @@ export class SupabaseHobbyRepository extends HobbyRepository {
     if (error) throw error;
     return (data as HobbyDto[]).map(HobbyMapper.toDomain);
   }
+
+  override async getHobbyBySlug(slug: string): Promise<Hobby | null> {
+    const { data, error } = await this.supabase.client
+      .from('hobbies')
+      .select('*')
+      .eq('slug', slug)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') return null;
+      throw error;
+    }
+    return HobbyMapper.toDomain(data as HobbyDto);
+  }
 }

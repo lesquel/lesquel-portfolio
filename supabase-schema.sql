@@ -298,22 +298,45 @@ create policy "Admin: delete courses"
   on public.courses for delete using (is_admin());
 
 -- ============================================================
--- Storage buckets (run in Supabase Dashboard > Storage)
--- These create public buckets for portfolio assets
+-- Storage buckets
 -- ============================================================
--- insert into storage.buckets (id, name, public) values ('portfolio', 'portfolio', true)
--- on conflict (id) do nothing;
+insert into storage.buckets (id, name, public) values ('portfolio', 'portfolio', true)
+on conflict (id) do nothing;
 
 -- Storage RLS: anyone can read, only admin can upload/delete
--- drop policy if exists "Public read portfolio" on storage.objects;
--- create policy "Public read portfolio"
---   on storage.objects for select using (bucket_id = 'portfolio');
--- drop policy if exists "Admin upload portfolio" on storage.objects;
--- create policy "Admin upload portfolio"
---   on storage.objects for insert with check (bucket_id = 'portfolio' and (select auth.uid()) is not null);
--- drop policy if exists "Admin delete portfolio" on storage.objects;
--- create policy "Admin delete portfolio"
---   on storage.objects for delete using (bucket_id = 'portfolio' and (select auth.uid()) is not null);
+drop policy if exists "Public read portfolio" on storage.objects;
+create policy "Public read portfolio"
+  on storage.objects for select using (bucket_id = 'portfolio');
+
+drop policy if exists "Admin upload portfolio" on storage.objects;
+create policy "Admin upload portfolio"
+  on storage.objects for insert with check (bucket_id = 'portfolio' and (select auth.uid()) is not null);
+
+drop policy if exists "Admin update portfolio" on storage.objects;
+create policy "Admin update portfolio"
+  on storage.objects for update using (bucket_id = 'portfolio' and (select auth.uid()) is not null);
+
+drop policy if exists "Admin delete portfolio" on storage.objects;
+create policy "Admin delete portfolio"
+  on storage.objects for delete using (bucket_id = 'portfolio' and (select auth.uid()) is not null);
+
+-- ============================================================
+-- Schema migrations for detail pages
+-- ============================================================
+-- Hobbies: add slug, content, image_url, gallery_urls
+alter table if exists public.hobbies
+  add column if not exists slug text unique,
+  add column if not exists content jsonb,
+  add column if not exists image_url text,
+  add column if not exists gallery_urls text[];
+
+-- Courses: add slug
+alter table if exists public.courses
+  add column if not exists slug text unique;
+
+-- Indexes for new slugs
+create index if not exists idx_hobbies_slug on public.hobbies(slug);
+create index if not exists idx_courses_slug on public.courses(slug);
 
 -- ============================================================
 -- Sample seed data (optional — remove in production)

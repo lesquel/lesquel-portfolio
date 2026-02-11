@@ -75,6 +75,14 @@ import { DatePipe } from '@angular/common';
                       {{ course.completionDate | date: 'MMM yyyy' }}
                     </span>
                   }
+                  @if (course.slug) {
+                    <a [routerLink]="['/course', course.slug]"
+                       class="inline-flex items-center gap-1 rounded-full bg-violet-100 px-3 py-1
+                              text-xs font-medium text-violet-700 transition-colors hover:bg-violet-200
+                              dark:bg-violet-900/30 dark:text-violet-300 dark:hover:bg-violet-900/50">
+                      {{ 'COURSES.VIEW_DETAIL' | translate }}
+                    </a>
+                  }
                   @if (course.certificateUrl) {
                     <a [href]="course.certificateUrl" target="_blank" rel="noopener noreferrer"
                        class="inline-flex items-center gap-1 rounded-full bg-violet-100 px-3 py-1

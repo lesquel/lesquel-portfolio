@@ -71,6 +71,13 @@ import { Hobby } from '../../../../../domain/models';
                   {{ hobby.description | translateObj }}
                 </p>
               }
+              @if (hobby.slug) {
+                <a [routerLink]="['/hobby', hobby.slug]"
+                   class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-violet-600
+                          transition-colors hover:text-violet-700 dark:text-violet-400 dark:hover:text-violet-300">
+                  {{ 'HOBBIES.VIEW_DETAIL' | translate }} →
+                </a>
+              }
             </div>
           }
         </div>

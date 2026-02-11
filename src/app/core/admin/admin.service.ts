@@ -32,13 +32,18 @@ export interface SkillFormData {
 }
 
 export interface HobbyFormData {
+  slug: string | null;
   name: LocalizedString;
   description: LocalizedString | null;
+  content: LocalizedString | null;
   icon_url: string | null;
+  image_url: string | null;
+  gallery_urls: string[];
   display_order: number;
 }
 
 export interface CourseFormData {
+  slug: string | null;
   name: LocalizedString;
   institution: LocalizedString | null;
   description: LocalizedString | null;

@@ -40,14 +40,19 @@ export interface Category {
 
 export interface Hobby {
   id: string;
+  slug: string | null;
   name: LocalizedString;
   description: LocalizedString | null;
+  content: LocalizedString | null;
   iconUrl: string | null;
+  coverImage: string;
+  galleryUrls: string[];
   displayOrder: number;
 }
 
 export interface Course {
   id: string;
+  slug: string | null;
   name: LocalizedString;
   institution: LocalizedString | null;
   description: LocalizedString | null;

@@ -120,6 +120,18 @@ import { LucideAngularModule, ArrowLeft, ExternalLink, GraduationCap } from 'luc
                           <lucide-icon [img]="externalLinkIcon" [size]="14" />
                         </a>
                       }
+
+                      <!-- Detail link -->
+                      @if (course.slug) {
+                        <a
+                          [routerLink]="['/course', course.slug]"
+                          class="mt-5 inline-flex items-center gap-1 text-sm font-medium text-violet-600
+                                 transition-colors hover:text-violet-700 dark:text-violet-400 dark:hover:text-violet-300"
+                          [class.ml-3]="course.certificateUrl"
+                        >
+                          {{ 'COURSES_PAGE.VIEW_DETAIL' | translate }} →
+                        </a>
+                      }
                     </div>
                   </div>
                 </div>

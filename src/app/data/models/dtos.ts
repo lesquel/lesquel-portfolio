@@ -58,9 +58,13 @@ export interface CategoryDto {
  */
 export interface HobbyDto {
   id: string;
+  slug: string | null;
   name: LocalizedString;
   description: LocalizedString | null;
+  content: LocalizedString | null;
   icon_url: string | null;
+  image_url: string | null;
+  gallery_urls: string[] | null;
   display_order: number;
   created_at: string;
 }
@@ -70,6 +74,7 @@ export interface HobbyDto {
  */
 export interface CourseDto {
   id: string;
+  slug: string | null;
   name: LocalizedString;
   institution: LocalizedString | null;
   description: LocalizedString | null;

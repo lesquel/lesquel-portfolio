@@ -59,9 +59,13 @@ export class HobbyMapper {
   static toDomain(dto: HobbyDto): Hobby {
     return {
       id: dto.id,
+      slug: dto.slug ?? null,
       name: dto.name,
       description: dto.description,
+      content: dto.content ?? null,
       iconUrl: dto.icon_url,
+      coverImage: dto.image_url ?? '',
+      galleryUrls: dto.gallery_urls ?? [],
       displayOrder: dto.display_order,
     };
   }
@@ -74,6 +78,7 @@ export class CourseMapper {
   static toDomain(dto: CourseDto): Course {
     return {
       id: dto.id,
+      slug: dto.slug ?? null,
       name: dto.name,
       institution: dto.institution,
       description: dto.description,

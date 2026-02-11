@@ -42,13 +42,15 @@
   "HOBBIES": {
     "TITLE": "Hobbies & Passions",
     "SUBTITLE": "What drives me beyond the code",
-    "VIEW_ALL": "View all hobbies"
+    "VIEW_ALL": "View all hobbies",
+    "VIEW_DETAIL": "View detail"
   },
   "COURSES": {
     "TITLE": "Courses & Certifications",
     "SUBTITLE": "Continuous learning and professional growth",
     "VIEW_CERTIFICATE": "View Certificate",
-    "VIEW_ALL": "View all courses"
+    "VIEW_ALL": "View all courses",
+    "VIEW_DETAIL": "View detail"
   },
   "TECHNOLOGIES": {
     "TITLE": "Technologies",
@@ -65,14 +67,16 @@
     "TITLE": "Hobbies & Passions",
     "SUBTITLE": "Beyond code, these are the activities that inspire and drive me every day",
     "BACK": "Back to Home",
-    "EMPTY": "Hobbies coming soon."
+    "EMPTY": "Hobbies coming soon.",
+    "VIEW_DETAIL": "View detail"
   },
   "COURSES_PAGE": {
     "TITLE": "Courses & Certifications",
     "SUBTITLE": "My continuous learning journey and professional development",
     "BACK": "Back to Home",
     "VIEW_CERTIFICATE": "View Certificate",
-    "EMPTY": "Courses coming soon."
+    "EMPTY": "Courses coming soon.",
+    "VIEW_DETAIL": "View detail"
   },
   "SKILL_DETAIL": {
     "BACK": "Back to Technologies",
@@ -138,5 +142,32 @@
     "CV_EN": "CV (English)",
     "EMPTY_TITLE": "Profile not configured",
     "EMPTY_MSG": "Profile information coming soon."
+  },
+  "PROJECT_DETAIL": {
+    "BACK": "Back to Projects",
+    "ABOUT": "About this Project",
+    "TECHNOLOGIES": "Technologies",
+    "GALLERY": "Gallery",
+    "LIVE_DEMO": "Live Demo",
+    "SOURCE_CODE": "Source Code",
+    "NOT_FOUND": "Project not found",
+    "NOT_FOUND_MESSAGE": "The project you're looking for doesn't exist or has been removed.",
+    "GO_HOME": "Go Home"
+  },
+  "HOBBY_DETAIL": {
+    "BACK": "Back to Hobbies",
+    "ABOUT": "About",
+    "GALLERY": "Gallery",
+    "NOT_FOUND": "Hobby not found",
+    "NOT_FOUND_MESSAGE": "The hobby you're looking for doesn't exist or has been removed.",
+    "GO_HOME": "Go Home"
+  },
+  "COURSE_DETAIL": {
+    "BACK": "Back to Courses",
+    "ABOUT": "About this Course",
+    "VIEW_CERTIFICATE": "View Certificate",
+    "NOT_FOUND": "Course not found",
+    "NOT_FOUND_MESSAGE": "The course you're looking for doesn't exist or has been removed.",
+    "GO_HOME": "Go Home"
   }
 }

@@ -5,4 +5,5 @@ import { Course } from '../models';
  */
 export abstract class CourseRepository {
   abstract getAllCourses(): Promise<Course[]>;
+  abstract getCourseBySlug(slug: string): Promise<Course | null>;
 }

@@ -115,6 +115,14 @@ import type { CourseDto } from '../../../../data/models/dtos';
             </div>
 
             <form (ngSubmit)="saveCourse()" class="space-y-4 p-6">
+              <!-- Slug -->
+              <div>
+                <label class="mb-1.5 block text-xs font-medium text-slate-400">Slug (URL)</label>
+                <input type="text" [(ngModel)]="form.slug" name="slug" placeholder="angular-avanzado"
+                  class="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
+                         placeholder-slate-500 focus:border-indigo-500 focus:outline-none" />
+              </div>
+
               <!-- Name ES/EN -->
               <div class="grid gap-4 sm:grid-cols-2">
                 <div>
@@ -166,10 +174,17 @@ import type { CourseDto } from '../../../../data/models/dtos';
               <!-- Certificate URL & Date -->
               <div class="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label class="mb-1.5 block text-xs font-medium text-slate-400">URL del Certificado</label>
-                  <input type="url" [(ngModel)]="form.certificate_url" name="certificate_url" placeholder="https://..."
-                    class="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
-                           placeholder-slate-500 focus:border-indigo-500 focus:outline-none" />
+                  <label class="mb-1.5 block text-xs font-medium text-slate-400">Certificado (URL o subir)</label>
+                  <div class="flex gap-3">
+                    <input type="text" [(ngModel)]="form.certificate_url" name="certificate_url" placeholder="https://..."
+                      class="flex-1 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-white
+                             placeholder-slate-500 focus:border-indigo-500 focus:outline-none" />
+                    <label class="cursor-pointer rounded-lg border border-dashed border-slate-600 px-3 py-2.5 text-sm
+                                  text-slate-400 transition-colors hover:border-indigo-500 hover:text-indigo-400">
+                      <input type="file" accept="image/*,.pdf" class="hidden" (change)="onCertificateUpload($event)" />
+                      📁 Subir
+                    </label>
+                  </div>
                 </div>
                 <div>
                   <label class="mb-1.5 block text-xs font-medium text-slate-400">Fecha de Completado</label>
@@ -278,6 +293,7 @@ export class AdminCourses implements OnInit {
     this.editingId.set(course.id);
     this.formError.set(null);
     this.form = {
+      slug: course.slug ?? '',
       name_es: course.name['es'] ?? '',
       name_en: course.name['en'] ?? '',
       institution_es: course.institution?.['es'] ?? '',
@@ -301,6 +317,7 @@ export class AdminCourses implements OnInit {
     this.formError.set(null);
 
     const data: CourseFormData = {
+      slug: this.form.slug.trim() || null,
       name: { es: this.form.name_es.trim(), en: this.form.name_en.trim() },
       institution: this.form.institution_es || this.form.institution_en
         ? { es: this.form.institution_es, en: this.form.institution_en }
@@ -345,8 +362,20 @@ export class AdminCourses implements OnInit {
     }
   }
 
+  async onCertificateUpload(event: Event): Promise<void> {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    try {
+      const url = await this.admin.uploadFile(file, 'certificates');
+      this.form.certificate_url = url;
+    } catch {
+      this.formError.set('Error al subir certificado');
+    }
+  }
+
   private emptyForm() {
     return {
+      slug: '',
       name_es: '',
       name_en: '',
       institution_es: '',
