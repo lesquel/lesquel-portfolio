@@ -44,9 +44,9 @@ import { Project } from '../../../../../domain/models';
 
         <!-- Bento Grid -->
         @if (loading()) {
-          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="grid gap-4 sm:grid-cols-2">
             @for (i of [1,2,3]; track i) {
-              <div class="glass-card overflow-hidden rounded-2xl" [class.sm:col-span-2]="i === 1" [class.lg:col-span-2]="i === 1">
+              <div class="glass-card overflow-hidden rounded-2xl">
                 <div class="skeleton h-40 w-full !rounded-none"></div>
                 <div class="space-y-2 p-4">
                   <div class="skeleton h-4 w-3/4"></div>
@@ -62,13 +62,9 @@ import { Project } from '../../../../../domain/models';
             }
           </div>
         } @else if (projects().length > 0) {
-          <div appStaggerReveal staggerFrom="center" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div appStaggerReveal staggerFrom="center" class="grid gap-4 sm:grid-cols-2">
             @for (project of projects(); track project.id; let i = $index) {
-              <div
-                appTilt
-                [class.sm:col-span-2]="i === 0"
-                [class.lg:col-span-2]="i === 0"
-              >
+              <div appTilt>
                 <app-project-card [project]="project" />
               </div>
             }

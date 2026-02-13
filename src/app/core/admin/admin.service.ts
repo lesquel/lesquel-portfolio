@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { SupabaseService } from '../supabase/supabase.service';
 import type { ProjectDto, SkillDto, CategoryDto, HobbyDto, CourseDto } from '../../data/models/dtos';
 import type { LocalizedString } from '../../domain/models/localized-string.model';
+import { ensurePublicStorageUrl } from '../../data/utils/storage-url';
 
 /* ──────────────────────────────────────────────
    Admin-specific DTOs (write side)
@@ -377,20 +378,41 @@ export class AdminService {
     const { data, error } = await this.supabase.client
       .from('profile')
       .select('*')
-      .single();
+      .order('created_at', { ascending: true })
+      .limit(1);
 
-    if (error) {
-      if (error.code === 'PGRST116') return null;
-      throw error;
-    }
-    return data as ProfileData;
+    if (error) throw error;
+    if (!data || data.length === 0) return null;
+    const row = data[0] as ProfileData;
+    // Normalize storage URLs to include /public/ segment
+    row.avatar_url = ensurePublicStorageUrl(row.avatar_url);
+    row.cv_url = ensurePublicStorageUrl(row.cv_url);
+    row.cv_url_en = ensurePublicStorageUrl(row.cv_url_en);
+    return row;
   }
 
   async upsertProfile(profile: ProfileData): Promise<void> {
-    const { error } = await this.supabase.client
+    // Check if a profile row already exists
+    const { data: existing } = await this.supabase.client
       .from('profile')
-      .upsert(profile, { onConflict: 'id' });
-    if (error) throw error;
+      .select('id')
+      .order('created_at', { ascending: true })
+      .limit(1);
+
+    if (existing && existing.length > 0) {
+      // Update the existing row
+      const { error } = await this.supabase.client
+        .from('profile')
+        .update(profile)
+        .eq('id', existing[0].id);
+      if (error) throw error;
+    } else {
+      // Insert a new row
+      const { error } = await this.supabase.client
+        .from('profile')
+        .insert(profile);
+      if (error) throw error;
+    }
   }
 
   /* ───── Storage (Image / File Upload) ───── */
@@ -407,7 +429,7 @@ export class AdminService {
     if (error) throw error;
 
     const { data } = this.supabase.client.storage.from(bucket).getPublicUrl(filePath);
-    return data.publicUrl;
+    return ensurePublicStorageUrl(data.publicUrl) ?? data.publicUrl;
   }
 
   async uploadFile(file: File, folder: string = 'files', bucket: string = 'portfolio'): Promise<string> {
@@ -422,7 +444,7 @@ export class AdminService {
     if (error) throw error;
 
     const { data } = this.supabase.client.storage.from(bucket).getPublicUrl(filePath);
-    return data.publicUrl;
+    return ensurePublicStorageUrl(data.publicUrl) ?? data.publicUrl;
   }
 
   async deleteImage(url: string, bucket: string = 'portfolio'): Promise<void> {

@@ -93,7 +93,7 @@ export class PageTransitionService {
         // Delay hiding to allow animation to complete
         setTimeout(() => {
           this._isTransitioning.set(false);
-        }, 600);
+        }, 700);
       });
   }
 

@@ -52,7 +52,7 @@ import { ProfileService } from '../../../../../core/profile/profile.service';
               <span class="relative inline-flex h-2 w-2 rounded-full bg-indigo-500"></span>
             </span>
             <span class="text-xs font-medium text-indigo-600 dark:text-indigo-400">
-              {{ 'HERO.GREETING' | translate }}
+              {{ 'HERO.GREETING' | translate }} {{ profileService.username() || 'HERO.NAME' | translate }}!
             </span>
           </div>
 

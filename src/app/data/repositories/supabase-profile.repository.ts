@@ -13,26 +13,27 @@ export class SupabaseProfileRepository extends ProfileRepository {
     const { data, error } = await this.supabase.client
       .from('profile')
       .select('*')
-      .limit(1)
-      .single();
+      .order('created_at', { ascending: true })
+      .limit(1);
 
     if (error) {
-      // PGRST116 = no rows returned
-      if (error.code === 'PGRST116') return null;
       throw error;
     }
-    return ProfileMapper.toDomain(data as ProfileDto);
+    if (!data || data.length === 0) return null;
+    return ProfileMapper.toDomain(data[0] as ProfileDto);
   }
 
   override async upsertProfile(profile: Partial<Profile>): Promise<void> {
     const dto = ProfileMapper.toDto(profile);
 
     // First, try to get existing profile
-    const { data: existing } = await this.supabase.client
+    const { data: rows } = await this.supabase.client
       .from('profile')
       .select('id')
-      .limit(1)
-      .single();
+      .order('created_at', { ascending: true })
+      .limit(1);
+
+    const existing = rows && rows.length > 0 ? rows[0] : null;
 
     if (existing) {
       // Update existing

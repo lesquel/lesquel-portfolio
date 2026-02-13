@@ -1,4 +1,4 @@
-import { Component, inject, signal, afterNextRender, PLATFORM_ID, ElementRef, viewChild, OnDestroy, Injector } from '@angular/core';
+import { Component, inject, signal, PLATFORM_ID, ElementRef, viewChild, OnDestroy } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -96,7 +96,6 @@ import { Skill } from '../../../../../domain/models';
 export class StackSection implements OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly skillRepo = inject(SkillRepository);
-  private readonly injector = inject(Injector);
 
   private readonly marqueeTrack = viewChild<ElementRef>('marqueeTrack');
 
@@ -129,68 +128,65 @@ export class StackSection implements OnDestroy {
   }
 
   private initMarquee(): void {
-    afterNextRender(async () => {
-      if (!isPlatformBrowser(this.platformId)) return;
+    if (!isPlatformBrowser(this.platformId)) return;
 
-      // Wait for DOM to fully paint after @if condition change
-      // Using double requestAnimationFrame ensures the browser has painted
-      await new Promise<void>((resolve) => {
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => resolve());
+    // Wait for DOM to fully paint after @if condition change
+    requestAnimationFrame(() => {
+      requestAnimationFrame(async () => {
+        const { gsap } = await import('gsap');
+        const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+        gsap.registerPlugin(ScrollTrigger);
+
+        const track = this.marqueeTrack()?.nativeElement;
+        if (!track) return;
+
+        this.gsapCtx = gsap.context(() => {
+          // Calculate total width of one set of skills
+          const children = Array.from(track.children) as HTMLElement[];
+          const totalItems = this.featuredSkills().length;
+          if (totalItems === 0) return;
+
+          // Width of one set (first third of children)
+          let oneSetWidth = 0;
+          for (let i = 0; i < totalItems; i++) {
+            const childWidth = children[i]?.offsetWidth ?? 0;
+            oneSetWidth += childWidth > 0 ? childWidth : 100;
+            oneSetWidth += 40; // gap-10 = 2.5rem = 40px
+          }
+
+          // Ensure minimum width to prevent stuck animation
+          if (oneSetWidth < 100) {
+            oneSetWidth = totalItems * 140;
+          }
+
+          // Reset to starting position
+          gsap.set(track, { x: 0 });
+
+          // Infinite horizontal scroll — seamless loop using tripled content
+          gsap.to(track, {
+            x: -oneSetWidth,
+            duration: totalItems * 3,
+            ease: 'none',
+            repeat: -1,
+          });
+
+          // Scroll-speed boost: accelerate marquee when user scrolls near section
+          const tween = gsap.getTweensOf(track)[0];
+          if (tween) {
+            ScrollTrigger.create({
+              trigger: '#stack',
+              start: 'top bottom',
+              end: 'bottom top',
+              onUpdate: (self) => {
+                const velocity = Math.abs(self.getVelocity());
+                const boost = gsap.utils.clamp(1, 4, 1 + velocity / 2000);
+                tween.timeScale(boost);
+              },
+            });
+          }
         });
       });
-
-      const { gsap } = await import('gsap');
-      const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-      gsap.registerPlugin(ScrollTrigger);
-
-      const track = this.marqueeTrack()?.nativeElement;
-      if (!track) return;
-
-      this.gsapCtx = gsap.context(() => {
-        // Calculate total width of one set of skills
-        const children = Array.from(track.children) as HTMLElement[];
-        const totalItems = this.featuredSkills().length;
-        if (totalItems === 0) return;
-
-        // Width of one set (first third of children)
-        let oneSetWidth = 0;
-        for (let i = 0; i < totalItems; i++) {
-          const childWidth = children[i]?.offsetWidth ?? 0;
-          // If element hasn't rendered yet, use fallback width
-          oneSetWidth += childWidth > 0 ? childWidth : 100;
-          oneSetWidth += 40; // gap-10 = 2.5rem = 40px
-        }
-
-        // Ensure minimum width to prevent stuck animation
-        if (oneSetWidth < 100) {
-          oneSetWidth = totalItems * 140; // fallback: 100px per item + 40px gap
-        }
-
-        // Infinite horizontal scroll
-        gsap.to(track, {
-          x: -oneSetWidth,
-          duration: totalItems * 3,
-          ease: 'none',
-          repeat: -1,
-          modifiers: {
-            x: gsap.utils.unitize((x: string) => parseFloat(x) % oneSetWidth),
-          },
-        });
-
-        // Scroll-speed boost: accelerate marquee based on scroll velocity
-        ScrollTrigger.create({
-          trigger: '#stack',
-          start: 'top bottom',
-          end: 'bottom top',
-          onUpdate: (self) => {
-            const velocity = Math.abs(self.getVelocity());
-            const boost = gsap.utils.clamp(1, 4, 1 + velocity / 2000);
-            gsap.to(track, { timeScale: boost, duration: 0.3, overwrite: true });
-          },
-        });
-      });
-    }, { injector: this.injector });
+    });
   }
 
   ngOnDestroy(): void {

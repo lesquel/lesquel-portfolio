@@ -12,8 +12,8 @@ import { LucideAngularModule } from 'lucide-angular';
 import { PageTransitionService } from '../../../../core/transitions/page-transition.service';
 
 /**
- * Page Transition Component - displays an animated icon overlay during route changes.
- * Uses GSAP for smooth scale/fade animations.
+ * Page Transition Component — parallax icon growth effect.
+ * Icon zooms from small to viewport-filling size, then reveals new page.
  */
 @Component({
   selector: 'app-page-transition',
@@ -25,38 +25,21 @@ import { PageTransitionService } from '../../../../core/transitions/page-transit
         #overlay
         class="pointer-events-none fixed inset-0 z-[9999] flex items-center justify-center"
       >
-        <!-- Background blur -->
+        <!-- Background that fills from center -->
         <div
           #backdrop
-          class="absolute inset-0 bg-white/60 backdrop-blur-sm dark:bg-slate-900/60"
+          class="absolute inset-0"
+          [class]="'bg-gradient-to-br ' + transitionService.transitionConfig().color"
         ></div>
 
-        <!-- Icon container -->
-        <div
-          #iconContainer
-          class="relative flex items-center justify-center"
-        >
-          <!-- Glow effect -->
-          <div
-            #glow
-            class="absolute h-32 w-32 rounded-full opacity-50 blur-3xl"
-            [class]="'bg-gradient-to-r ' + transitionService.transitionConfig().color"
-          ></div>
-
-          <!-- Icon -->
-          <div
-            #iconWrapper
-            class="relative flex h-24 w-24 items-center justify-center rounded-3xl
-                   bg-gradient-to-br shadow-2xl sm:h-28 sm:w-28"
-            [class]="transitionService.transitionConfig().color"
-          >
-            <lucide-icon
-              [img]="transitionService.transitionConfig().icon"
-              [size]="48"
-              [strokeWidth]="1.5"
-              class="text-white"
-            />
-          </div>
+        <!-- Icon that grows with parallax -->
+        <div #iconContainer class="relative flex items-center justify-center">
+          <lucide-icon
+            [img]="transitionService.transitionConfig().icon"
+            [size]="64"
+            [strokeWidth]="1.5"
+            class="text-white/90 drop-shadow-2xl"
+          />
         </div>
       </div>
     }
@@ -69,100 +52,74 @@ export class PageTransitionComponent implements OnDestroy {
   private readonly overlay = viewChild<ElementRef>('overlay');
   private readonly backdrop = viewChild<ElementRef>('backdrop');
   private readonly iconContainer = viewChild<ElementRef>('iconContainer');
-  private readonly iconWrapper = viewChild<ElementRef>('iconWrapper');
-  private readonly glow = viewChild<ElementRef>('glow');
 
-  private gsapInstance: any;
   private animationTimeline: any;
 
   constructor() {
-    // React to transition state changes
     effect(() => {
       const isTransitioning = this.transitionService.isTransitioning();
-
       if (isTransitioning && isPlatformBrowser(this.platformId)) {
-        // Small delay to ensure DOM is ready
         requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            this.animateIn();
-          });
+          requestAnimationFrame(() => this.animateParallax());
         });
       }
     });
   }
 
-  private async animateIn(): Promise<void> {
+  private async animateParallax(): Promise<void> {
     if (!isPlatformBrowser(this.platformId)) return;
 
     const { gsap } = await import('gsap');
-    this.gsapInstance = gsap;
 
     const overlayEl = this.overlay()?.nativeElement;
     const backdropEl = this.backdrop()?.nativeElement;
-    const iconContainerEl = this.iconContainer()?.nativeElement;
-    const iconWrapperEl = this.iconWrapper()?.nativeElement;
-    const glowEl = this.glow()?.nativeElement;
+    const iconEl = this.iconContainer()?.nativeElement;
 
-    if (!overlayEl || !iconContainerEl) return;
+    if (!overlayEl || !iconEl) return;
 
-    // Kill any existing animation
     this.animationTimeline?.kill();
 
-    // Create animation timeline
-    this.animationTimeline = gsap.timeline();
+    const tl = gsap.timeline();
+    this.animationTimeline = tl;
 
-    // Backdrop fade in
+    // Phase 1: Backdrop expands as a radial clip-path, icon starts small
     if (backdropEl) {
-      this.animationTimeline.fromTo(
+      tl.fromTo(
         backdropEl,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.2, ease: 'power2.out' },
+        { clipPath: 'circle(0% at 50% 50%)', opacity: 1 },
+        { clipPath: 'circle(75% at 50% 50%)', duration: 0.35, ease: 'power3.out' },
         0
       );
     }
 
-    // Icon scale up from center
-    if (iconWrapperEl) {
-      this.animationTimeline.fromTo(
-        iconWrapperEl,
-        { scale: 0.3, opacity: 0, rotate: -15 },
-        {
-          scale: 1,
-          opacity: 1,
-          rotate: 0,
-          duration: 0.4,
-          ease: 'back.out(1.7)',
-        },
-        0.1
-      );
-    }
-
-    // Glow pulse
-    if (glowEl) {
-      this.animationTimeline.fromTo(
-        glowEl,
-        { scale: 0.5, opacity: 0 },
-        { scale: 1.2, opacity: 0.6, duration: 0.5, ease: 'power2.out' },
-        0.15
-      );
-    }
-
-    // After a moment, animate out
-    this.animationTimeline.to(
-      [iconWrapperEl, glowEl],
+    // Phase 2: Icon scales up with a parallax‐style overshoot
+    tl.fromTo(
+      iconEl,
+      { scale: 0.2, opacity: 0, y: 40 },
       {
-        scale: 0.8,
-        opacity: 0,
-        duration: 0.25,
-        ease: 'power2.in',
+        scale: 1,
+        opacity: 1,
+        y: 0,
+        duration: 0.3,
+        ease: 'back.out(1.4)',
       },
-      0.45
+      0.05
     );
 
+    // Phase 3: Icon continues growing past the screen ("parallax growth")
+    tl.to(iconEl, {
+      scale: 12,
+      opacity: 0,
+      y: -20,
+      duration: 0.3,
+      ease: 'power2.in',
+    }, 0.35);
+
+    // Phase 4: Backdrop fades out
     if (backdropEl) {
-      this.animationTimeline.to(
+      tl.to(
         backdropEl,
-        { opacity: 0, duration: 0.2, ease: 'power2.in' },
+        { opacity: 0, duration: 0.15, ease: 'power2.in' },
         0.5
       );
     }

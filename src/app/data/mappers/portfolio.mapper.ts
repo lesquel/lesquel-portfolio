@@ -1,5 +1,6 @@
 import { Project, Skill, Hobby, Course, Profile } from '../../domain/models';
 import { ProjectDto, HobbyDto, CourseDto, ProfileDto } from '../models/dtos';
+import { ensurePublicStorageUrl } from '../utils/storage-url';
 
 /**
  * Maps Supabase ProjectDto → Domain Project entity.
@@ -12,8 +13,8 @@ export class ProjectMapper {
       title: dto.title,
       description: dto.description,
       content: dto.content,
-      coverImage: dto.image_url ?? '',
-      galleryUrls: dto.gallery_urls ?? [],
+      coverImage: ensurePublicStorageUrl(dto.image_url) ?? '',
+      galleryUrls: (dto.gallery_urls ?? []).map(u => ensurePublicStorageUrl(u) ?? u),
       demoUrl: dto.demo_url,
       repoUrl: dto.repo_url,
       displayOrder: dto.display_order,
@@ -43,7 +44,7 @@ export class SkillMapper {
       id: dto.id,
       name: dto.name,
       slug: dto.slug ?? null,
-      iconUrl: dto.icon_url,
+      iconUrl: ensurePublicStorageUrl(dto.icon_url),
       description: dto.description ?? null,
       type: dto.type as Skill['type'],
       isFeatured: dto.is_featured,
@@ -63,9 +64,9 @@ export class HobbyMapper {
       name: dto.name,
       description: dto.description,
       content: dto.content ?? null,
-      iconUrl: dto.icon_url,
-      coverImage: dto.image_url ?? '',
-      galleryUrls: dto.gallery_urls ?? [],
+      iconUrl: ensurePublicStorageUrl(dto.icon_url),
+      coverImage: ensurePublicStorageUrl(dto.image_url) ?? '',
+      galleryUrls: (dto.gallery_urls ?? []).map(u => ensurePublicStorageUrl(u) ?? u),
       displayOrder: dto.display_order,
     };
   }
@@ -82,7 +83,7 @@ export class CourseMapper {
       name: dto.name,
       institution: dto.institution,
       description: dto.description,
-      certificateUrl: dto.certificate_url,
+      certificateUrl: ensurePublicStorageUrl(dto.certificate_url),
       completionDate: dto.completion_date ? new Date(dto.completion_date) : null,
       displayOrder: dto.display_order,
     };
@@ -102,9 +103,9 @@ export class ProfileMapper {
       email: dto.email ?? '',
       headline: dto.headline ?? { es: '', en: '' },
       bio: dto.bio ?? { es: '', en: '' },
-      avatarUrl: dto.avatar_url,
-      cvUrl: dto.cv_url,
-      cvUrlEn: dto.cv_url_en,
+      avatarUrl: ensurePublicStorageUrl(dto.avatar_url),
+      cvUrl: ensurePublicStorageUrl(dto.cv_url),
+      cvUrlEn: ensurePublicStorageUrl(dto.cv_url_en),
       socialGithub: dto.social_github,
       socialLinkedin: dto.social_linkedin,
       socialTwitter: dto.social_twitter,
